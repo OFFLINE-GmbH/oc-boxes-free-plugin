@@ -1,0 +1,11 @@
+columns:
+    version:
+        label: '#'
+        type: partial
+        path: published_state
+    published_by:
+        label: 'offline.boxes::lang.published_by_short'
+        type: partial
+    published_at:
+        label: 'offline.boxes::lang.published_at'
+        type: timetense

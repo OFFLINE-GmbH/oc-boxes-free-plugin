@@ -1,0 +1,26 @@
+fields:
+    id:
+        type: hidden
+    partial:
+        type: hidden
+    holder_id:
+        type: hidden
+    holder_type:
+        type: hidden
+    parent_id:
+        type: hidden
+    _add_before:
+        type: hidden
+    is_enabled:
+        label: 'offline.boxes::lang.is_enabled'
+        comment: 'offline.boxes::lang.is_enabled_comment'
+        span: full
+        type: switch
+        default: 1
+    _is_reference:
+        type: partial
+        path: $/offline/boxes/models/box/_is_reference.htm
+    data:
+        type: boxesdataform
+        span: full
+

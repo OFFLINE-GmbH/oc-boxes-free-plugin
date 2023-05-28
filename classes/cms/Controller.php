@@ -1,0 +1,95 @@
+<?php
+
+namespace OFFLINE\Boxes\Classes\CMS;
+
+use Backend\Facades\BackendAuth;
+use Cms\Classes\Page as CmsPage;
+use October\Rain\Database\Scopes\MultisiteScope;
+use October\Rain\Support\Traits\Singleton;
+use OFFLINE\Boxes\Classes\Features;
+use OFFLINE\Boxes\Models\Content;
+use OFFLINE\Boxes\Models\Page;
+use RainLab\Translate\Classes\Translator;
+
+class Controller
+{
+    use Singleton;
+
+    public const PREVIEW_URL = '/__boxes-preview/';
+
+    public const PREVIEW_PARAM = 'boxes-preview';
+
+    public const DRAFT_ID_PARAM = '_boxes-draft';
+
+    /**
+     * Creates a virtual CMS page for a given $url.
+     */
+    public function getCmsPageForUrl(string $url): ?CmsPage
+    {
+        if (!$url) {
+            return null;
+        }
+
+        $draftId = null;
+
+        if (BackendAuth::getUser()) {
+            $draftId = get(self::DRAFT_ID_PARAM);
+        }
+
+        $page = Page::query()
+            ->when(
+                $draftId,
+                fn ($q) => $q->where('id', $draftId),
+                fn ($q) => $q->when(
+                    class_exists(\RainLab\Translate\Models\Locale::class),
+                    fn ($q) => $q->transWhere('url', $url)->with('translations'),
+                    fn ($q) => $q->where('url', $url)
+                )
+            )
+            ->when(
+                Features::instance()->revisions && !BackendAuth::getUser(),
+                fn ($q) => $q->published()
+            )
+            ->first();
+
+        if (!$page) {
+            return null;
+        }
+
+        if (class_exists(\RainLab\Translate\Models\Locale::class)) {
+            $page->translateContext(Translator::instance()->getLocale());
+        }
+
+        return $page->buildCmsPage();
+    }
+
+    /**
+     * Returns a virtual CMS page to host the BoxesPageEditor component.
+     */
+    public function getPreviewPage(string $url): ?CmsPage
+    {
+        $previewParts = array_filter(explode('/', str_replace(self::PREVIEW_URL, '', $url)));
+
+        if (count($previewParts) !== 2) {
+            return null;
+        }
+
+        [$previewType, $pageId] = $previewParts;
+
+        $model = $previewType === 'page' ? Page::withoutGlobalScope(MultisiteScope::class) : Content::query();
+
+        $page = $model->find($pageId);
+
+        if (!$page) {
+            return null;
+        }
+
+        $cmsPage = $page->buildCmsPage();
+        $cmsPage->url = $url;
+        $cmsPage->title = 'OFFLINE.Boxes Preview';
+
+        $cmsPage->apiBag[CmsPageParams::BOXES_IS_EDITOR] = true;
+
+        return $cmsPage;
+    }
+}
