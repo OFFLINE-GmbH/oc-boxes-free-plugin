@@ -59,7 +59,7 @@ class Plugin extends PluginBase
             'name' => 'Boxes Free',
             'description' => 'Visual Page Builder for October CMS',
             'author' => 'OFFLINE',
-            'icon' => 'icon-leaf',
+            'icon' => 'icon-cube',
         ];
     }
 
