@@ -1,0 +1,101 @@
+fields:
+    id:
+        type: hidden
+    parent_id:
+        type: hidden
+    name:
+        label: 'offline.boxes::lang.name'
+        type: text
+    template:
+        label: 'offline.boxes::lang.page_template'
+        type: dropdown
+        emptyOption: 'offline.boxes::lang.no_template'
+tabs:
+    fields:
+        is_hidden:
+            label: 'cms::lang.editor.hidden'
+            comment: 'cms::lang.editor.hidden_comment'
+            type: checkbox
+            tab: CMS
+        is_hidden_in_navigation:
+            label: 'offline.boxes::lang.is_hidden_in_navigation'
+            comment: 'offline.boxes::lang.is_hidden_in_navigation_comment'
+            type: checkbox
+            tab: CMS
+        site_root_id:
+            label: 'offline.boxes::lang.site_root_id'
+            comment: 'offline.boxes::lang.site_root_id_comment'
+            type: dropdown
+            tab: CMS
+        url:
+            label: 'offline.boxes::lang.url'
+            comment: 'offline.boxes::lang.url_comment'
+            type: text
+            tab: CMS
+        layout:
+            label: 'cms::lang.editor.layout'
+            type: dropdown
+            tab: CMS
+        images:
+            label: 'offline.boxes::lang.image'
+            type: fileupload
+            mode: image
+            imageWidth: 200
+            tab: CMS
+        revisions:
+            type: partial
+            tab: 'offline.boxes::lang.revisions'
+        meta_title:
+            label: 'cms::lang.editor.meta_title'
+            type: text
+            tab: SEO
+        meta_description:
+            label: 'cms::lang.editor.meta_description'
+            type: textarea
+            tab: SEO
+            size: big
+        meta_robots:
+            label: 'offline.boxes::lang.meta_robots'
+            type: checkboxlist
+            tab: SEO
+            options:
+                noindex: 'offline.boxes::lang.meta_robots_noindex'
+                nofollow: 'offline.boxes::lang.meta_robots_nofollow'
+                noarchive: 'offline.boxes::lang.meta_robots_noarchive'
+                notranslate: 'offline.boxes::lang.meta_robots_notranslate'
+        canonical_url:
+            label: 'offline.boxes::lang.canonical_url'
+            commentAbove: 'offline.boxes::lang.canonical_url_comment'
+            type: text
+            tab: SEO
+        og_title:
+            label: 'offline.boxes::lang.og_title'
+            placeholder: 'offline.boxes::lang.og_title_placeholder'
+            type: text
+            tab: SEO
+        og_description:
+            label: 'offline.boxes::lang.og_description'
+            placeholder: 'offline.boxes::lang.og_description_placeholder'
+            type: textarea
+            tab: SEO
+            size: large
+        og_image:
+            label: 'offline.boxes::lang.og_image'
+            commentAbove: 'offline.boxes::lang.og_image_comment'
+            type: fileupload
+            useCaption: false
+            mode: image
+            tab: SEO
+        og_type:
+            label: 'offline.boxes::lang.og_type'
+            type: dropdown
+            tab: SEO
+            options:
+                website: 'offline.boxes::lang.website'
+                article: 'offline.boxes::lang.article'
+                '': 'offline.boxes::lang.undefined'
+        slug:
+            label: 'offline.boxes::lang.instance_slug'
+            comment: 'offline.boxes::lang.instance_slug_comment'
+            type: text
+            tab: 'offline.boxes::lang.dev_tab'

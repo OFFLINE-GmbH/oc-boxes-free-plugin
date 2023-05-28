@@ -1,0 +1,27 @@
+{% put meta %}
+    <link rel="canonical" href="{{ page.real_canonical_url }}">
+    <meta property="og:url" content="{{ page.real_canonical_url }}"/>
+
+    {% if page.meta_robots %}
+        <meta name="robots" content="{{ page.meta_robots | join(', ') }}">
+    {% endif %}
+
+    <meta property="og:title" content="{{ page.og_title | default(page.meta_title) | default(page.name) }}"/>
+
+    {% set description = page.og_description | default(page.meta_description) %}
+    {% if description %}
+        <meta property="og:description" content="{{ page.og_description | default(page.meta_description) }}"/>
+    {% endif %}
+
+    {% if page.og_image %}
+        <meta property="og:image" content="{{ page.og_image.thumb(1200, 900) }}"/>
+    {% endif %}
+
+    {% if page.og_type %}
+        <meta property="og:type" content="{{ page.og_type }}"/>
+    {% endif %}
+
+    {% if __SELF__.locale and __SELF__.locale != "en" %}
+        <meta property="og:locale" content="{{ __SELF__.locale }}"/>
+    {% endif %}
+{% endput %}
