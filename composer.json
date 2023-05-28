@@ -1,5 +1,5 @@
 {
-    "name": "offline/oc-boxes-plugin-free",
+    "name": "offline/oc-boxes-free-plugin",
     "type": "october-plugin",
     "description": "Visual Page Builder for October CMS",
     "require": {
