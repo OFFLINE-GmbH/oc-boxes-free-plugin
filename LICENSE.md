@@ -1,0 +1,14 @@
+Copyright (C) OFFLINE GmbH - All Rights Reserved.
+
+THE CONTENTS OF THIS PROJECT ARE PROPRIETARY.
+
+You may use this project in October CMS based projects only. You are allowed to distribute this project to your clients
+as part of your work. You are not allowed to resell this project or any part of it on its own.
+
+The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+the warranties of merchantability, fitness for a particular purpose and non infringement.
+In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+or the use or other dealings in the software.
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
