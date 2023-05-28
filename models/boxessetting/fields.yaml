@@ -1,0 +1,41 @@
+fields:
+    main_menu_label:
+        label: offline.boxes::lang.settings.main_menu_label
+        comment: offline.boxes::lang.settings.main_menu_label_comment
+        type: text
+        placeholder: offline.boxes::lang.content
+        span: auto
+
+    partial_selector_default_cols:
+        label: offline.boxes::lang.settings.partial_selector_default_cols
+        comment: offline.boxes::lang.settings.partial_selector_default_cols_comment
+        type: number
+        min: 1
+        max: 5
+        span: auto
+
+    section_revisions:
+        label: offline.boxes::lang.settings.section_revisions
+        comment: offline.boxes::lang.settings.section_revisions_comment
+        type: section
+
+    revisions_cleanup_enabled:
+        label: offline.boxes::lang.settings.revisions_cleanup_enabled
+        comment: offline.boxes::lang.settings.revisions_cleanup_enabled_comment
+        type: switch
+        span: full
+        default: 1
+
+    revisions_keep_number:
+        label: offline.boxes::lang.settings.revisions_keep_number
+        comment: offline.boxes::lang.settings.revisions_keep_number_comment
+        type: number
+        span: auto
+        default: 20
+
+    revisions_keep_days:
+        label: offline.boxes::lang.settings.revisions_keep_days
+        comment: offline.boxes::lang.settings.revisions_keep_days_comment
+        type: number
+        span: auto
+        default: 14

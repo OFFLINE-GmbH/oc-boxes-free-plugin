@@ -1,0 +1,219 @@
+1.0.1:
+- Initial Version
+- create_boxes_table.php
+- create_pages_table.php
+2.0.23:
+- Introduces theme specific pages
+- add_theme_column_to_pages_table.php
+- imageWidth
+2.0.36:
+- Added more SEO tags to pages
+- add_opengraph_columns_to_pages_table.php
+2.0.37:
+- Make pages useable as model content
+2.0.47:
+- First public release
+2.0.48:
+- Fixed bug in Editor layout
+2.0.49:
+- Fixed bug in URL generation
+2.0.50:
+- Fixed handling of uploaded file descriptions
+2.0.53:
+- Fixed Import/Export logic
+2.0.54:
+- Fixed RainLab.Translate integration
+2.0.55:
+- Fixed database migration
+2.0.56:
+- Fixed RainLab.Translate compatibility
+2.0.57:
+- Fixed duplicate Box feature
+2.0.59:
+- Added `offline.boxes.editorRefreshed` JS event
+2.0.60:
+- Added option to manually define a padding for the focus rectangle in the Boxes Editor
+2.0.61:
+- Fixed SQLite compatibility
+2.0.62:
+- Multi-theme usage fix
+- reset_theme_for_system_pages.php
+2.0.64:
+- Fixed export of nested Boxes
+2.0.65:
+- Added `custom_config` field to Page model
+- add_custom_config_column_to_pages_table.php
+2.0.66:
+- Added `custom_config` data to export
+2.0.67:
+- Added OFFLINE.SiteSearch support
+2.0.68:
+- Bugfix when having partial and full exports in the same installation
+2.0.69:
+- Use `slug` as references in RainLab.Pages menu to be independent of the database ID
+2.0.70:
+- Fixed menu migration logic
+- migrate_rainlab_pages_menu_references.php
+2.0.71:
+- Optimized menu item URL generation
+2.0.72:
+- Fixed import bug
+2.0.73:
+- Fixed parsing of repeater config without fields
+2.0.74:
+- Fixed saving of nested pages
+2.0.75:
+- Fixed page duplication
+2.0.76:
+- Minor editor optimizations
+2.0.77:
+- Fixed generation of nested menu stuctures
+2.0.79:
+- Optimized OFFLINE.SiteSearch integration
+2.0.80:
+- Fixed slug generation when duplicating pages
+2.0.81:
+- Fixed OpenGraph Tag output
+2.0.82:
+- "Fixed October 3.1 compatibility issue"
+2.0.83:
+- "Fixed another October 3.1 compatibility issue"
+2.0.84:
+- "The plugin is no longer booted when no active theme is set"
+2.0.85:
+- "Added uniqueAlias option to components (see documentation)"
+2.0.86:
+- "Added support for RainLab.Translate 2.0"
+2.0.87:
+- "Prevented Boxes Editor styles from leaking into Rich editor form widget"
+2.0.88:
+- "Another fix regarding Rich editor styles"
+2.0.89:
+- "Ignore translations when caching menu items"
+2.0.90:
+- "Fixed Tailor editor support"
+2.0.91:
+- "Added custom section sorting (see https://docs.boxes.offline.ch/use-cases/editor-customization.html#changing-the-order-of-partial-sections)"
+2.0.92:
+- "Fixed bug where the Editor reloaded on tab navigation"
+2.0.93:
+- "Fixed style conflict"
+2.1.0:
+- "Adds multisite support"
+- add_multisite_support.php
+2.1.1:
+- "Refactored database structure"
+- create_content_table.php
+2.1.2:
+- "Please see migration guide for update instructions to version 2.1: https://docs.boxes.offline.ch/getting-started/migration-guide.html"
+2.1.3:
+- "Fixed style conflict with rich editor form widget"
+2.1.4:
+- "Introduced new 'contexts' option for partials (see https://docs.boxes.offline.ch/reference/schema.html#contexts)"
+2.1.5:
+- "Minor UI tweaks"
+2.1.6:
+- "Added method to manually init partial configuration in Tailor (see https://docs.boxes.offline.ch/use-cases/usage-in-plugins.html#manually-initializing-partials)"
+2.1.7:
+- "Added option to disable the output of the scaffolding (see https://docs.boxes.offline.ch/getting-started/configuration.html)"
+2.1.8:
+- "Added option to override the backend menu item position (see https://docs.boxes.offline.ch/getting-started/configuration.html)"
+2.1.9:
+- "Fixed replication of Content model instances"
+2.1.10:
+- "Fixed Multisite bug when editing meta information of a Boxes Page"
+2.1.11:
+- "Persist currently selected page across page reloads in Editor"
+2.1.12:
+- "Fixed bug in importer"
+2.1.13:
+- "Fixed validation of attachment fields, Boxes now guesses the right attribute names for validation rules by using the field label from the YAML config automatically"
+2.1.14:
+- "Added support for read-only Boxes"
+- add_read_only_flag_to_boxes.php
+2.1.15:
+- "Added support to enforce a Boxes structure if Boxes is used as a plugin editor (see https://docs.boxes.offline.ch/use-cases/usage-in-plugins.html)"
+2.1.16:
+- "Recompiled assets"
+2.1.17:
+- "Added model property to context variable to make the related model accessible in partials"
+2.1.18:
+- "Added Page Templates (see https://docs.boxes.offline.ch/use-cases/page-templates.html)"
+- add_locked_column_to_boxes.php
+2.1.19:
+- "Recompiled assets"
+2.1.20:
+- "Cleanup"
+2.1.21:
+- "Updated page template config structure"
+2.1.22:
+- "Fixed name of latest migration class"
+2.1.23:
+- "Fixed migration from older Boxes versions to 2.1"
+2.1.24:
+- "Added boxes:mirror-site command to copy all Boxes pages from one Site to another (see https://docs.boxes.offline.ch/use-cases/multisite.html#mirror-all-boxes-pages-to-a-new-site)"
+2.1.25:
+- "Export site_id in boxes:export command"
+2.1.26:
+- "The boxesPage filter now automatically always returns data for the currently active Site (see https://docs.boxes.offline.ch/concepts/box-pages.html#boxespage-when-using-the-multisite-feature)"
+2.1.27:
+- "Added support for the new native page finder widget"
+2.1.28:
+- "Include Site route_prefix when generating boxes page urls"
+2.1.29:
+- "Fixed Multisite support for translatable fields"
+2.1.30:
+- "Fixed migration for new projects"
+2.1.31:
+- "Fixed handling of multi-language Sites in the Boxes Editor"
+2.1.32:
+- "Fixed handling of sub-page navigation in the Boxes Editor"
+2.1.33:
+- "Fixed a bug with the Rainlab.Translate Plugin < 2.0"
+2.1.34:
+- "Correctly remove old Boxes when importing a page"
+2.1.35:
+- "Do not mirror RainLab.Translate translation strings when using boxes:mirror-site command"
+2.1.36:
+- "Handle URL generation for prefixed sites correctly when using the new |link Twig filter to link to a Boxes Page"
+2.1.37:
+- "Fixed page duplication"
+2.1.38:
+- "Fixed wrong Box order when saving"
+2.1.39:
+- "Recompiled assets"
+2.1.40:
+- "Added support to specify an array of contexts as allowed children of a Box (see https://docs.boxes.offline.ch/use-cases/nested-boxes.html#enable-nested-boxes)"
+2.1.41:
+- "Recompiled assets"
+2.2.3:
+- "Rolled back faulty migration"
+- fix_faulty_page_publishing.php
+2.2.4:
+- "Fixed menu item generation when nesting is disabled"
+2.2.5:
+- "Fixed handling of active Theme when changed in the Backend settings"
+2.2.7:
+- "Fixed display bug in Editor"
+2.2.9:
+- "Fixed loading of partials when a custom theme on a site is configured"
+2.2.10:
+- "Added missing down migration method"
+2.2.11:
+- "Fixed partial contexts when using Boxes as a FormWidget"
+2.2.12:
+- "Fixed spacing issue in partial selection modal"
+2.2.13:
+- "Fixed CSS for icons in partial selection modal"
+3.0.0:
+- "Added page publishing feature"
+- page_publishing.php
+3.0.1:
+- "Added support for Box references"
+- add_box_references.php
+3.0.2:
+- "Added a checkbox to hide pages in the navigation"
+- add_is_hidden_in_navigation.php
+3.0.3:
+- "Added pending changes flag"
+- add_has_pending_changes_flag.php

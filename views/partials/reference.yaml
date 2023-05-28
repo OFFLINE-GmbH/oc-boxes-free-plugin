@@ -1,0 +1,8 @@
+handle: 'Boxes\Internal\Reference'
+name: 'offline.boxes::lang.reference'
+section: 'offline.boxes::lang.tools_section'
+icon: '/plugins/offline/boxes/assets/img/boxes/reference.svg'
+form:
+    fields:
+        reference:
+            type: boxfinder

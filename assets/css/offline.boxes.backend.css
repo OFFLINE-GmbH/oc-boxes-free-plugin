@@ -1,0 +1,17 @@
+
+
+/** Style the Boxes counter less aggressive */
+.mainmenu-item [data-menu-id="boxes"].counter {
+    background: rgba(255, 255, 255, .4);
+    padding: 2px 4px;
+    font-weight: bold;
+    color: white;
+}
+
+.navbar-mode-inline .mainmenu-item [data-menu-id="boxes"].counter {
+    position: absolute;
+    left: 12px;
+    top: auto;
+    bottom: 4px;
+    backdrop-filter: blur(4px);
+}

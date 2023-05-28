@@ -1,0 +1,229 @@
+:root {
+    --oc-brand: #6a6cf7;
+    --oc-brand-secondary: #e16d26;
+    --oc-gray-200: #e9ecef;
+    --oc-gray-300: #d7e1ea;
+    --oc-gray-500: #adb5bd;
+    --oc-gray-700: #506880;
+
+    --boxes-focus-bg: 2px solid var(--oc-brand);
+    --boxes-max-element-width: 1000px;
+}
+
+.oc-boxes-wrapper {
+    padding: 40px 0;
+}
+
+.oc-boxes-editor {
+    position: relative;
+    z-index: 2147483100;
+}
+
+.oc-box {
+    z-index: 0;
+    position: relative;
+}
+
+.oc-box--disabled {
+    opacity: .4;
+}
+
+.oc-boxes-add--child:hover {
+    filter: brightness(1.1);
+}
+
+#oc-boxes-editor-tools {
+    position: absolute;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    z-index: 2147483700;
+    overflow: hidden;
+    padding-bottom: 20px;
+    display: flex;
+    visibility: hidden;
+
+    border: solid var(--oc-brand);
+    border-width: 0 2px;
+    background: var(--boxes-focus-bg);
+}
+
+.oc-boxes-editor-tools__inner {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 36px;
+    background: var(--oc-brand);
+}
+
+.oc-boxes-editor-tools__left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.oc-boxes-box-reference-indicator {
+    display: none;
+    height: 26px;
+    width: 26px;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+}
+
+.oc-boxes-box-reference-indicator--visible {
+    display: flex;
+}
+
+.oc-boxes-box-reference-indicator svg {
+    color: #fff;
+    width: 20px;
+    height: 20px;
+}
+
+.oc-boxes-editor-tools__label {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 0 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.oc-boxes-box-label {
+    background: rgba(255, 255, 255, .15);
+    border-radius: 4px;
+    margin: 6px;
+}
+
+#oc-boxes-box-focus {
+    position: absolute;
+    border: 2px solid var(--oc-brand);
+    background: var(--boxes-focus-bg);
+    z-index: 2147483500;
+    max-width: 100%;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    border-radius: 4px;
+}
+
+#oc-boxes-box-placeholder {
+    color: var(--oc-brand);
+    background-color: rgba(106, 108, 247, .15);
+    border: 2px dashed var(--oc-brand);
+    padding: 20px;
+    margin: 80px auto;
+    max-width: var(--boxes-max-element-width);
+    display: none;
+    justify-content: center;
+    position: relative;
+    z-index: 2147483600;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.oc-boxes-box-placeholder__icon {
+    width: 40px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.oc-boxes-add-box {
+    border-radius: 4px;
+    border: 2px dashed var(--oc-brand);
+    color: var(--oc-brand);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 20px;
+    margin: 0 auto;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s ease background-color;
+    max-width: var(--boxes-max-element-width);
+}
+
+@media screen and (max-width: 1100px) {
+    .oc-boxes-add-box {
+        max-width: 100%;
+        margin: 0 20px;
+    }
+
+    #oc-boxes-box-placeholder {
+        max-width: 100%;
+        margin: 80px 20px;
+    }
+}
+
+.oc-boxes-add-box:hover,
+.oc-boxes-add-box:focus,
+.oc-boxes-add-box:active,
+.oc-boxes-add-box:visited {
+    background: rgba(106, 108, 247, .15);
+    color: var(--oc-brand);
+    text-decoration: none;
+}
+
+.oc-boxes-add-box--child {
+    padding: 1em;
+    font-size: 10px;
+    border-color: var(--oc-gray-500);
+    color: var(--oc-gray-500);
+}
+
+.oc-boxes-toolbar__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 9px;
+    color: #fff !important;
+    height: 100%;
+}
+
+.oc-boxes-toolbar__action:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .1)
+}
+
+.oc-boxes-toolbar__action--disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.oc-boxes-toolbar__icon {
+    width: 25px;
+    height: 25px;
+}
+
+.oc-boxes-toolbar__icon--plus {
+    width: 22px;
+    height: 22px;
+}
+
+.oc-boxes-toolbar__icon--duplicate,
+.oc-boxes-toolbar__icon--trash {
+    width: 19px;
+    height: 19px;
+}
+
+.oc-box[data-box-fully-locked] {
+    pointer-events: none;
+}
+
+.oc-box[data-box-locked*="data"] {
+    cursor: not-allowed;
+}
