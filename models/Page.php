@@ -494,6 +494,17 @@ class Page extends Model
     }
 
     /**
+     * Returns a unique cache key for a given page and site id.
+     *
+     * @param mixed $pageId
+     * @param mixed $siteId
+     */
+    public static function multisiteCacheKey($pageId, $siteId)
+    {
+        return sprintf('boxes.pages.multisite.%d.%d', $pageId, $siteId);
+    }
+
+    /**
      * Make sure the URL is formatted in a uniform style.
      */
     protected function cleanUrl()
@@ -552,16 +563,5 @@ class Page extends Model
                 $box->save();
             }
         });
-    }
-
-    /**
-     * Returns a unique cache key for a given page and site id.
-     *
-     * @param mixed $pageId
-     * @param mixed $siteId
-     */
-    public static function multisiteCacheKey($pageId, $siteId)
-    {
-        return sprintf('boxes.pages.multisite.%d.%d', $pageId, $siteId);
     }
 }

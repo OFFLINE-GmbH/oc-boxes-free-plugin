@@ -10,7 +10,7 @@
 <div class="form-buttons">
     <div class="loading-indicator-container">
         <div class="form-buttons__primary">
-            <?php if ($this->isFullMode() && $this->hasFeature('publishing')): ?>
+            <?php if ($this->isFullMode() && $this->hasFeature('revisions')): ?>
                 <button
                     type="submit"
                     class="btn btn-default oc-icon-save"

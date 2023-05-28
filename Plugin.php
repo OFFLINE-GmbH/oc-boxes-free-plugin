@@ -30,6 +30,7 @@ use OFFLINE\Boxes\Models\BoxesSetting;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use System\Classes\PluginBase;
+use Url;
 
 /**
  * Plugin Information File
@@ -170,6 +171,7 @@ class Plugin extends PluginBase
             Box::extend(static function ($model) {
                 $model->implement[] = \OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class;
             });
+
             if (class_exists(\OFFLINE\Boxes\Models\Content::class)) {
                 Content::extend(static function ($model) {
                     $model->implement[] = \OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class;
@@ -179,7 +181,7 @@ class Plugin extends PluginBase
 
         if (App::runningInBackend()) {
             // Inject global CSS styles.
-            Block::set('head', '<link href="' . \Url::to('plugins/offline/boxes/assets/css/offline.boxes.backend.css') . '" rel="stylesheet">');
+            Block::set('head', '<link href="' . Url::to('plugins/offline/boxes/assets/css/offline.boxes.backend.css') . '" rel="stylesheet">');
         }
     }
 
@@ -222,6 +224,7 @@ class Plugin extends PluginBase
         }
 
         $counter = 0;
+
         if (Features::instance()->revisions && method_exists(Page::class, 'getUnpublishedDraftCount')) {
             $counter = Page::getUnpublishedDraftCount();
         }

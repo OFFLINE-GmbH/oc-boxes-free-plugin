@@ -116,7 +116,7 @@ class BoxesPage extends ComponentBase
     {
         return static fn ($q) => $q->when(
             !BackendAuth::getUser(),
-            fn ($q) => $q->where('is_enabled', true)->when(Features::instance()->references, fn($q) => $q->with('reference')),
+            fn ($q) => $q->where('is_enabled', true)->when(Features::instance()->references, fn ($q) => $q->with('reference')),
         );
     }
 

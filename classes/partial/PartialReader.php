@@ -354,10 +354,6 @@ class PartialReader
 
     private function getSystemPartials()
     {
-        if (config('offline.boxes.disable_references')) {
-            return collect([]);
-        }
-
         $partials = collect([]);
 
         if (Features::instance()->references) {

@@ -7,11 +7,6 @@ return [
     'render_scaffolding' => (bool)env('BOXES_RENDER_SCAFFOLDING', true),
 
     /**
-     * Lets you disable the Box reference feature.
-     */
-    'disable_references' => (bool)env('BOXES_DISABLE_REFERENCES', false),
-
-    /**
      * Defines the main menu item position.
      */
     'main_menu_order' => (int)env('BOXES_MAIN_MENU_ORDER', 500),
