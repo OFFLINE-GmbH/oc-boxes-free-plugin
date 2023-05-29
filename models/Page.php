@@ -549,24 +549,4 @@ class Page extends Model
             Cache::forget(self::multisiteCacheKey($this->id, $site->id));
         }
     }
-
-    protected function moveNewNestedBoxesToNewParents(Page $old, Page $new)
-    {
-        $oldBoxesMap = $old->boxes->pluck('unique_id', 'id');
-        $newBoxesMap = $new->boxes->pluck('id', 'unique_id');
-
-        $new->boxes->each(function ($box) use ($oldBoxesMap, $newBoxesMap) {
-            if (!$box->parent_id) {
-                return;
-            }
-
-            $uniqueId = $oldBoxesMap[$box->parent_id] ?? null;
-            $newParentId = $newBoxesMap[$uniqueId] ?? null;
-
-            if ($newParentId) {
-                $box->parent_id = $newParentId;
-                $box->save();
-            }
-        });
-    }
 }
