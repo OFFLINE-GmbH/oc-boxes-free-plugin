@@ -137,7 +137,7 @@ trait HasRevisions
         $result = tap($published)->save();
 
         // Newly published nested boxes need to become a child of the newly published parent box.
-        $this->moveNewNestedBoxesToNewParents($this, $published);
+        $this->moveNewNestedBoxesToNewParents( $published);
 
         if (BoxesSetting::get('revisions_cleanup_enabled', false)) {
             $this->cleanupRevisions();
@@ -281,5 +281,30 @@ trait HasRevisions
             ->get()
             ->each
             ->delete();
+    }
+
+    /**
+     * Newly published boxes still point to the original box on the draft page.
+     * This method updates the parent id of all these boxes to the newly published parent box.
+     */
+    protected function moveNewNestedBoxesToNewParents(Page $new)
+    {
+        $boxes = $new->boxes->keyBy('origin_box_id');
+
+        $new->boxes->each(function ($box) use ($boxes) {
+            if (!$box->parent_id) {
+                return;
+            }
+
+            // Get the parent box from the new revision.
+            $parent = $boxes[$box->parent_id] ?? null;
+
+            if ($parent) {
+                $box->useNestedTreeStructure = false;
+                $box->nest_depth = $parent->nest_depth + 1;
+                $box->parent_id = $parent->id;
+                $box->save();
+            }
+        });
     }
 }
