@@ -15,6 +15,7 @@ use Model;
 use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Element\ElementHolder;
 use October\Rain\Exception\ValidationException;
+use October\Rain\Support\Facades\Str;
 use OFFLINE\Boxes\Classes\CMS\CmsPageParams;
 use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
 use OFFLINE\Boxes\Classes\Features;
@@ -288,8 +289,11 @@ class Page extends Model
         $clone->useNestedTreeStructure = true;
 
         $clone->name .= ' (' . trans('offline.boxes::lang.copy_noun') . ')';
-        $clone->url = $this->url . '-copy';
-        $clone->slug = $this->slug . '-copy';
+        if ($clone->url) {
+            $clone->url .= '-copy';
+        }
+
+        $clone->slug = $this->slug . '-' . Str::random(5);
         $clone->is_hidden = true;
 
         // Use the new page id as site_root_id on main sites.
