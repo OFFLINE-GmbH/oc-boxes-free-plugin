@@ -475,6 +475,7 @@ class BoxesEditor extends FormWidgetBase
             'baseUrl' => url()->to($site?->base_url),
             'mode' => $this->mode,
             'initialPageId' => $pageModel->id,
+            'initialBoxId' => get('box'),
             'boxes' => $pageModel->boxes->toNested()->values(),
             'sessionKey' => $this->isSingleMode() ? $this->sessionKey : '',
             'settings' => BoxesSetting::editorState(),
@@ -647,7 +648,9 @@ class BoxesEditor extends FormWidgetBase
                 ->with('published_by_user', 'updated_by_user')
                 ->where('origin_page_id', $page->origin_page_id)
                 ->where('published_state', '<>', PublishedState::DRAFT)
-                ->orderBy('version', 'desc');
+                ->orderBy('version', 'desc')
+                ->orderBy('published_at', 'desc')
+                ->orderBy('updated_at', 'desc');
         });
 
         $revisionsWidget->bindEvent('list.overrideRecordAction', function ($record) {

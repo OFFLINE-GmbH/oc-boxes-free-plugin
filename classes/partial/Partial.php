@@ -71,10 +71,12 @@ class Partial
             $this->path = sprintf('%s%s', self::EXTERNAL_PREFIX, $this->path);
         }
 
+        $clonedContext = clone $context;
+
         $output = $controller->renderPartial(
             $this->path,
             [
-                'context' => clone $context,
+                'context' => $clonedContext,
                 'box' => $box,
             ]
         );
@@ -86,7 +88,7 @@ class Partial
 
         return $this->makePartial('box', [
             'output' => $output,
-            'context' => clone $context,
+            'context' => $clonedContext,
         ]);
     }
 }

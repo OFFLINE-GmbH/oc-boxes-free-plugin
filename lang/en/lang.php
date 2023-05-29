@@ -86,6 +86,8 @@ return [
     'no_root_page' => 'No page on main site',
     'reference_hint_title' => 'This Box is part a reference',
     'reference_hint_text' => 'Changes to this Box might be visible on multiple pages.',
+    'reference_hint_referenced_by' => 'This Box is referenced here:',
+    'reference_hint_reference' => 'The content of this Box is defined here:',
     'no_template' => '-- No template',
     'flashes' => [
         'saved_successfully' => 'Changes saved successfully',

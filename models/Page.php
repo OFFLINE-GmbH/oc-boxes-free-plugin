@@ -289,6 +289,7 @@ class Page extends Model
         $clone->useNestedTreeStructure = true;
 
         $clone->name .= ' (' . trans('offline.boxes::lang.copy_noun') . ')';
+
         if ($clone->url) {
             $clone->url .= '-copy';
         }

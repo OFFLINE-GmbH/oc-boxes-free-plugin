@@ -36,6 +36,8 @@ use System\Models\File;
  * @property int $nest_depth
  * @property bool $read_only
  * @property number $references_box_id
+ * @property \Illuminate\Support\Collection<int, Box>|null $referenced_by
+ * @property Box|null $references
  * @method static forCurrentlyPublishedPage() Builder
  *
  * @property-read  \Illuminate\Support\Collection<int, Box> $children
@@ -111,6 +113,9 @@ class Box extends Model
             'replicate' => false,
             'scope' => 'forCurrentlyPublishedPage',
         ],
+    ];
+
+    public $hasMany = [
         'referenced_by' => [
             Box::class,
             'otherKey' => 'origin_box_id',
@@ -655,7 +660,6 @@ class Box extends Model
 
             $this->partial = 'Boxes\Internal\Reference';
 
-            // TODO: Is this correct? Why is the draft used here?
             $page = Page::drafts()->where('slug', $pageSlug)->firstOrFail();
 
             $box = self::where('holder_id', $page->id)

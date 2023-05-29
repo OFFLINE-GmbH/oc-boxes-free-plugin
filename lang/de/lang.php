@@ -86,6 +86,8 @@ return [
     'no_root_page' => 'Ohne Hauptseite',
     'reference_hint_title' => 'Diese Box Teil eines Verweises',
     'reference_hint_text' => 'Änderungen am Inhalt werden womöglich an mehreren Stellen sichtbar.',
+    'reference_hint_referenced_by' => 'Diese Box wird an folgenden Stellen referenziert:',
+    'reference_hint_reference' => 'Der Inhalt dieser Box stammt von',
     'no_template' => '-- Ohne Vorlage',
     'flashes' => [
         'saved_successfully' => 'Änderungen gespeichert',

@@ -58,9 +58,8 @@ trait HasBoxes
         Event::fire(Events::BEFORE_PAGE_RENDER, [$this, $context, $boxes]);
 
         $index = 0;
-        $count = $boxes->count();
 
-        $loop = $this->buildLoopHelper($count);
+        $loop = $this->buildLoopHelper($boxes->count());
 
         $contents = $boxes->implode(function (Box $box) use ($context, &$index, $loop) {
             $context->loop = $loop($index++);
