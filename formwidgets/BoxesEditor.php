@@ -218,7 +218,7 @@ class BoxesEditor extends FormWidgetBase
         return $this->withState(
             $this->onRenderBoxForm($clone),
             [
-                'boxes' => $model->holder->boxes->toNested()->values(),
+                'boxes' => $clone->holder->boxes->toNested()->values(),
             ]
         );
     }

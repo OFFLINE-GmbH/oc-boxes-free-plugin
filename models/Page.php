@@ -119,7 +119,7 @@ class Page extends Model
     ];
 
     public $morphMany = [
-        'boxes' => [Box::class, 'replicate' => true, 'name' => 'holder'],
+        'boxes' => [Box::class, 'replicate' => true, 'delete' => true, 'name' => 'holder'],
     ];
 
     public $attachOne = [
