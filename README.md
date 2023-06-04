@@ -34,6 +34,9 @@ The following table compares the features of both versions:
 
 The documentation for Boxes can be found on [docs.boxes.offline.ch](https://docs.boxes.offline.ch/).
 
+Note that the documentation is for the paid version of Boxes. The free version does not include all features
+described in the documentation. Pro features are marked with a "Pro" badge.
+
 ## FAQ
 
 ### Why are you releasing a free version?
