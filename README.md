@@ -6,7 +6,7 @@ You can download and install this version for free in any October CMS project.
 
 The free version provides the basic functionality to create and manage content with Boxes.
 
-## Installation
+## 🚀 Installation
 
 Install the plugin using Composer.
 
@@ -15,7 +15,7 @@ composer require offline/oc-boxes-free-plugin
 php artisan october:migrate
 ```
 
-## Feature Comparison
+## ⚖️ Feature Comparison
 
 Boxes is available in a free and a [paid version](https://octobercms.com/plugin/offline-boxes).
 The following table compares the features of both versions:
@@ -30,14 +30,14 @@ The following table compares the features of both versions:
 | [Exporting and Importing](https://docs.boxes.offline.ch/use-cases/export-import.html)                                 | ✅   | ❌    |
 | [Page Templates](https://docs.boxes.offline.ch/use-cases/page-templates.html)                                         | ✅   | ❌    |
 
-## Documentation
+## 📕 Documentation
 
 The documentation for Boxes can be found on [docs.boxes.offline.ch](https://docs.boxes.offline.ch/).
 
 Note that the documentation is for the paid version of Boxes. The free version does not include all features
 described in the documentation. Pro features are marked with a "Pro" badge.
 
-## FAQ
+## ❓️ FAQ
 
 ### Why are you releasing a free version?
 
@@ -63,9 +63,9 @@ No, we do not accept pull requests or issue reports for the free version. If you
 consider buying the paid version. For paying customers we offer a [GitHub repository](https://github.com/OFFLINE-GmbH/oc-boxes-support) where you can submit feature
 requests and bug reports.
 
-## Upgrading from the free version to the paid version
+## ⬆️ Upgrading from the free version to the paid version
 
-you can upgrade from the free version to the paid version at any time. Please back up your database before doing so to prevent data loss.
+You can upgrade from the free version to the paid version at any time. Please back up your database before doing so to prevent data loss.
 
 First uninstall the free version:
 
