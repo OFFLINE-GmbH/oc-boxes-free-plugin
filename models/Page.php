@@ -188,13 +188,6 @@ class Page extends Model
                 $holder->get('template')->config['hidden'] = true;
             }
         });
-
-        $this->bindEvent('model.afterCreate', function () {
-            if (!$this->origin_page_id) {
-                $this->origin_page_id = $this->id;
-                $this->save(null, $this->sessionKey);
-            }
-        });
     }
 
     /**
@@ -221,6 +214,14 @@ class Page extends Model
                     'url' => trans('validation.unique', ['attribute' => 'url']),
                 ]);
             }
+        }
+    }
+
+    public function afterCreate()
+    {
+        if (!$this->origin_page_id) {
+            $this->origin_page_id = $this->id;
+            $this->save(null, $this->sessionKey);
         }
     }
 
