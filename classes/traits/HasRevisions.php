@@ -137,7 +137,7 @@ trait HasRevisions
         $result = tap($published)->save();
 
         // Newly published nested boxes need to become a child of the newly published parent box.
-        $this->moveNewNestedBoxesToNewParents( $published);
+        $this->moveNewNestedBoxesToNewParents($published);
 
         if (BoxesSetting::get('revisions_cleanup_enabled', false)) {
             $this->cleanupRevisions();

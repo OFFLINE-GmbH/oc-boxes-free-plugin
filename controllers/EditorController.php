@@ -55,8 +55,6 @@ class EditorController extends Controller
 
         $this->vars['widget'] = $widget;
     }
-
-    
     
     /// PRO
     /**

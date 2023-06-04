@@ -62,8 +62,6 @@ class Page extends Model
     use \October\Rain\Database\Traits\Validation;
     use \OFFLINE\Boxes\Classes\Traits\HasNestedTreeStructure;
     use \OFFLINE\Boxes\Classes\Traits\HasMenuItems;
-
-    
     
     public const MENU_TYPE_ALL_PAGES = 'offline-boxes-all-pages';
 

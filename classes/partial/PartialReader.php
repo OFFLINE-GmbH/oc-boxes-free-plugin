@@ -14,7 +14,6 @@ use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
 use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Exceptions\PartialNotFoundException;
 use OFFLINE\Boxes\Classes\Features;
-use RuntimeException;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -194,7 +193,6 @@ class PartialReader
     {
         return $this->boxesConfig;
     }
-
     
     /**
      * Returns all partials that have a YAML config.
@@ -269,10 +267,7 @@ class PartialReader
             return collect(['sections' => [], 'templates' => collect([])]);
         }
 
-        $config = collect($this->yaml->parseFile(sprintf('%s/%s', $baseDir, 'boxes.yaml')));
-
-        
-        return $config;
+        return collect($this->yaml->parseFile(sprintf('%s/%s', $baseDir, 'boxes.yaml')));
     }
 
     /**

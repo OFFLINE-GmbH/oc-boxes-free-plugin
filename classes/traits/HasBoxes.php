@@ -7,7 +7,6 @@ use Event;
 use LogicException;
 use October\Rain\Support\Collection;
 use OFFLINE\Boxes\Classes\Events;
-use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\Classes\Partial\RenderContext;
 use OFFLINE\Boxes\Models\Box;
 use System\Models\File;
@@ -178,7 +177,6 @@ trait HasBoxes
 
         $this->componentsAdded = true;
     }
-
     
     /**
      * Validates the asset definition and adds default values for missing keys.

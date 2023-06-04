@@ -7,17 +7,10 @@ use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
 use Backend\Widgets\Lists;
 use Carbon\Carbon;
-use October\Rain\Exception\SystemException;
-use October\Rain\Support\Facades\Event;
 use October\Rain\Support\Facades\Flash;
-use October\Rain\Support\Facades\Site;
-use OFFLINE\Boxes\Classes\CMS\Controller;
-use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Features;
-use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\Classes\PublishedState;
 use OFFLINE\Boxes\Models\Box;
-use OFFLINE\Boxes\Models\BoxesSetting;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RuntimeException;
@@ -50,8 +43,6 @@ class BoxesEditor extends FormWidgetBase
      * The configured partial contexts.
      */
     protected array $partialContexts = ['default'];
-
-    
     
     /**
      * @inheritDoc
@@ -60,7 +51,6 @@ class BoxesEditor extends FormWidgetBase
     {
         $this->processConfig();
 
-        
         if (!property_exists($this, 'allowSingleMode') && $this->isSingleMode()) {
             throw new RuntimeException('[OFFLINE.BOXES] Single mode is a Boxes Pro feature. Please upgrade to use it.');
         }
@@ -142,7 +132,6 @@ class BoxesEditor extends FormWidgetBase
             $page->save([], post('_session_key'));
         });
 
-        
         return $this->withState([
             'id' => $page->id,
             'publish' => $this->handlePagePublishing($page, 'onSavePageForm', $page->id),
@@ -328,8 +317,6 @@ class BoxesEditor extends FormWidgetBase
             'origin' => 'onSaveBoxForm',
         ]);
     }
-
-    
     
     /**
      * @inheritDoc
@@ -363,8 +350,6 @@ class BoxesEditor extends FormWidgetBase
     {
         return FormField::NO_SAVE_DATA;
     }
-
-    
     
     /**
      * Checks if a given feature is enabled.
@@ -410,7 +395,6 @@ class BoxesEditor extends FormWidgetBase
             'id' => $formId,
         ]);
     }
-
     
     /**
      * Set the config values on the class.
@@ -433,7 +417,6 @@ class BoxesEditor extends FormWidgetBase
             }
         }
 
-        
         $id = post('Page.id', post('Box.holder_id', get('page')));
 
         $page = Page::with('boxes')->findOrNew($id);
@@ -451,7 +434,6 @@ class BoxesEditor extends FormWidgetBase
 
         return $page;
     }
-
     
     protected function resolveBoxModel(): Box
     {
