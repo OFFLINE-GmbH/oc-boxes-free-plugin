@@ -15,6 +15,9 @@ composer require offline/oc-boxes-free-plugin
 php artisan october:migrate
 ```
 
+Follow the [integration guide from the documentation](https://docs.boxes.offline.ch/getting-started/installation.html#integration)
+to finish the installation.
+
 ## ⚖️ Feature Comparison
 
 Boxes is available in a free and a [paid version](https://octobercms.com/plugin/offline-boxes).
