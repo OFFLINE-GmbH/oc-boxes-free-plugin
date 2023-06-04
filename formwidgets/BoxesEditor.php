@@ -256,7 +256,11 @@ class BoxesEditor extends FormWidgetBase
         /** @var Page $page */
         $page = Page::with('children')->findOrFail(post('Page.id'));
 
-        $page->deleteEverything();
+        if (method_exists($page, 'deleteEverything')) {
+            $page->deleteEverything();
+        } else {
+            $page->delete();
+        }
 
         Flash::success(trans('offline.boxes::lang.flashes.deleted_successfully'));
 
