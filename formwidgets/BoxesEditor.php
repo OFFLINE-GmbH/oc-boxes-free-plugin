@@ -58,7 +58,7 @@ class BoxesEditor extends FormWidgetBase
         $this->processConfig();
 
         if (!property_exists($this, 'allowSingleMode') && $this->isSingleMode()) {
-            throw new RuntimeException('[OFFLINE.Boxes] Single mode is a Boxes Pro feature. Please upgrade to use it.');
+            throw new RuntimeException('[OFFLINE.Boxes] Using the Boxes Editor as a form widget is a Boxes Pro feature. Please upgrade to use it.');
         }
 
         // Make sure the widget is registered when AJAX calls happen by other widgets (like file uploads).
