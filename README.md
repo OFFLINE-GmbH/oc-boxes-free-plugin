@@ -1,4 +1,4 @@
-# OFFLINE.Boxes (Free Version)
+# 📦️ OFFLINE.Boxes (Free Version)
 
 This is the free version of the [OFFLINE.Boxes](https://octobercms.com/plugin/offline-boxes) plugin for October CMS.
 
@@ -20,15 +20,15 @@ php artisan october:migrate
 Boxes is available in a free and a [paid version](https://octobercms.com/plugin/offline-boxes).
 The following table compares the features of both versions:
 
-| Feature                                                                                                | Pro | Free |
-|--------------------------------------------------------------------------------------------------------|-----|------|
-| [Boxes Editor](https://docs.boxes.offline.ch/concepts/box-editor.html)                                 | ✅   | ✅    |
-| [Boxes Editor in Tailor/Custom Plugins](https://docs.boxes.offline.ch/use-cases/usage-in-plugins.html) | ✅   | ❌    |
-| [Revisions](https://docs.boxes.offline.ch/concepts/revisions.html)                                     | ✅   | ❌    |
-| [References](https://docs.boxes.offline.ch/concepts/box-references.html)                               | ✅   | ❌    |
-| [Multisite Support](https://docs.boxes.offline.ch/use-cases/multisite.html)                            | ✅   | ❌    |
-| [Exporting and Importing](https://docs.boxes.offline.ch/use-cases/export-import.html)                  | ✅   | ❌    |
-| [Page Templates](https://docs.boxes.offline.ch/use-cases/page-templates.html)                          | ✅   | ❌    |
+| Feature                                                                                                               | Pro | Free |
+|-----------------------------------------------------------------------------------------------------------------------|-----|------|
+| [Boxes Editor](https://docs.boxes.offline.ch/concepts/box-editor.html)                                                | ✅   | ✅    |
+| [Boxes Editor as form widget in Tailor/Custom Plugins](https://docs.boxes.offline.ch/use-cases/usage-in-plugins.html) | ✅   | ❌    |
+| [Revisions](https://docs.boxes.offline.ch/concepts/revisions.html)                                                    | ✅   | ❌    |
+| [References](https://docs.boxes.offline.ch/concepts/box-references.html)                                              | ✅   | ❌    |
+| [Multisite Support](https://docs.boxes.offline.ch/use-cases/multisite.html)                                           | ✅   | ❌    |
+| [Exporting and Importing](https://docs.boxes.offline.ch/use-cases/export-import.html)                                 | ✅   | ❌    |
+| [Page Templates](https://docs.boxes.offline.ch/use-cases/page-templates.html)                                         | ✅   | ❌    |
 
 ## Documentation
 
@@ -51,8 +51,14 @@ Yes, you can upgrade to the paid version at any time. All your content will be p
 ### Can I use the free version in production?
 
 Yes, you can use the free version in any project. The free version is fully functional and does not contain any
-artificial limitations. The paid version does contain additional power user features that are not available in the free version.
+artificial limitations. To benefit from the additional power-user features of the paid version, you can upgrade at any time.
+
+### Do you accept pull requests/issue reports?
+
+No, we do not accept pull requests or issue reports for the free version. If you want to contribute to Boxes, please
+consider buying the paid version. For paying customers we offer a [GitHub repository](https://github.com/OFFLINE-GmbH/oc-boxes-support) where you can submit feature
+requests and bug reports.
 
 ## License
 
-Proprietary. Please see [License File](LICENSE) for more information.
+The free version of Boxes is released under a proprietary license. Please see [License File](LICENSE) for more information.
