@@ -20,6 +20,7 @@ use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\BoxesSetting;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
+use RuntimeException;
 use System\Models\File;
 
 /**
@@ -50,10 +51,9 @@ class BoxesEditor extends FormWidgetBase
      */
     protected array $partialContexts = ['default'];
 
-    /**
-     * Apply a page template.
-     */
-    protected ?string $template = null;
+    
+
+    
 
     /**
      * @inheritDoc
@@ -62,18 +62,10 @@ class BoxesEditor extends FormWidgetBase
     {
         $this->processConfig();
 
-        // Create a related page and create a deferred binding to the form model
-        // if no related page is available yet.
-        if ($this->isSingleMode() && !$this->resolveRelatedContentModel()) {
-            $this->cleanupOldPendingContent();
-            $page = Content::create([
-                'layout' => $this->previewLayout,
-                'is_pending_content' => true,
-            ]);
+        
 
-            
-
-            $this->model->{$this->fieldName}()->add($page, $this->sessionKey);
+        if (!property_exists($this, 'allowSingleMode') && $this->isSingleMode()) {
+            throw new RuntimeException('[OFFLINE.BOXES] Single mode is a Boxes Pro feature. Please upgrade to use it.');
         }
 
         // Make sure the widget is registered when AJAX calls happen by other widgets (like file uploads).
@@ -450,9 +442,7 @@ class BoxesEditor extends FormWidgetBase
             }
         }
 
-        if (property_exists($this->config, 'template')) {
-            $this->template = $this->config->template;
-        }
+        
     }
 
     protected function buildState()
@@ -481,7 +471,7 @@ class BoxesEditor extends FormWidgetBase
             'settings' => BoxesSetting::editorState(),
             'draftParam' => Controller::DRAFT_ID_PARAM,
             'partialContexts' => $this->partialContexts,
-            'features' => config('offline.boxes::features'),
+            'features' => Features::instance()->toArray(),
         ];
     }
 
@@ -523,10 +513,7 @@ class BoxesEditor extends FormWidgetBase
 
     protected function resolvePageModel(): Page|Content
     {
-        // In single mode, if a related page is available, always use that one.
-        if ($this->isSingleMode() && $related = $this->resolveRelatedContentModel()) {
-            return $related;
-        }
+        
 
         $id = post('Page.id', post('Box.holder_id', get('page')));
 
@@ -546,13 +533,7 @@ class BoxesEditor extends FormWidgetBase
         return $page;
     }
 
-    /**
-     * Check if a related page model exists. Include deferred bindings as well.
-     */
-    protected function resolveRelatedContentModel(): ?Content
-    {
-        return $this->model->{$this->fieldName}()->withDeferred($this->sessionKey)->latest()->first();
-    }
+    
 
     protected function resolveBoxModel(): Box
     {

@@ -20,4 +20,13 @@ class Features
         $this->multisite = config('offline.boxes::features.multisite', false);
         $this->references = config('offline.boxes::features.references', false);
     }
+
+    public function toArray()
+    {
+        return [
+            'revisions' => $this->revisions,
+            'multisite' => $this->multisite,
+            'references' => $this->references,
+        ];
+    }
 }
