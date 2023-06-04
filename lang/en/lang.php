@@ -61,7 +61,7 @@ return [
     'page_tab_empty_state' => 'Click on a page in the left column to start',
     'box_tab_empty_state' => 'Click on a page element to start',
     'zoom_fit' => 'Fit canvas',
-    'no_partials_available' => 'There are no partials available',
+    'no_partials_available' => 'There are no Boxes available',
     'confirm_delete' => 'Do you really want to delete this item?',
     'meta_robots' => 'Meta Robots',
     'canonical_url' => 'Canonical URL',

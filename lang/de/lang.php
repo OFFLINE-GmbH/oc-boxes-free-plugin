@@ -61,7 +61,7 @@ return [
     'page_tab_empty_state' => 'Klicke eine Seite in der linken Spalte an um zu starten',
     'box_tab_empty_state' => 'Klicke auf ein Element in der Seite um zu starten',
     'zoom_fit' => 'Vorschau einpassen',
-    'no_partials_available' => 'Es sind keine Partials verfügbar',
+    'no_partials_available' => 'Es sind keine Boxen verfügbar',
     'confirm_delete' => 'Möchtest Du dieses Element wirklich löschen?',
     'meta_robots' => 'Meta Robots',
     'canonical_url' => 'Canonical URL',

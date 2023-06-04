@@ -183,6 +183,10 @@ class Page extends Model
             if (!Features::instance()->multisite) {
                 $holder['site_root_id']->hidden = true;
             }
+            // Remove the template field if no templates are registered.
+            if ($widget->model->exists || !$holder->get('template')?->options()) {
+                $holder->get('template')->config['hidden'] = true;
+            }
         });
     }
 
