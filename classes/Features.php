@@ -21,6 +21,11 @@ class Features
         $this->references = config('offline.boxes::features.references', false);
     }
 
+    public function isEnabled(string $feature)
+    {
+        return $this->{$feature} ?? false;
+    }
+
     public function toArray()
     {
         return [

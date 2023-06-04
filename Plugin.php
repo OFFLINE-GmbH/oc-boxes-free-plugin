@@ -71,7 +71,142 @@ class Plugin extends PluginBase
      */
     public function register()
     {
-        
+    }
+
+    /**
+     * Boot method, called right before the request route.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $basePath = App::basePath();
+
+        Event::listen('cms.page.beforeRenderPartial', function ($controller, $partial) use ($basePath) {
+            // Allow external partials to be loaded by the CMS. This allows
+            // third-party plugins to provide custom partials for the plugin.
+            if (starts_with($partial, Partial::EXTERNAL_PREFIX)) {
+                $filename = str_replace(Partial::EXTERNAL_PREFIX, '', $partial);
+
+                if (file_exists($filename) && starts_with($filename, $basePath)) {
+                    return ExternalPartial::load('', $filename);
+                }
+            }
+        });
+
+        // Dynamically create a CMS page that is available via the Controller::PREVIEW_URL.
+        Event::listen('cms.router.beforeRoute', function ($url) {
+            // Ignore the route prefix if it is set.
+            $site = Site::getSiteFromContext();
+
+            if ($site->is_prefixed) {
+                $url = str_replace($site->route_prefix, '', $url);
+            }
+
+            if (str_contains($url, Controller::PREVIEW_URL) && Backend\Facades\BackendAuth::getUser()) {
+                return Controller::instance()->getPreviewPage($url);
+            }
+
+            return Controller::instance()->getCmsPageForUrl($url);
+        });
+
+        // If the visited page is a boxes page, replace the page content with the rendered boxes.
+        Event::listen('cms.page.beforeRenderPage', function (CmsController $controller, $page) {
+            $isBoxesPage = isset($page->apiBag[CmsPageParams::BOXES_PAGE_ID]);
+
+            // If the current page is a boxes page, return the rendered content.
+            if ($isBoxesPage) {
+                $isEditor = isset($page->apiBag[CmsPageParams::BOXES_IS_EDITOR]) || $this->isEditModeRequest();
+
+                return $controller->renderComponent($isEditor ? 'boxesPageEditor' : 'boxesPage');
+            }
+
+            return '';
+        });
+
+        // Add the BoxList component to any page that serves a boxes page.
+        Event::listen('cms.page.init', function (CmsController $controller) {
+            $page = $controller->getPage();
+
+            if (isset($page->apiBag[CmsPageParams::BOXES_PAGE_ID])) {
+                $isEditor = isset($page->apiBag[CmsPageParams::BOXES_IS_EDITOR]) || $this->isEditModeRequest();
+
+                $controller->addComponent(
+                    $isEditor ? BoxesPageEditor::class : BoxesPage::class,
+                    $isEditor ? 'boxesPageEditor' : 'boxesPage',
+                    [
+                        'id' => $page->apiBag[CmsPageParams::BOXES_PAGE_ID] ?? 0,
+                        'modelType' => $page->apiBag[CmsPageParams::BOXES_MODEL_TYPE] ?? Page::class,
+                    ],
+                    true
+                );
+            }
+        });
+
+        $this->registerPageFinder();
+
+        // OFFLINE.SiteSearch
+        Event::listen('offline.sitesearch.extend', fn () => new SiteSearch());
+
+        // Multi-site support
+        Event::listen('cms.sitePicker.overridePattern', function ($page, $pattern, $currentSite, $proposedSite) {
+            if (!isset($page->apiBag[CmsPageParams::BOXES_PAGE_ID]) || $page->apiBag[CmsPageParams::BOXES_MODEL_TYPE] !== Page::class) {
+                return;
+            }
+
+            $boxesPage = Page::withoutGlobalScope(MultisiteScope::class)
+                ->findOrFail(
+                    $page->apiBag[CmsPageParams::BOXES_PAGE_ID]
+                );
+
+            return Cache::rememberForever(
+                Page::multisiteCacheKey($boxesPage->id, $proposedSite->id),
+                fn () => $boxesPage->findForSite($proposedSite->id)?->url,
+            );
+        });
+
+        // Add Seeder behavior to the models if the Seeder plugin is installed.
+        if (class_exists(\OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class)) {
+            Box::extend(static function ($model) {
+                $model->implement[] = \OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class;
+            });
+
+            if (class_exists(\OFFLINE\Boxes\Models\Content::class)) {
+                Content::extend(static function ($model) {
+                    $model->implement[] = \OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class;
+                });
+            }
+        }
+
+        if (App::runningInBackend()) {
+            // Inject global CSS styles.
+            Block::set('head', '<link href="' . Url::to('plugins/offline/boxes/assets/css/offline.boxes.backend.css') . '" rel="stylesheet">');
+        }
+    }
+
+    /**
+     * Registers any front-end components implemented in this plugin.
+     *
+     * @return array
+     */
+    public function registerComponents()
+    {
+        return [
+            BoxesPage::class => 'boxesPage',
+            BoxesPageEditor::class => 'boxesPageEditor',
+        ];
+    }
+
+    public function registerFormWidgets()
+    {
+        return [
+            HiddenInput::class => 'hidden',
+            BoxesDataForm::class => 'boxesdataform',
+            BoxesEditor::class => 'boxes',
+            BoxFinder::class => 'boxfinder',
+        ];
+    }
+    
     /**
      * Registers backend navigation items for this plugin.
      *

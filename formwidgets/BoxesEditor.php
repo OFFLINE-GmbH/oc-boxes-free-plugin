@@ -6,11 +6,17 @@ use Backend\Classes\FormField;
 use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
 use Backend\Widgets\Lists;
-use Carbon\Carbon;
+use October\Rain\Exception\SystemException;
+use October\Rain\Support\Facades\Event;
 use October\Rain\Support\Facades\Flash;
+use October\Rain\Support\Facades\Site;
+use OFFLINE\Boxes\Classes\CMS\Controller;
+use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Features;
+use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\Classes\PublishedState;
 use OFFLINE\Boxes\Models\Box;
+use OFFLINE\Boxes\Models\BoxesSetting;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RuntimeException;
@@ -52,7 +58,7 @@ class BoxesEditor extends FormWidgetBase
         $this->processConfig();
 
         if (!property_exists($this, 'allowSingleMode') && $this->isSingleMode()) {
-            throw new RuntimeException('[OFFLINE.BOXES] Single mode is a Boxes Pro feature. Please upgrade to use it.');
+            throw new RuntimeException('[OFFLINE.Boxes] Single mode is a Boxes Pro feature. Please upgrade to use it.');
         }
 
         // Make sure the widget is registered when AJAX calls happen by other widgets (like file uploads).
@@ -356,7 +362,7 @@ class BoxesEditor extends FormWidgetBase
      */
     public function hasFeature(string $feature): bool
     {
-        return config("offline.boxes::features.{$feature}", false);
+        return Features::instance()->isEnabled($feature);
     }
 
     /**
@@ -416,7 +422,76 @@ class BoxesEditor extends FormWidgetBase
                 $this->partialContexts = ['default'];
             }
         }
+    }
 
+    protected function buildState()
+    {
+        $pageModel = $this->resolvePageModel();
+
+        $previewType = $this->isFullMode() ? 'page' : 'content';
+
+        $site = Site::getSiteFromContext();
+
+        $pages = $this->isFullMode() ? Page::currentDrafts()->get()->toNested(false) : collect([]);
+
+        Event::fire(Events::EDITOR_EXTEND_PAGES, [&$pages]);
+
+        return [
+            'pages' => $pages->values(),
+            'partials' => PartialReader::instance()->listPartials([]),
+            'i18n' => trans('offline.boxes::lang'),
+            'previewUrl' => url()->to($site->base_url . \OFFLINE\Boxes\Classes\CMS\Controller::PREVIEW_URL . $previewType),
+            'baseUrl' => url()->to($site?->base_url),
+            'mode' => $this->mode,
+            'initialPageId' => $pageModel->id,
+            'initialBoxId' => get('box'),
+            'boxes' => $pageModel->boxes->toNested()->values(),
+            'sessionKey' => $this->isSingleMode() ? $this->sessionKey : '',
+            'settings' => BoxesSetting::editorState(),
+            'draftParam' => Controller::DRAFT_ID_PARAM,
+            'partialContexts' => $this->partialContexts,
+            'features' => Features::instance()->toArray(),
+        ];
+    }
+
+    /**
+     * @throws SystemException
+     */
+    protected function buildBoxForm(Box $box): Form
+    {
+        $config = $this->makeConfig('$/offline/boxes/models/box/fields.yaml');
+
+        $config->model = $box;
+        $config->arrayName = 'Box';
+
+        $widget = $this->makeWidget(Form::class, $config);
+        $widget->bindToController();
+
+        return $widget;
+    }
+
+    /**
+     * @throws SystemException
+     */
+    protected function buildPageForm(Page $page): Form
+    {
+        $config = $this->makeConfig('$/offline/boxes/models/page/fields.yaml');
+
+        $config->model = $page;
+        $config->arrayName = 'Page';
+
+        $widget = $this->makeWidget(Form::class, $config);
+        $widget->bindToController();
+
+        $revisionsWidget = $this->buildPageRevisionsWidget($page);
+
+        $widget->vars['revisionsWidget'] = $revisionsWidget;
+
+        return $widget;
+    }
+
+    protected function resolvePageModel(): Page|Content
+    {
         $id = post('Page.id', post('Box.holder_id', get('page')));
 
         $page = Page::with('boxes')->findOrNew($id);
@@ -481,19 +556,7 @@ class BoxesEditor extends FormWidgetBase
     {
         return !$this->isFullMode();
     }
-
-    /**
-     * Delete old content that has not been bound to anything.
-     */
-    protected function cleanupOldPendingContent()
-    {
-        Content::where('is_pending_content', true)
-            ->where('created_at', '<=', Carbon::now()->subDays(7))
-            ->get()
-            ->each
-            ->delete();
-    }
-
+    
     /**
      * Return the holder Model type.
      */
