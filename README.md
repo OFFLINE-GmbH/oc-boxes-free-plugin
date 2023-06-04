@@ -49,7 +49,8 @@ paid version to support the development of Boxes.
 
 ### Can I upgrade to the paid version later?
 
-Yes, you can upgrade to the paid version at any time. All your content will be preserved.
+Yes, you can upgrade to the paid version at any time. All your content will be preserved. For instructions on how to
+upgrade, please see below.
 
 ### Can I use the free version in production?
 
@@ -61,6 +62,21 @@ artificial limitations. To benefit from the additional power-user features of th
 No, we do not accept pull requests or issue reports for the free version. If you want to contribute to Boxes, please
 consider buying the paid version. For paying customers we offer a [GitHub repository](https://github.com/OFFLINE-GmbH/oc-boxes-support) where you can submit feature
 requests and bug reports.
+
+## Upgrading from the free version to the paid version
+
+you can upgrade from the free version to the paid version at any time. Please back up your database before doing so to prevent data loss.
+
+First uninstall the free version:
+
+```
+composer remove offline/oc-boxes-free-plugin
+```
+
+Then follow [the installation instructions for the paid version](https://docs.boxes.offline.ch/getting-started/installation.html).
+
+
+
 
 ## License
 
