@@ -52,9 +52,7 @@ class BoxesEditor extends FormWidgetBase
     protected array $partialContexts = ['default'];
 
     
-
     
-
     /**
      * @inheritDoc
      */
@@ -63,7 +61,6 @@ class BoxesEditor extends FormWidgetBase
         $this->processConfig();
 
         
-
         if (!property_exists($this, 'allowSingleMode') && $this->isSingleMode()) {
             throw new RuntimeException('[OFFLINE.BOXES] Single mode is a Boxes Pro feature. Please upgrade to use it.');
         }
@@ -146,7 +143,6 @@ class BoxesEditor extends FormWidgetBase
         });
 
         
-
         return $this->withState([
             'id' => $page->id,
             'publish' => $this->handlePagePublishing($page, 'onSavePageForm', $page->id),
@@ -334,9 +330,7 @@ class BoxesEditor extends FormWidgetBase
     }
 
     
-
     
-
     /**
      * @inheritDoc
      */
@@ -371,9 +365,7 @@ class BoxesEditor extends FormWidgetBase
     }
 
     
-
     
-
     /**
      * Checks if a given feature is enabled.
      */
@@ -420,7 +412,6 @@ class BoxesEditor extends FormWidgetBase
     }
 
     
-
     /**
      * Set the config values on the class.
      */
@@ -443,78 +434,6 @@ class BoxesEditor extends FormWidgetBase
         }
 
         
-    }
-
-    protected function buildState()
-    {
-        $pageModel = $this->resolvePageModel();
-
-        $previewType = $this->isFullMode() ? 'page' : 'content';
-
-        $site = Site::getSiteFromContext();
-
-        $pages = $this->isFullMode() ? Page::currentDrafts()->get()->toNested(false) : collect([]);
-
-        Event::fire(Events::EDITOR_EXTEND_PAGES, [&$pages]);
-
-        return [
-            'pages' => $pages->values(),
-            'partials' => PartialReader::instance()->listPartials([]),
-            'i18n' => trans('offline.boxes::lang'),
-            'previewUrl' => url()->to($site->base_url . \OFFLINE\Boxes\Classes\CMS\Controller::PREVIEW_URL . $previewType),
-            'baseUrl' => url()->to($site?->base_url),
-            'mode' => $this->mode,
-            'initialPageId' => $pageModel->id,
-            'initialBoxId' => get('box'),
-            'boxes' => $pageModel->boxes->toNested()->values(),
-            'sessionKey' => $this->isSingleMode() ? $this->sessionKey : '',
-            'settings' => BoxesSetting::editorState(),
-            'draftParam' => Controller::DRAFT_ID_PARAM,
-            'partialContexts' => $this->partialContexts,
-            'features' => Features::instance()->toArray(),
-        ];
-    }
-
-    /**
-     * @throws SystemException
-     */
-    protected function buildBoxForm(Box $box): Form
-    {
-        $config = $this->makeConfig('$/offline/boxes/models/box/fields.yaml');
-
-        $config->model = $box;
-        $config->arrayName = 'Box';
-
-        $widget = $this->makeWidget(Form::class, $config);
-        $widget->bindToController();
-
-        return $widget;
-    }
-
-    /**
-     * @throws SystemException
-     */
-    protected function buildPageForm(Page $page): Form
-    {
-        $config = $this->makeConfig('$/offline/boxes/models/page/fields.yaml');
-
-        $config->model = $page;
-        $config->arrayName = 'Page';
-
-        $widget = $this->makeWidget(Form::class, $config);
-        $widget->bindToController();
-
-        $revisionsWidget = $this->buildPageRevisionsWidget($page);
-
-        $widget->vars['revisionsWidget'] = $revisionsWidget;
-
-        return $widget;
-    }
-
-    protected function resolvePageModel(): Page|Content
-    {
-        
-
         $id = post('Page.id', post('Box.holder_id', get('page')));
 
         $page = Page::with('boxes')->findOrNew($id);
@@ -534,7 +453,6 @@ class BoxesEditor extends FormWidgetBase
     }
 
     
-
     protected function resolveBoxModel(): Box
     {
         $box = new Box();

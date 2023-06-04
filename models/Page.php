@@ -64,9 +64,7 @@ class Page extends Model
     use \OFFLINE\Boxes\Classes\Traits\HasMenuItems;
 
     
-
     
-
     public const MENU_TYPE_ALL_PAGES = 'offline-boxes-all-pages';
 
     public const MENU_TYPE_PAGES = 'offline-boxes-pages';

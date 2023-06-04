@@ -196,7 +196,6 @@ class PartialReader
     }
 
     
-
     /**
      * Returns all partials that have a YAML config.
      *
@@ -273,7 +272,6 @@ class PartialReader
         $config = collect($this->yaml->parseFile(sprintf('%s/%s', $baseDir, 'boxes.yaml')));
 
         
-
         return $config;
     }
 

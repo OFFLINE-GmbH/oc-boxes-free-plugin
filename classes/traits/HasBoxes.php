@@ -180,7 +180,6 @@ trait HasBoxes
     }
 
     
-
     /**
      * Validates the asset definition and adds default values for missing keys.
      */
