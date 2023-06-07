@@ -225,3 +225,5 @@
 3.0.3:
 - "Added pending changes flag"
 - add_has_pending_changes_flag.php
+3.0.5:
+- "Initial public release of Boxes 3.0"
