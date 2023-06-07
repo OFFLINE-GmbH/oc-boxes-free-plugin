@@ -229,3 +229,5 @@
 - "Initial public release of Boxes 3.0"
 3.0.9:
 - "Various minor bugfixes"
+3.0.10:
+- "Fixed bug with nested boxes rendering"
