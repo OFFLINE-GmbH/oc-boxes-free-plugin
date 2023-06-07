@@ -39,7 +39,7 @@ class Controller
         $page = Page::query()
             ->when(
                 $draftId,
-                fn ($q) => $q->where('id', $draftId),
+                fn ($q) => $q->withoutGlobalScope(MultisiteScope::class)->where('id', $draftId),
                 fn ($q) => $q->when(
                     class_exists(\RainLab\Translate\Models\Locale::class),
                     fn ($q) => $q->transWhere('url', $url)->with('translations'),
