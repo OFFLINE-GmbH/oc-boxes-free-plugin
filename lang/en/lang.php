@@ -121,7 +121,7 @@ return [
     'pin_sidebar' => 'Pin sidebar',
     'publish_action' => 'Publish',
     'published_state' => 'State',
-    'batch_publishing_intro' => 'Select the sites you want to publish.',
+    'batch_publishing_intro' => 'Select the pages you want to publish.',
     'publishing' => 'Publishing...',
     'revision' => 'Revision',
     'revisions' => 'Revisions',
