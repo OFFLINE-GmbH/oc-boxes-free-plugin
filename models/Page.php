@@ -481,17 +481,17 @@ class Page extends Model
             ->toArray();
     }
 
-    public function scopeCurrentPublished($query): void
+    public function scopeCurrentPublished($query, ?int $siteId = null): void
     {
         if (method_exists($this, 'revisionScopeCurrentPublished')) {
-            $this->revisionScopeCurrentPublished($query);
+            $this->revisionScopeCurrentPublished($query, $siteId);
         }
     }
 
-    public function scopeCurrentDrafts($query): void
+    public function scopeCurrentDrafts($query, ?int $siteId = null): void
     {
         if (method_exists($this, 'revisionScopeCurrentDrafts')) {
-            $this->revisionScopeCurrentDrafts($query);
+            $this->revisionScopeCurrentDrafts($query, $siteId);
         } else {
             $query->where('published_state', PublishedState::DRAFT);
         }
