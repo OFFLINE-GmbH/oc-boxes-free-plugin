@@ -231,3 +231,5 @@
 - "Various minor bugfixes"
 3.0.10:
 - "Fixed bug with nested boxes rendering"
+3.0.11:
+- "Fixed issue when switching between sites before a page was selected"
