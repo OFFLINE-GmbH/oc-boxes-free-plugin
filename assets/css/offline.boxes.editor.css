@@ -145,8 +145,13 @@
     display: block;
 }
 
-#oc-boxes-box-placeholder__preview {
+.oc-boxes-box-placeholder__preview {
     width: 100%;
+    padding: 20px;
+}
+
+.oc-boxes-box-placeholder__preview:empty {
+    padding: 0;
 }
 
 .oc-boxes-box-placeholder__loading {

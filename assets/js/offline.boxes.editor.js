@@ -268,11 +268,15 @@
             placeholder.classList.add('visible')
             resetFocus()
 
+            const preview = placeholder.querySelector('.oc-boxes-box-placeholder__preview')
+
             if (e.detail.preview) {
-                placeholder.querySelector('.oc-boxes-box-placeholder__preview').innerHTML = `<div class="oc-boxes-box-placeholder__loading">${spinner}</div>`;
+                preview.innerHTML = `<div class="oc-boxes-box-placeholder__loading">${spinner}</div>`;
                 ocRequest('onRenderPlaceholder', {partial: e.detail.partial}).then(result => {
                     applyPartialUpdates(result)
                 })
+            } else {
+                preview.innerHTML = ``;
             }
 
             const scrollOptions = {behavior: 'smooth', block: 'center'}

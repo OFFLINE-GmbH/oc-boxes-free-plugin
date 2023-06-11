@@ -34,6 +34,8 @@ class PartialConfig
 
     public string $icon = '';
 
+    public bool $placeholderPreview = true;
+
     public string $section = '';
 
     public array $components = [];
@@ -73,6 +75,7 @@ class PartialConfig
 
         $yaml['path'] = $path;
         $yaml['icon'] = $yaml['icon'] ?? '';
+        $yaml['placeholderPreview'] = $yaml['placeholderPreview'] ?? true;
         $yaml['section'] = isset($yaml['section']) ? trans($yaml['section']) : '';
         $yaml['name'] = trans($yaml['name'] ?? $yaml['handle']);
         $yaml['contexts'] = $yaml['contexts'] ?? ['default'];
