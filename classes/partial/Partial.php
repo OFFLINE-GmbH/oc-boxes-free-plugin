@@ -150,7 +150,7 @@ class Partial
      */
     protected function getExampleImage(): ?File
     {
-        $name = 'boxes-preview-image.jpg';
+        $name = 'boxes-placeholder-preview.jpg';
         $previewImage = File::where('file_name', $name)->first();
 
         if (!$previewImage) {
