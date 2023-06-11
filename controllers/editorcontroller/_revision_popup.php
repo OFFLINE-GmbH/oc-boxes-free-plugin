@@ -4,7 +4,7 @@
 ?>
 <div class="flex flex-col user-select-none w-full">
     <div class="px-4 flex-0 flex items-center justify-center pt-4 px-4">
-        <h2 class="text-gray-600 font-bold text-lg">
+        <h2 class="text-oc-body-inverse font-bold text-lg">
             <?= e(trans('offline.boxes::lang.revision')); ?>
         </h2>
     </div>

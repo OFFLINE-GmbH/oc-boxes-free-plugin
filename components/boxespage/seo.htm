@@ -21,7 +21,7 @@
         <meta property="og:type" content="{{ page.og_type }}"/>
     {% endif %}
 
-    {% if __SELF__.locale and __SELF__.locale != "en" %}
+    {% if __SELF__.locale %}
         <meta property="og:locale" content="{{ __SELF__.locale }}"/>
     {% endif %}
 {% endput %}

@@ -5,8 +5,8 @@ namespace OFFLINE\Boxes\Components;
 use Backend\Facades\BackendAuth;
 use Closure;
 use Cms\Classes\ComponentBase;
-use Illuminate\Support\Facades\Config;
 use October\Rain\Database\Scopes\MultisiteScope;
+use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Classes\PublishedState;
 use OFFLINE\Boxes\Models\Content;
@@ -155,7 +155,7 @@ class BoxesPage extends ComponentBase
      */
     protected function setLocale(): void
     {
-        $this->locale = Config::get('app.locale');
+        $this->locale = Site::getSiteFromContext()->hard_locale;
 
         if (class_exists(\RainLab\Translate\Classes\Translator::class)) {
             $this->locale = \RainLab\Translate\Classes\Translator::instance()->getLocale();

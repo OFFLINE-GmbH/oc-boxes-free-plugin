@@ -105,6 +105,7 @@ class Box extends Model
     ];
 
     public $hasOne = [
+        /// PRO
         // A reference allows a Box to reference another Box and render it's content.
         'reference' => [
             Box::class,
@@ -113,9 +114,11 @@ class Box extends Model
             'replicate' => false,
             'scope' => 'forCurrentlyPublishedPage',
         ],
+        /// PRO
     ];
 
     public $hasMany = [
+        /// PRO
         'referenced_by' => [
             Box::class,
             'otherKey' => 'origin_box_id',
@@ -123,6 +126,7 @@ class Box extends Model
             'replicate' => false,
             'scope' => 'forCurrentlyPublishedPage',
         ],
+        /// PRO
     ];
 
     public $belongsTo = [
@@ -644,6 +648,7 @@ class Box extends Model
      */
     protected function handleSpecialPartials(): void
     {
+        /// PRO
         // Box Reference.
         if (str_contains($this->partial, 'Boxes\Internal\Reference@')) {
             $parts = explode(':', str_after($this->partial, '@'));
@@ -669,5 +674,6 @@ class Box extends Model
 
             $this->references_box_id = $box->origin_box_id;
         }
+        /// PRO
     }
 }

@@ -4,6 +4,7 @@ namespace OFFLINE\Boxes\Classes\Partial;
 
 use Iterator;
 use October\Rain\Support\Facades\Config;
+use OFFLINE\Boxes\Classes\Traits\HasContext;
 use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
@@ -14,6 +15,8 @@ use OFFLINE\Boxes\Models\Page;
  */
 class RenderContext implements Iterator
 {
+    use HasContext;
+
     /**
      * The loop context of a Box inside a Collection.
      *
@@ -73,12 +76,12 @@ class RenderContext implements Iterator
     {
         $ctx = new self();
 
-        $ctx->loop = array_get($context, 'loop', []);
         $ctx->isEditor = array_get($context, 'isEditor', false);
         $ctx->partial = array_get($context, 'partial');
         $ctx->referenceFor = array_get($context, 'referenceFor');
         $ctx->data = (object)array_get($context, 'data', []);
-        $ctx->renderScaffolding = Config::get('offline.boxes::config.render_scaffolding', true);
+        $ctx->renderScaffolding = array_get($context, 'renderScaffolding', Config::get('offline.boxes::config.render_scaffolding', true));
+        $ctx->loop = array_get($context, 'loop', $ctx->buildLoopHelper(0)(0));
 
         return $ctx;
     }

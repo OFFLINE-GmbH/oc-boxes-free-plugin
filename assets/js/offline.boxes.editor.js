@@ -1,5 +1,5 @@
 (function () {
-    function DOMReady (callback) {
+    function DOMReady(callback) {
         return document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback)
     }
 
@@ -19,7 +19,7 @@
 
     const focusClass = 'oc-box--has-focus'
 
-    function resetFocus () {
+    function resetFocus() {
         currentTarget = null
         window.parent.document.dispatchEvent(new CustomEvent('boxes.box.focus', {detail: null}))
         document.querySelectorAll(`.${focusClass}`).forEach(el => el.classList.remove(focusClass))
@@ -31,7 +31,7 @@
      * Set the focus to a given DOMNode.
      * @param node
      */
-    function focusBox (node) {
+    function focusBox(node) {
         if (!node) {
             return
         }
@@ -108,7 +108,7 @@
     }
 
     // ocRequest sends a request using October's AJAX Framework API.
-    function ocRequest (handler, payload = {}) {
+    function ocRequest(handler, payload = {}) {
         return new Promise((resolve, reject) => {
             fetch(location.href + '/', {
                 method: 'POST',
@@ -126,8 +126,18 @@
         })
     }
 
+    // Apply returned partial updates from a ocRequest.
+    function applyPartialUpdates(result) {
+        for (let selector in result) {
+            const target = document.querySelector(selector)
+            if (target) {
+                target.innerHTML = result[selector]
+            }
+        }
+    }
+
     // returns a click event handler that triggers an iframe event.
-    function iFrameEventHandler (eventName) {
+    function iFrameEventHandler(eventName) {
         return e => {
             e.preventDefault()
             e.stopPropagation()
@@ -139,7 +149,7 @@
                 id = currentTarget.dataset.boxReference
             }
 
-            const detail = { id: id }
+            const detail = {id: id}
             const contextBorder = currentTarget.closest('[data-box-partial-contexts]')
 
             if (contextBorder) {
@@ -152,7 +162,7 @@
         }
     }
 
-    function setup () {
+    function setup() {
 
         document.documentElement.classList.add('oc-boxes-edit-mode')
 
@@ -255,8 +265,15 @@
 
         window.document.addEventListener('boxes.box.add_placeholder', e => {
             placeholder.querySelector('.oc-boxes-box-placeholder__label').innerText = e.detail.partial_name
-            placeholder.style.display = 'flex'
+            placeholder.classList.add('visible')
             resetFocus()
+
+            if (e.detail.preview) {
+                placeholder.querySelector('.oc-boxes-box-placeholder__preview').innerHTML = `<div class="oc-boxes-box-placeholder__loading">${spinner}</div>`;
+                ocRequest('onRenderPlaceholder', {partial: e.detail.partial}).then(result => {
+                    applyPartialUpdates(result)
+                })
+            }
 
             const scrollOptions = {behavior: 'smooth', block: 'center'}
             if (e.detail.add_before) {
@@ -284,16 +301,15 @@
         window.document.addEventListener('boxes.refresh', e => {
             ocRequest('onRefreshBoxesPreview')
                 .then((result) => {
-                    // Apply returned partial updates.
-                    for (let selector in result) {
-                        const target = document.querySelector(selector)
-                        if (target) {
-                            target.innerHTML = result[selector]
-                        }
-                    }
+                    applyPartialUpdates(result)
                     window.document.dispatchEvent(new CustomEvent('offline.boxes.editorRefreshed'))
                     resetFocus()
                 })
+        })
+
+        // Boxes got added or removed.
+        window.document.addEventListener('boxes.changed', e => {
+            window.document.dispatchEvent(new CustomEvent('offline.boxes.editorRefreshed'))
         })
 
         window.addEventListener('resize', e => {
@@ -308,3 +324,8 @@
     });
 
 })();
+
+// @credits https://github.com/n3r4zzurr0/svg-spinners/blob/main/svg-css/90-ring-with-bg.svg
+const spinner = `
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><style>.spinner_ajPY{transform-origin:center;animation:spinner_AtaB .75s infinite linear}@keyframes spinner_AtaB{100%{transform:rotate(360deg)}}</style><path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/><path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_ajPY"/></svg>
+`

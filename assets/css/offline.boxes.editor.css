@@ -7,7 +7,7 @@
     --oc-gray-700: #506880;
 
     --boxes-focus-bg: 2px solid var(--oc-brand);
-    --boxes-max-element-width: 1000px;
+    --boxes-max-element-width: 1140px;
 }
 
 .oc-boxes-wrapper {
@@ -120,8 +120,6 @@
     color: var(--oc-brand);
     background-color: rgba(106, 108, 247, .15);
     border: 2px dashed var(--oc-brand);
-    padding: 20px;
-    margin: 80px auto;
     max-width: var(--boxes-max-element-width);
     display: none;
     justify-content: center;
@@ -129,16 +127,41 @@
     z-index: 2147483600;
     align-items: center;
     border-radius: 4px;
+    flex-direction: column;
+    margin: 80px auto;
+}
+
+.oc-boxes-box-placeholder__header {
+    display: flex;
     font-size: 14px;
     font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(106, 108, 247, .1);
+}
+
+#oc-boxes-box-placeholder.visible {
+    display: block;
+}
+
+#oc-boxes-box-placeholder__preview {
+    width: 100%;
+}
+
+.oc-boxes-box-placeholder__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--oc-brand)
 }
 
 .oc-boxes-box-placeholder__icon {
     width: 40px;
     position: absolute;
     right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 10px;
 }
 
 .oc-boxes-add-box {

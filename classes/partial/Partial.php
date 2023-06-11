@@ -4,9 +4,11 @@ namespace OFFLINE\Boxes\Classes\Partial;
 
 use Cms\Classes\Controller;
 use Cms\Classes\Theme;
+use Exception;
 use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
 use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Plugin;
+use System\Models\File;
 use System\Traits\ViewMaker;
 use SystemException;
 
@@ -88,5 +90,95 @@ class Partial
             'output' => $output,
             'context' => clone $context, // Make sure the context is not modified by the partial.
         ]);
+    }
+
+    /**
+     * Build an example data array for this Partial.
+     * @return array
+     */
+    public function getExampleData()
+    {
+        $exampleImage = $this->getExampleImage();
+
+        $processFields = function ($fields, $carry = []) use (&$processFields, $exampleImage) {
+            foreach ($fields as $name => $field) {
+                $label = array_get($field, 'label', '');
+                $example = array_get($field, 'example', '');
+                $type = array_get($field, 'type', '');
+
+                if (in_array($type, ['section', 'tab', 'checkbox'])) {
+                    continue;
+                }
+
+                if ($type === 'repeater') {
+                    $carry[$name][] = $processFields(data_get($field, 'form.fields', []));
+
+                    continue;
+                }
+
+                if (!$example && $type === 'fileupload') {
+                    $carry[$name] = $exampleImage;
+
+                    continue;
+                }
+
+                if ($example === false) {
+                    continue;
+                }
+
+                if (is_array($example)) {
+                    $example = $this->processExample($example);
+
+                    if (is_array($example)) {
+                        $example = implode("\n", $example);
+                    }
+                }
+
+                $carry[$name] = trans($example ?: $label ?: $field ?: '');
+            }
+
+            return $carry;
+        };
+
+        $data = $processFields(data_get($this->config->form, 'fields', []));
+
+        return $processFields(data_get($this->config->form, 'tabs.fields', []), $data);
+    }
+
+    /**
+     * Return the preview image file.
+     */
+    protected function getExampleImage(): ?File
+    {
+        $name = 'boxes-preview-image.jpg';
+        $previewImage = File::where('file_name', $name)->first();
+
+        if (!$previewImage) {
+            $previewImage = (new File())->fromFile(public_path('plugins/offline/boxes/assets/img/preview-image.jpg'));
+            $previewImage->file_name = $name;
+            $previewImage->save();
+        }
+
+        return $previewImage;
+    }
+
+    /**
+     * Expand the example placeholder to a full string.
+     */
+    private function processExample(mixed $example)
+    {
+        $fn = array_get($example, 'fake', '');
+
+        if (!$fn) {
+            return '';
+        }
+
+        $args = array_wrap(array_get($example, 'args', []));
+
+        try {
+            return fake()->$fn(...$args);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
