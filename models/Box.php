@@ -6,7 +6,6 @@ use App;
 use Backend\Facades\BackendAuth;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use LogicException;
 use Model;
 use October\Rain\Argon\Argon;
 use October\Rain\Support\Facades\Event;
@@ -105,28 +104,9 @@ class Box extends Model
     ];
 
     public $hasOne = [
-        /// PRO
-        // A reference allows a Box to reference another Box and render it's content.
-        'reference' => [
-            Box::class,
-            'otherKey' => 'references_box_id',
-            'key' => 'origin_box_id',
-            'replicate' => false,
-            'scope' => 'forCurrentlyPublishedPage',
-        ],
-        /// PRO
     ];
 
     public $hasMany = [
-        /// PRO
-        'referenced_by' => [
-            Box::class,
-            'otherKey' => 'origin_box_id',
-            'key' => 'references_box_id',
-            'replicate' => false,
-            'scope' => 'forCurrentlyPublishedPage',
-        ],
-        /// PRO
     ];
 
     public $belongsTo = [
@@ -648,32 +628,5 @@ class Box extends Model
      */
     protected function handleSpecialPartials(): void
     {
-        /// PRO
-        // Box Reference.
-        if (str_contains($this->partial, 'Boxes\Internal\Reference@')) {
-            $parts = explode(':', str_after($this->partial, '@'));
-
-            if (count($parts) !== 2) {
-                throw new LogicException('[OFFLINE.Boxes] Reference partials must be defined in the format Boxes\Internal\Reference@pageSlug:partialName');
-            }
-
-            [$pageSlug, $partial] = $parts;
-
-            if (!$pageSlug || !$partial) {
-                throw new LogicException('[OFFLINE.Boxes] Reference partials must be defined in the format Boxes\Internal\Reference@pageSlug:partialName');
-            }
-
-            $this->partial = 'Boxes\Internal\Reference';
-
-            $page = Page::drafts()->where('slug', $pageSlug)->firstOrFail();
-
-            $box = self::where('holder_id', $page->id)
-                ->where('holder_type', Page::class)
-                ->where('partial', $partial)
-                ->firstOrFail();
-
-            $this->references_box_id = $box->origin_box_id;
-        }
-        /// PRO
     }
 }
