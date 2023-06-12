@@ -233,3 +233,5 @@
 - "Fixed bug with nested boxes rendering"
 3.0.11:
 - "Fixed issue when switching between sites before a page was selected"
+3.1.0:
+- "Placeholder previews, Dark mode and minor bugfixes (see https://docs.boxes.offline.ch/getting-started/changelog.html#version-3-1)"
