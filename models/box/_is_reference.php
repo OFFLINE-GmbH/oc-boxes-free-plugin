@@ -1,6 +1,6 @@
 <?php
 /** @var \OFFLINE\Boxes\Models\Box $model */
-if ($model->reference || $model->referenced_by->count()): ?>
+if ($model->reference || $model->referenced_by?->count()): ?>
     <div class="callout callout-info no-icon">
         <div class="header d-flex align-items-center" style="padding: 10px 10px 5px">
             <div style="width: 40px">
