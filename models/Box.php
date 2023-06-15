@@ -49,6 +49,7 @@ class Box extends Model
     use \October\Rain\Database\Traits\Nullable;
     use \OFFLINE\Boxes\Classes\Traits\HasContext;
     use \OFFLINE\Boxes\Classes\Traits\HasNestedTreeStructure;
+    use \Tailor\Traits\BlueprintRelationModel;
 
     public const SPACING_KEY_BEFORE = '_boxes_spacing_before';
 

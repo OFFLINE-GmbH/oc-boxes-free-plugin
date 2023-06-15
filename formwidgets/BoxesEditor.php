@@ -6,6 +6,7 @@ use Backend\Classes\FormField;
 use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
 use Backend\Widgets\Lists;
+use Illuminate\Support\Facades\Session;
 use October\Rain\Exception\SystemException;
 use October\Rain\Support\Facades\Event;
 use October\Rain\Support\Facades\Flash;
@@ -27,6 +28,8 @@ use System\Models\File;
  */
 class BoxesEditor extends FormWidgetBase
 {
+    protected const CURRENT_PARTIAL_KEY = 'offline.boxes.current_partial';
+
     /**
      * @inheritDoc
      */
@@ -65,8 +68,8 @@ class BoxesEditor extends FormWidgetBase
         if ($this->getController()->getAjaxHandler()) {
             if (post('Page') && $this->isFullMode()) {
                 $this->buildPageForm($this->resolvePageModel());
-            } elseif (post('Box')) {
-                $this->buildBoxForm($this->resolveBoxModel());
+            } else {
+                $this->buildBoxForm($this->resolveBoxModel(allowPartialFromSession: true));
             }
         }
     }
@@ -448,7 +451,7 @@ class BoxesEditor extends FormWidgetBase
             'baseUrl' => url()->to($site?->base_url),
             'mode' => $this->mode,
             'initialPageId' => $pageModel->id,
-            'initialBoxId' => get('box'),
+            'initialBoxId' => get('boxes_box'),
             'boxes' => $pageModel->boxes->toNested()->values(),
             'sessionKey' => $this->isSingleMode() ? $this->sessionKey : '',
             'settings' => BoxesSetting::editorState(),
@@ -470,6 +473,10 @@ class BoxesEditor extends FormWidgetBase
 
         $widget = $this->makeWidget(Form::class, $config);
         $widget->bindToController();
+
+        // Store the current Box's partial in the session to be able to
+        // access it for AJAX requests from form widgets.
+        Session::put(self::CURRENT_PARTIAL_KEY, $box->partial);
 
         return $widget;
     }
@@ -496,7 +503,7 @@ class BoxesEditor extends FormWidgetBase
 
     protected function resolvePageModel(): Page|Content
     {
-        $id = post('Page.id', post('Box.holder_id', get('page')));
+        $id = post('Page.id', post('Box.holder_id', get('boxes_page')));
 
         $page = Page::with('boxes')->findOrNew($id);
 
@@ -514,7 +521,19 @@ class BoxesEditor extends FormWidgetBase
         return $page;
     }
     
-    protected function resolveBoxModel(): Box
+    /**
+     * Resolve the Box model from the incoming request.
+     *
+     * Some requests, like AJAX requests from form widgets, don't
+     * include any identifying Box information. In this case, we fall
+     * back to a Box with an associated partial that is stored in the session
+     * from the last time a Box form was rendered.
+     *
+     * Associating at least the partial with the model ensures that the
+     * appropriate form fields are attached to the controller.
+     * @param mixed $allowPartialFromSession
+     */
+    protected function resolveBoxModel($allowPartialFromSession = false): Box
     {
         $box = new Box();
 
@@ -529,6 +548,8 @@ class BoxesEditor extends FormWidgetBase
         }
 
         if ($partial = post('Box.partial')) {
+            $box->partial = $partial;
+        } elseif ($allowPartialFromSession && $partial = Session::get(self::CURRENT_PARTIAL_KEY)) {
             $box->partial = $partial;
         }
 

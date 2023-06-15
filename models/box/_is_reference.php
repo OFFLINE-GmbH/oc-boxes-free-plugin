@@ -24,7 +24,7 @@ if ($model->reference || $model->referenced_by?->count()): ?>
             <?php if ($model->reference): ?>
                 <p style="padding-bottom: .75em">
                     <?= e(trans('offline.boxes::lang.reference_hint_reference')); ?>
-                    <a href="?page=<?= e($model->reference->holder->id); ?>&box=<?= e($model->reference->id); ?>">
+                    <a href="?boxes_page=<?= e($model->reference->holder->id); ?>&boxes_box=<?= e($model->reference->id); ?>">
                         <?= e($model->reference->holder->name); ?>
                         &rarr; <?= e($model->reference->getPartial()->config->name); ?>
                     </a>
@@ -39,15 +39,9 @@ if ($model->reference || $model->referenced_by?->count()): ?>
                     <?= e(trans('offline.boxes::lang.reference_hint_referenced_by')); ?>
                 </p>
                 <ul style="padding-top: .75em; list-style: disc; padding-left: .75em;">
-                    <li>
-                        <a href="?page=<?= e($model->holder->id); ?>&box=<?= e($model->id); ?>">
-                            <?= e($model->holder->name); ?>
-                            &rarr; <?= e($model->getPartial()->config->name); ?>
-                        </a>
-                    </li>
                     <?php foreach ($model->referenced_by as $box): ?>
                         <li>
-                            <a href="?page=<?= e($box->holder->id); ?>&box=<?= e($box->references_box_id); ?>">
+                            <a href="?boxes_page=<?= e($box->holder->id); ?>&boxes_box=<?= e($box->references_box_id); ?>">
                                 <?= e($box->holder->name); ?>
                                 &rarr; <?= e($box->reference->getPartial()->config->name); ?>
                             </a>
