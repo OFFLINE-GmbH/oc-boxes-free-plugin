@@ -4,7 +4,6 @@ namespace OFFLINE\Boxes\FormWidgets;
 
 use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
-use October\Rain\Database\Model;
 use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\Models\Box;
 use stdClass;

@@ -47,8 +47,8 @@ class Controller
                 )
             )
             ->when(
-                Features::instance()->revisions && !BackendAuth::getUser(),
-                fn ($q) => $q->published()
+                Features::instance()->revisions,
+                fn ($q) => $q->current()
             )
             ->first();
 
