@@ -71,8 +71,13 @@ trait HasMenuItems
         }
 
         // If the page is not in the current site, we need to get the current site's version of the page.
-        if ($page->site_id !== $site->id && $page->current_site_page) {
-            $page = $page->current_site_page;
+        if ($page->site_id !== $site->id) {
+            $page = $page->current_site_page ?? null;
+
+            // The page does not exist for the current site.
+            if (!$page) {
+                return;
+            }
         }
 
         $pageUrl = URL::to($site->base_url . $page->url);
