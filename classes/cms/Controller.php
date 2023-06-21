@@ -10,6 +10,8 @@ use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
+use System\Classes\SiteManager;
+use System\Models\SiteDefinition;
 
 class Controller
 {
@@ -68,6 +70,16 @@ class Controller
      */
     public function getPreviewPage(string $url): ?CmsPage
     {
+        // Remove all Site prefixes from the URL. This is necessary
+        // since when editing a disabled Site, October does not provide this site
+        // in the Context. This makes it impossible to strip the Site prefix
+        // since we don't know what Site the URL belongs to.
+        SiteManager::instance()->listSites()->each(function (SiteDefinition $site) use (&$url) {
+            if ($site->is_prefixed) {
+                $url = str_replace($site->route_prefix, '', $url);
+            }
+        });
+
         $previewParts = array_filter(explode('/', str_replace(self::PREVIEW_URL, '', $url)));
 
         if (count($previewParts) !== 2) {

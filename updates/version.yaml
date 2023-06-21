@@ -243,3 +243,5 @@
 - "Optimized queries that fetch revisions, added support for nested Boxes in page templates (thanks to @mtareiling)"
 3.1.6:
 - "Do not touch published state of page when switching between sites in the Boxes Editor"
+3.1.7:
+- "Fixed editing of disabled Sites"
