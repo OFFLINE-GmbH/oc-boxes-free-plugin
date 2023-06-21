@@ -40,14 +40,14 @@ class Controller
             ->when(
                 $draftId,
                 fn ($q) => $q->withoutGlobalScope(MultisiteScope::class)->where('id', $draftId),
-                fn ($q) => $q->when(
-                    class_exists(\RainLab\Translate\Models\Locale::class),
-                    fn ($q) => $q->transWhere('url', $url)->with('translations'),
-                    fn ($q) => $q->where('url', $url)
-                )
             )
+            ->when(!$draftId, fn ($q) => $q->when(
+                class_exists(\RainLab\Translate\Models\Locale::class),
+                fn ($q) => $q->transWhere('url', $url)->with('translations'),
+                fn ($q) => $q->where('url', $url)
+            ))
             ->when(
-                Features::instance()->revisions,
+                !$draftId && Features::instance()->revisions,
                 fn ($q) => $q->current()
             )
             ->first();

@@ -239,3 +239,5 @@
 - "Added support for attaching Tailor Models to Boxes (see https://docs.boxes.offline.ch/use-cases/including-tailor-content.html#using-a-record-finder)"
 3.1.3:
 - "Fixed multisite scopes"
+3.1.4:
+- "Optimized queries that fetch revisions, added support for nested Boxes in page templates (thanks to @mtareiling)"
