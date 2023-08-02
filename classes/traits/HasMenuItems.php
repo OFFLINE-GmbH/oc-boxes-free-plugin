@@ -47,6 +47,8 @@ trait HasMenuItems
         $query = static fn () => Page::current()
             ->withoutGlobalScope(MultisiteScope::class)
             ->where(fn ($q) => $q->where('id', $item->reference)->orWhere('slug', $item->reference))
+            ->where('is_hidden', false)
+            ->where('is_hidden_in_navigation', false)
             ->first();
 
         $page = new Page();
