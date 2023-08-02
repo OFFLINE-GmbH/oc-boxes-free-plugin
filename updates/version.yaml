@@ -251,3 +251,5 @@
 - "Optimized path handling on Windows"
 3.1.10:
 - "Fixed handling of hidden menu items"
+3.1.11:
+- "Fixed editing issue when using the Plugin in Tailor"
