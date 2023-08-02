@@ -45,7 +45,11 @@ class Partial
 
         if ($config) {
             $this->config = $config;
-            $this->path = preg_replace('/.ya?ml/i', '.htm', $config->path);
+
+            $path = preg_replace('/.ya?ml/i', '.htm', $config->path);
+
+            // Normalize Windows paths.
+            $this->path = str_replace('\\', '/', $path);
         }
     }
 
@@ -61,6 +65,9 @@ class Partial
         }
 
         $themePath = Theme::load(ThemeResolver::instance()?->getThemeCode())?->getPath();
+
+        // Normalize Windows paths.
+        $themePath = str_replace('\\', '/', $themePath);
 
         $context->partial = $this;
         $context->box = $box;

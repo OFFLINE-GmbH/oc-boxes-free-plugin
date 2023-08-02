@@ -247,3 +247,5 @@
 - "Fixed editing of disabled Sites"
 3.1.8:
 - "Fixed bug in mirror site command"
+3.1.9:
+- "Optimized path handling on Windows"

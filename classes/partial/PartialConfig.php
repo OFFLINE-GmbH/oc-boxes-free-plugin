@@ -62,6 +62,9 @@ class PartialConfig
             $path = base_path($file);
         }
 
+        // Normalize Windows paths.
+        $path = str_replace('\\', '/', $path);
+
         $yaml = (new Yaml())->parseFileCached($path);
 
         if (!isset($yaml['handle']) || !$yaml['handle']) {
