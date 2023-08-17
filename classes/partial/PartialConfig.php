@@ -172,6 +172,7 @@ class PartialConfig
                 if (array_get($field, 'type') === self::MIXIN_TYPE) {
                     $hasMixinChildren = true;
                 }
+
                 // Process repeater fields directly.
                 if (array_get($field, 'type') === 'repeater' && is_array(array_get($field, 'form.fields'))) {
                     $fields[$key]['form']['fields'] = $process($field['form']['fields']);

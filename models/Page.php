@@ -179,10 +179,12 @@ class Page extends Model
                 $holder['revisions']->tab = 'CMS';
                 $holder['revisions']->hidden = true;
             }
+
             // Hide multisite field if feature is disabled.
             if (!Features::instance()->multisite) {
                 $holder['site_root_id']->hidden = true;
             }
+
             // Remove the template field if no templates are registered.
             if ($widget->model->exists || !$holder->get('template')?->options()) {
                 $holder->get('template')->config['hidden'] = true;
@@ -479,6 +481,13 @@ class Page extends Model
             ->filter(fn ($template) => array_intersect($template['contexts'], $contexts))
             ->mapWithKeys(fn ($template) => [$template['handle'] => $template['name']])
             ->toArray();
+    }
+
+    public function scopeCurrent($query, ?int $siteId = null): void
+    {
+        if (method_exists($this, 'revisionScopeCurrent')) {
+            $this->revisionScopeCurrent($query, $siteId);
+        }
     }
 
     public function scopeCurrentPublished($query, ?int $siteId = null): void
