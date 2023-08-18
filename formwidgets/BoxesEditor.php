@@ -439,7 +439,9 @@ class BoxesEditor extends FormWidgetBase
 
         $site = Site::getSiteFromContext();
 
-        $pages = $this->isFullMode() ? Page::currentDrafts()->get()->toNested(false) : collect([]);
+        $pages = $this->isFullMode()
+            ? Page::currentDrafts()->orderBy('nest_left')->get()->toNested(false)
+            : collect([]);
 
         Event::fire(Events::EDITOR_EXTEND_PAGES, [&$pages]);
 

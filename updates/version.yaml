@@ -257,3 +257,5 @@
 - "Fixed editing issue when using the Plugin in Tailor (2)"
 3.1.13:
 - "Added missing scope method to free version"
+3.1.14:
+- "Fixed page sorting in Boxes Editor"
