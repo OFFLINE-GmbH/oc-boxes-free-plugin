@@ -21,7 +21,7 @@ class EditorController extends Controller
     /**
      * @var bool turboVisitControl
      */
-    public $turboVisitControl = 'reload';
+    public $turboVisitControl = 'disable';
 
     public $requiredPermissions = ['offline.boxes.access_editor'];
 

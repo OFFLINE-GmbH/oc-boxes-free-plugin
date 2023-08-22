@@ -263,3 +263,5 @@
 - "Fixed page sorting in Boxes Editor (2)"
 3.1.16:
 - "Fixed handling of menu generation when revisions feature is disabled"
+3.1.17:
+- "Fixed Turoblinks navigation mode in Backend"
