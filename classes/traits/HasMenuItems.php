@@ -25,7 +25,7 @@ trait HasMenuItems
 
         if ($item->type === Page::MENU_TYPE_ALL_PAGES) {
             $query = self::query()
-                ->currentPublished()
+                ->current()
                 ->where('url', '<>', '')
                 ->where('is_hidden', false)
                 ->where('is_hidden_in_navigation', false);
