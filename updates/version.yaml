@@ -259,3 +259,5 @@
 - "Added missing scope method to free version"
 3.1.14:
 - "Fixed page sorting in Boxes Editor"
+3.1.15:
+- "Fixed page sorting in Boxes Editor (2)"
