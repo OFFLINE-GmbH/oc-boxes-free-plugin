@@ -551,7 +551,6 @@ class Page extends Model
             $newParent = $newBoxes[$originalParent->unique_id] ?? null;
 
             if ($newParent) {
-                $box->useNestedTreeStructure = false;
                 $box->nest_depth = $newParent->nest_depth + 1;
                 $box->parent_id = $newParent->id;
                 $box->save();

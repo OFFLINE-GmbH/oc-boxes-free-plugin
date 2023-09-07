@@ -267,3 +267,5 @@
 - "Fixed Turoblinks navigation mode in Backend"
 3.1.18:
 - "Fixed replication of nested boxes"
+3.1.19:
+- "Fixed moving of duplicated boxes"

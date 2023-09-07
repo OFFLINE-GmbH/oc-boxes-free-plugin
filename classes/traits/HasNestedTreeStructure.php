@@ -93,10 +93,45 @@ trait HasNestedTreeStructure
     }
 
     /**
+     * scopeSiblings filters targeting all children of the parent, except self.
+     * @param mixed $query
+     * @param mixed $includeSelf
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSiblings($query, $includeSelf = false)
+    {
+        // Scope the query only to the current holder's nodes.
+        $query
+            ->where('holder_id', $this->holder_id)
+            ->where('holder_type', $this->holder_type);
+
+        $query->where($this->getParentColumnName(), $this->getParentId());
+
+        return $includeSelf ? $query : $query->withoutSelf();
+    }
+
+    /**
      * useNestedTreeStructure
      */
     public function useNestedTreeStructure(): bool
     {
         return $this->useNestedTreeStructure;
+    }
+
+    /**
+     * newNestedTreeQuery creates a new query for nested sets
+     */
+    protected function newNestedTreeQuery()
+    {
+        $query = $this->newQuery();
+
+        // Scope the query only to the current holder's nodes.
+        if ($this->exists && $this->holder_id) {
+            $query
+                ->where('holder_id', $this->holder_id)
+                ->where('holder_type', $this->holder_type);
+        }
+
+        return $query;
     }
 }

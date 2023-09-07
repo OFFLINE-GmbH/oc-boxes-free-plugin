@@ -30,8 +30,8 @@ class BoxesPageEditor extends BoxesPage
             return $this->controller->run('404');
         }
 
-        $this->addCss('assets/css/offline.boxes.editor.css?v=5');
-        $this->addJs('assets/js/offline.boxes.editor.js?v=5');
+        $this->addCss('assets/css/offline.boxes.editor.css?v=6');
+        $this->addJs('assets/js/offline.boxes.editor.js?v=6');
 
         Event::fire(Events::EDITOR_RENDER, [$this]);
 
