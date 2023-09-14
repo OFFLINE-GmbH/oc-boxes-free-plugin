@@ -3,6 +3,8 @@
 namespace OFFLINE\Boxes\Classes\Traits;
 
 use OFFLINE\Boxes\Classes\SoftDeletingScope;
+use OFFLINE\Boxes\Models\Box;
+use OFFLINE\Boxes\Models\Page;
 
 /**
  * NestedTreeModel is modified to allow disabling the trait.
@@ -35,6 +37,7 @@ trait HasNestedTreeStructure
             get_class($this),
             'key' => $this->getParentColumnName(),
             'replicate' => false,
+            'scope' => 'currentThemeSiteAndStatus',
         ];
 
         $this->belongsTo['parent'] = [
@@ -92,6 +95,26 @@ trait HasNestedTreeStructure
         }
     }
 
+    public function scopeCurrentThemeSiteAndStatus($query)
+    {
+        if (!$this->exists()) {
+            return;
+        }
+
+        if (get_class($this) === Page::class) {
+            $query
+                ->where('site_id', $this->site_id)
+                ->where('published_state', $this->published_state)
+                ->where('theme', $this->theme);
+        }
+
+        if (get_class($this) === Box::class) {
+            $query
+                ->where('holder_id', $this->holder_id)
+                ->where('holder_type', $this->holder_type);
+        }
+    }
+
     /**
      * scopeSiblings filters targeting all children of the parent, except self.
      * @param mixed $query
@@ -100,10 +123,12 @@ trait HasNestedTreeStructure
      */
     public function scopeSiblings($query, $includeSelf = false)
     {
-        // Scope the query only to the current holder's nodes.
-        $query
-            ->where('holder_id', $this->holder_id)
-            ->where('holder_type', $this->holder_type);
+        if (get_class($this) === Box::class) {
+            // Scope the query only to the current holder's nodes.
+            $query
+                ->where('holder_id', $this->holder_id)
+                ->where('holder_type', $this->holder_type);
+        }
 
         $query->where($this->getParentColumnName(), $this->getParentId());
 
@@ -116,22 +141,5 @@ trait HasNestedTreeStructure
     public function useNestedTreeStructure(): bool
     {
         return $this->useNestedTreeStructure;
-    }
-
-    /**
-     * newNestedTreeQuery creates a new query for nested sets
-     */
-    protected function newNestedTreeQuery()
-    {
-        $query = $this->newQuery();
-
-        // Scope the query only to the current holder's nodes.
-        if ($this->exists && $this->holder_id) {
-            $query
-                ->where('holder_id', $this->holder_id)
-                ->where('holder_type', $this->holder_type);
-        }
-
-        return $query;
     }
 }

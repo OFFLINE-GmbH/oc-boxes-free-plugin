@@ -71,6 +71,7 @@ class Plugin extends PluginBase
      */
     public function register()
     {
+        $this->registerConsoleCommand('boxes.heal', \OFFLINE\Boxes\Console\HealBoxesTreeCommand::class);
     }
 
     /**

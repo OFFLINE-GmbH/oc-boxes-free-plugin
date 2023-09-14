@@ -269,3 +269,5 @@
 - "Fixed replication of nested boxes"
 3.1.19:
 - "Fixed moving of duplicated boxes"
+3.1.20:
+- "Introduced new boxes:heal-tree artisan command to heal broken Page tree structures"

@@ -630,4 +630,21 @@ class Box extends Model
     protected function handleSpecialPartials(): void
     {
     }
+
+    /**
+     * newNestedTreeQuery creates a new query for nested sets
+     */
+    protected function newNestedTreeQuery()
+    {
+        $query = $this->newQuery();
+
+        // Scope the query only to the current holder's nodes.
+        if ($this->exists && $this->holder_id) {
+            $query
+                ->where('holder_id', $this->holder_id)
+                ->where('holder_type', $this->holder_type);
+        }
+
+        return $query;
+    }
 }
