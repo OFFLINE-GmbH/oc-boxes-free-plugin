@@ -271,3 +271,5 @@
 - "Fixed moving of duplicated boxes"
 3.1.20:
 - "Introduced new boxes:heal-tree artisan command to heal broken Page tree structures"
+3.1.21:
+- "Handle nested Boxes correctly when running the new tree healing command"
