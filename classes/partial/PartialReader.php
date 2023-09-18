@@ -4,6 +4,7 @@ namespace OFFLINE\Boxes\Classes\Partial;
 
 use App;
 use Cms\Classes\Theme;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
 use LogicException;
@@ -31,6 +32,11 @@ class PartialReader
     public const MIXIN_PREFIX = '_mixin';
 
     /**
+     * We look for the following token in a single partial file to determine if it is a single file partial.
+     */
+    public const SINGLE_FILE_TOKEN = 'handle:';
+
+    /**
      * Additional partial paths registered by 3rd-party plugins.
      * @var array<string>
      */
@@ -55,6 +61,8 @@ class PartialReader
      * The boxes.yaml definition from `/themes/<theme>/boxes.yaml`
      */
     protected Collection $boxesConfig;
+
+    private ?Collection $cachedPartials = null;
 
     public function __construct()
     {
@@ -96,7 +104,7 @@ class PartialReader
         $this->byHandle = new Collection();
 
         foreach ($partialPaths as $partialPath) {
-            $config = $this->configForPartial($partialPath->getPathname());
+            $config = $this->configForPartial($partialPath);
 
             if ($this->byHandle->has($config->handle)) {
                 throw new LogicException(
@@ -121,15 +129,19 @@ class PartialReader
     /**
      * Return the parsed YAML config for a given yaml file.
      */
-    public function configForPartial(string $yamlPath): PartialConfig
+    public function configForPartial(SplFileInfo $file): PartialConfig
     {
-        $yamlPath = str_replace_last('.htm', '.yaml', $yamlPath);
+        if (property_exists($file, '_boxes_single_file_partial')) {
+            return PartialConfig::fromSingleFileHtm($file);
+        }
+
+        $yamlPath = str_replace_last('.htm', '.yaml', $file->getPathname());
 
         if (!$yamlPath || !file_exists($yamlPath)) {
             return new PartialConfig();
         }
 
-        return PartialConfig::fromPath($yamlPath);
+        return PartialConfig::fromYaml($yamlPath);
     }
 
     /**
@@ -201,6 +213,10 @@ class PartialReader
      */
     protected function getPartials(): Collection
     {
+        if ($this->cachedPartials) {
+            return $this->cachedPartials;
+        }
+
         $eventPaths = array_filter(array_flatten(Event::fire(Events::REGISTER_PARTIAL_PATH) ?? []));
 
         $additionalPaths = array_map(fn ($path) => $this->makeAbsolute($path), $eventPaths);
@@ -220,8 +236,10 @@ class PartialReader
         // Only include partials/YAML pairs. Single partials and single YAMLs must be ignored,
         // except YAML starting with _mixin.
         $partialsWithConfig = [];
+        $knownPartialPaths = [];
 
         foreach ($files as $file) {
+            // This is a mixin.
             if (starts_with($file->getFilename(), self::MIXIN_PREFIX)) {
                 $partialsWithConfig[] = $file;
 
@@ -230,12 +248,36 @@ class PartialReader
 
             $htm = str_replace(['.yml', '.yaml'], '', $file->getRealPath()) . '.htm';
 
+            // This YAML config has a matching htm file.
             if (file_exists($htm)) {
                 $partialsWithConfig[] = $file;
+                $knownPartialPaths[$htm] = true;
             }
         }
 
-        return collect($partialsWithConfig);
+        // Search for single file partials.
+        try {
+            $files = Finder::create()->files()->name(['*.htm'])->in($paths);
+        } catch (DirectoryNotFoundException $e) {
+            $files = false;
+        }
+
+        if ($files && $files->hasResults()) {
+            foreach ($files as $file) {
+                // We have already processed this partial in the previous loop.
+                if (array_key_exists($file->getRealPath(), $knownPartialPaths)) {
+                    continue;
+                }
+
+                if ($this->includesSingleFileToken($file)) {
+                    $file->_boxes_single_file_partial = true;
+
+                    $partialsWithConfig[] = $file;
+                }
+            }
+        }
+
+        return $this->cachedPartials = collect($partialsWithConfig);
     }
 
     /**
@@ -283,9 +325,41 @@ class PartialReader
         $partials = collect([]);
 
         if (Features::instance()->references) {
-            $partials->push(PartialConfig::fromPath('plugins/offline/boxes/views/partials/reference.yaml'));
+            $partials->push(PartialConfig::fromYaml('plugins/offline/boxes/views/partials/reference.yaml'));
         }
 
         return $partials;
+    }
+
+    /**
+     * Checks if the file starts with a single file token.
+     */
+    private function includesSingleFileToken(SplFileInfo $file): bool
+    {
+        // We only check the first 3 lines.
+        $searchLineCount = 3;
+
+        try {
+            $handle = fopen($file->getRealPath(), 'rb');
+
+            if (!$handle) {
+                return false;
+            }
+
+            $lineNum = 0;
+            while (++$lineNum <= $searchLineCount) {
+                $line = fgets($handle, 20);
+
+                if (starts_with(trim($line), self::SINGLE_FILE_TOKEN)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (Exception $e) {
+            return false;
+        } finally {
+            fclose($handle);
+        }
     }
 }

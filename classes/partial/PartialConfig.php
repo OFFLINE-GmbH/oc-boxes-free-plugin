@@ -2,6 +2,7 @@
 
 namespace OFFLINE\Boxes\Classes\Partial;
 
+use Exception;
 use Illuminate\Support\Facades\URL;
 use October\Rain\Parse\Yaml;
 use RuntimeException;
@@ -15,6 +16,8 @@ class PartialConfig
     public const MIXIN_TYPE = 'mixin';
 
     public const PARTIAL_CONTEXT_SEPARATOR = '||';
+
+    public const PARTIAL_CONFIG_SEPARATOR = '==';
 
     public string $handle = '';
 
@@ -48,9 +51,17 @@ class PartialConfig
 
     public array $contexts = [];
 
+    public bool $isSingleFile = false;
+
     public function __construct(SplFileInfo $file = null)
     {
         if (!$file) {
+            return;
+        }
+
+        if (property_exists($file, '_boxes_single_file_partial')) {
+            $this->processSingleFileHtmFile($file);
+
             return;
         }
 
@@ -65,43 +76,27 @@ class PartialConfig
         // Normalize Windows paths.
         $path = str_replace('\\', '/', $path);
 
-        $yaml = (new Yaml())->parseFileCached($path);
-
-        if (!isset($yaml['handle']) || !$yaml['handle']) {
+        try {
+            $yaml = (new Yaml())->parseFileCached($path);
+        } catch (Exception $e) {
             throw new RuntimeException(
                 sprintf(
-                    '[OFFLINE.Boxes] YAML config for partial "%s" has no "handle" property defined. Add a unique custom handle to the YAML configuration file.',
+                    '[OFFLINE.Boxes] The partial "%s" contains invalid YAML. Please check the syntax: "%s"',
                     $path,
+                    $e->getMessage(),
                 )
             );
         }
 
-        $yaml['path'] = $path;
-        $yaml['icon'] = $yaml['icon'] ?? '';
-        $yaml['placeholderPreview'] = $yaml['placeholderPreview'] ?? true;
-        $yaml['section'] = isset($yaml['section']) ? trans($yaml['section']) : '';
-        $yaml['name'] = trans($yaml['name'] ?? $yaml['handle']);
-        $yaml['contexts'] = $yaml['contexts'] ?? ['default'];
-
-        if (array_get($yaml, 'children') === true) {
-            $yaml['children'] = ['default'];
-        } else {
-            $yaml['children'] = $yaml['children'] ?? [];
-        }
-
-        foreach ($yaml as $key => $value) {
-            $this->{$key} = $value;
-        }
-
-        $this->setDefaults();
+        $this->applyYaml($path, $yaml);
     }
 
-    public static function fromPath(string $yamlPath)
+    public static function fromYaml(string $yamlPath): self
     {
         return new self(new SplFileInfo($yamlPath));
     }
 
-    public static function fromArray(array $config)
+    public static function fromArray(array $config): self
     {
         $partial = new self();
 
@@ -112,6 +107,11 @@ class PartialConfig
         $partial->setDefaults();
 
         return $partial;
+    }
+
+    public static function fromSingleFileHtm(\Symfony\Component\Finder\SplFileInfo $file): self
+    {
+        return (new self())->processSingleFileHtmFile($file);
     }
 
     /**
@@ -213,6 +213,28 @@ class PartialConfig
         return count(array_intersect($this->contexts, $contexts)) > 0;
     }
 
+    protected function processSingleFileHtmFile(SplFileInfo $file): self
+    {
+        $this->isSingleFile = true;
+
+        $parts = explode(self::PARTIAL_CONFIG_SEPARATOR, file_get_contents($file->getPathname()));
+
+        if (count($parts) < 2) {
+            throw new RuntimeException(
+                sprintf(
+                    '[OFFLINE.Boxes] The partial "%s" does not contain a valid yaml configuration section. Please separate the file into sections using "%s" as a separator.',
+                    $file->getRelativePathname(),
+                    self::PARTIAL_CONFIG_SEPARATOR
+                )
+            );
+        }
+
+        // Remove all INI parts.
+        $yamlPart = preg_replace('/\s?^\[.*\]\n(?:.+\s+=\s+.+\n?)*/m', '', $parts[0]);
+
+        return $this->applyYaml($file->getRealPath(), (new Yaml())->parse($yamlPart));
+    }
+
     protected function setDefaults()
     {
         if (!$this->icon) {
@@ -222,5 +244,38 @@ class PartialConfig
         if (!$this->section) {
             $this->section = trans('offline.boxes::lang.section_common');
         }
+    }
+
+    private function applyYaml($path, array $yaml): self
+    {
+        if (!isset($yaml['handle']) || !$yaml['handle']) {
+            throw new RuntimeException(
+                sprintf(
+                    '[OFFLINE.Boxes] YAML config for partial "%s" has no "handle" property defined. Add a unique custom handle to the YAML configuration file.',
+                    $path,
+                )
+            );
+        }
+
+        $yaml['path'] = $path;
+        $yaml['icon'] = $yaml['icon'] ?? '';
+        $yaml['placeholderPreview'] = $yaml['placeholderPreview'] ?? true;
+        $yaml['section'] = isset($yaml['section']) ? trans($yaml['section']) : '';
+        $yaml['name'] = trans($yaml['name'] ?? $yaml['handle']);
+        $yaml['contexts'] = $yaml['contexts'] ?? ['default'];
+
+        if (array_get($yaml, 'children') === true) {
+            $yaml['children'] = ['default'];
+        } else {
+            $yaml['children'] = $yaml['children'] ?? [];
+        }
+
+        foreach ($yaml as $key => $value) {
+            $this->{$key} = $value;
+        }
+
+        $this->setDefaults();
+
+        return $this;
     }
 }
