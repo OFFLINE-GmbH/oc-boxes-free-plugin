@@ -275,3 +275,5 @@
 - "Handle nested Boxes correctly when running the new tree healing command"
 3.2.0:
 - "Implemented support for single file partials (see https://docs.boxes.offline.ch/concepts/box-configs.html#defining-the-box-config-inline)"
+3.2.2:
+- "Improved single fie partial support"
