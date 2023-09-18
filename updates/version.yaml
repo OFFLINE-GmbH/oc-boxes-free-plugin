@@ -277,3 +277,5 @@
 - "Implemented support for single file partials (see https://docs.boxes.offline.ch/concepts/box-configs.html#defining-the-box-config-inline)"
 3.2.2:
 - "Improved single fie partial support"
+3.2.3:
+- "Fixed Boxes free release"
