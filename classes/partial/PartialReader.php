@@ -256,6 +256,8 @@ class PartialReader
         }
 
         // Search for single file partials.
+        $paths = [$this->themePartialsDir . '/boxes', ...$this->additionalPartialPaths];
+
         try {
             $files = Finder::create()->files()->name(['*.htm'])->in($paths);
         } catch (DirectoryNotFoundException $e) {
