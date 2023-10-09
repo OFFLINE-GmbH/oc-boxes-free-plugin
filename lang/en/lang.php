@@ -83,6 +83,7 @@ return [
     'display_per_column' => 'Per Column',
     'site_root_id' => 'Page on main site',
     'site_root_id_comment' => 'When switching sites, this page is used to redirect the user',
+    'this_page_is_root' => 'This page is main',
     'no_root_page' => 'No page on main site',
     'reference_hint_title' => 'This Box is part a reference',
     'reference_hint_text' => 'Changes to this Box might be visible on multiple pages.',

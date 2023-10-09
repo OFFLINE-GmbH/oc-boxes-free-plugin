@@ -83,6 +83,7 @@ return [
     'display_per_column' => 'Pro Spalte',
     'site_root_id' => 'Hauptseite',
     'site_root_id_comment' => 'Beim Wechseln zwischen Sprachen wird diese Seite als Basis verwendet',
+    'this_page_is_root' => 'Diese Seite ist die Hauptseite',
     'no_root_page' => 'Ohne Hauptseite',
     'reference_hint_title' => 'Diese Box Teil eines Verweises',
     'reference_hint_text' => 'Änderungen am Inhalt werden womöglich an mehreren Stellen sichtbar.',

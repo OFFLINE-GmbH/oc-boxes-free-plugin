@@ -12,6 +12,8 @@ class Features
 
     public bool $multisite;
 
+    public bool $multisiteMirror = true;
+
     public bool $references;
 
     public bool $placeholderPreviews;
@@ -20,6 +22,7 @@ class Features
     {
         $this->revisions = config('offline.boxes::features.revisions', false);
         $this->multisite = config('offline.boxes::features.multisite', false);
+        $this->multisiteMirror = config('offline.boxes::features.multisite_mirror', true);
         $this->references = config('offline.boxes::features.references', false);
         $this->placeholderPreviews = config('offline.boxes::features.placeholderPreviews', true);
     }
@@ -34,6 +37,7 @@ class Features
         return [
             'revisions' => $this->revisions,
             'multisite' => $this->multisite,
+            'multisiteMirror' => $this->multisiteMirror,
             'references' => $this->references,
             'placeholderPreviews' => $this->placeholderPreviews,
         ];

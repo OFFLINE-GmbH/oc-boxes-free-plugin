@@ -279,3 +279,5 @@
 - "Improved single fie partial support"
 3.2.3:
 - "Fixed Boxes free release"
+3.3.0:
+- "Added new BOXES_MULTISITE_MIRRORING_ENABLED config option to out-out of automatic Page mirroring when switching sites"
