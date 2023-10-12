@@ -303,6 +303,7 @@ class Plugin extends PluginBase
         $getTypeInfo = function ($type) {
             if ($type === Page::MENU_TYPE_PAGES) {
                 $refs = Page::query()
+                    ->current()
                     ->with([
                         'children' => fn ($q) => $q->where('url', '<>', ''),
                     ])
