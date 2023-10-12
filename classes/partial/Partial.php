@@ -64,21 +64,12 @@ class Partial
             return '';
         }
 
-        $themePath = Theme::load(ThemeResolver::instance()?->getThemeCode())?->getPath();
+        $controller = Controller::getController() ?? new Controller();
 
-        // Normalize Windows paths.
-        $themePath = str_replace('\\', '/', $themePath);
+        $this->path = $this->normalizePath();
 
         $context->partial = $this;
         $context->box = $box;
-
-        $controller = Controller::getController() ?? new Controller();
-
-        if (starts_with($this->path, $themePath)) {
-            $this->path = str_replace($themePath . '/partials/', '', $this->path);
-        } elseif (starts_with($this->path, plugins_path())) {
-            $this->path = sprintf('%s%s', self::EXTERNAL_PREFIX, $this->path);
-        }
 
         $output = $controller->renderPartial(
             $this->path,
@@ -187,5 +178,23 @@ class Partial
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    /**
+     * Make this partial's path relative to the Theme directory.
+     */
+    private function normalizePath(): string
+    {
+        foreach (ThemeResolver::instance()?->getThemePaths() as $themePath) {
+            if (starts_with($this->path, $themePath)) {
+                return str_replace($themePath . '/partials/', '', $this->path);
+            }
+
+            if (starts_with($this->path, plugins_path())) {
+                return sprintf('%s%s', self::EXTERNAL_PREFIX, $this->path);
+            }
+        }
+
+        return $this->path;
     }
 }

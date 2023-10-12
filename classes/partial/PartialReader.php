@@ -44,8 +44,9 @@ class PartialReader
 
     /**
      * The theme partials directory.
+     * @var array<string>
      */
-    protected string $themePartialsDir = '';
+    protected array $themePartialsDir = [];
 
     /**
      * Yaml Parser
@@ -68,19 +69,21 @@ class PartialReader
     {
         $theme = self::getSiteThemeFromContext();
 
-        $this->themePartialsDir = sprintf('%s/partials', $theme?->getPath());
+        if ($theme) {
+            $this->handleThemePartialsDir($theme);
+        }
 
         // Update the currently active theme when the site or theme is changed.
         Event::listen('system.site.setEditSite', function () {
             if ($theme = self::getSiteThemeFromContext()) {
-                $this->themePartialsDir = sprintf('%s/partials', $theme->getPath());
+                $this->handleThemePartialsDir($theme);
                 $this->init();
             }
         });
 
         Event::listen('cms.theme.setEditTheme', function ($code) {
             if ($theme = self::getSiteThemeFromContext()) {
-                $this->themePartialsDir = sprintf('%s/partials', $theme->getPath());
+                $this->handleThemePartialsDir($theme);
                 $this->init();
             }
         });
@@ -205,6 +208,20 @@ class PartialReader
     {
         return $this->boxesConfig;
     }
+
+    /**
+     * Gather and store the partial dirs from all themes (child/parent).
+     */
+    protected function handleThemePartialsDir(Theme $theme)
+    {
+        $this->themePartialsDir = [
+            sprintf('%s/partials', $theme->getPath()),
+        ];
+
+        if ($parentTheme = $theme->getParentTheme()) {
+            $this->themePartialsDir[] = sprintf('%s/partials', $parentTheme->getPath());
+        }
+    }
     
     /**
      * Returns all partials that have a YAML config.
@@ -221,17 +238,9 @@ class PartialReader
 
         $additionalPaths = array_map(fn ($path) => $this->makeAbsolute($path), $eventPaths);
 
-        $paths = [$this->themePartialsDir, ...$additionalPaths];
+        $paths = [...$this->themePartialsDir, ...$additionalPaths];
 
-        try {
-            $files = Finder::create()->files()->name(['*.yml', '*.yaml'])->in($paths);
-
-            if (!$files->hasResults()) {
-                return collect([]);
-            }
-        } catch (DirectoryNotFoundException $e) {
-            return collect([]);
-        }
+        $files = $this->findFiles($paths, ['*.yml', '*.yaml']);
 
         // Only include partials/YAML pairs. Single partials and single YAMLs must be ignored,
         // except YAML starting with _mixin.
@@ -256,15 +265,12 @@ class PartialReader
         }
 
         // Search for single file partials.
-        $paths = [$this->themePartialsDir . '/boxes', ...$this->additionalPartialPaths];
+        $themePaths = array_map(fn ($path) => $path . '/boxes', $this->themePartialsDir);
+        $paths = [...$themePaths, ...$this->additionalPartialPaths];
 
-        try {
-            $files = Finder::create()->files()->name(['*.htm'])->in($paths);
-        } catch (DirectoryNotFoundException $e) {
-            $files = false;
-        }
+        $files = $this->findFiles($paths, ['*.htm']);
 
-        if ($files && $files->hasResults()) {
+        if (count($files) > 0) {
             foreach ($files as $file) {
                 // We have already processed this partial in the previous loop.
                 if (array_key_exists($file->getRealPath(), $knownPartialPaths)) {
@@ -320,6 +326,37 @@ class PartialReader
     protected static function getSiteThemeFromContext(): ?Theme
     {
         return Theme::load(ThemeResolver::instance()?->getThemeCode());
+    }
+
+    /**
+     * Find files with a given name in a set of paths.
+     */
+    protected function findFiles(array $paths, array $patterns)
+    {
+        $files = [];
+
+        foreach ($paths as $path) {
+            try {
+                $finder = Finder::create()
+                    ->files()
+                    ->ignoreUnreadableDirs()
+                    ->name($patterns)
+                    ->in($path);
+
+                if (!$finder->hasResults()) {
+                    continue;
+                }
+
+                foreach ($finder as $file) {
+                    $files[] = $file;
+                }
+            } catch (DirectoryNotFoundException $e) {
+                // Ignore missing dirs.
+                continue;
+            }
+        }
+
+        return $files;
     }
 
     private function getSystemPartials()

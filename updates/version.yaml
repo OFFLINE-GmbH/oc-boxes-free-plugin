@@ -281,3 +281,5 @@
 - "Fixed Boxes free release"
 3.3.0:
 - "Added new BOXES_MULTISITE_MIRRORING_ENABLED config option to out-out of automatic Page mirroring when switching sites"
+3.3.1:
+- "Added child-theme support'
