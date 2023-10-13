@@ -282,6 +282,6 @@
 3.3.0:
 - "Added new BOXES_MULTISITE_MIRRORING_ENABLED config option to out-out of automatic Page mirroring when switching sites"
 3.3.1:
-- "Added child-theme support'
+- "Added child-theme support"
 3.3.2:
-- "Always use latest version when generating menu items'
+- "Always use latest version when generating menu items"
