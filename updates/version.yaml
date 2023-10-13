@@ -285,3 +285,7 @@
 - "Added child-theme support"
 3.3.2:
 - "Always use latest version when generating menu items"
+3.3.3:
+- "Fixed Migration-Error from Version Bump"   
+3.3.4:
+- "Fixed Migration-Error from Version Bump 2"    
