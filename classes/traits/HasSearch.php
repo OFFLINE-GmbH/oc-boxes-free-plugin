@@ -12,6 +12,7 @@ trait HasSearch
     public function scopeSearch(Builder $q, string $searchQuery): Builder
     {
         return $q
+            ->current()
             ->where('is_hidden', false)
             ->where(function ($q) use ($searchQuery) {
                 $q

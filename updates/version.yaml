@@ -291,3 +291,5 @@
 - "Fixed Migration-Error from Version Bump 2"    
 3.3.5:
 - "Minor multi-site bugs fixed"
+3.3.6:
+- "Fixed pages from appearing multiple times in SiteSearch results"
