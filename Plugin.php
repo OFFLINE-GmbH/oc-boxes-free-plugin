@@ -97,11 +97,22 @@ class Plugin extends PluginBase
 
         // Dynamically create a CMS page that is available via the Controller::PREVIEW_URL.
         Event::listen('cms.router.beforeRoute', function ($url) {
-            // Ignore the route prefix if it is set.
             $site = Site::getSiteFromContext();
 
+            // Ignore the route prefix if it is set.
             if ($site->is_prefixed) {
-                $url = str_replace($site->route_prefix, '', $url);
+                $prefix = $site->route_prefix;
+
+                if (!str_ends_with($prefix, '/')) {
+                    $prefix .= '/';
+                }
+
+                // Make sure to only replace the prefix at the beginning of the URL.
+                $pos = strpos($url, $prefix);
+
+                if ($pos !== false) {
+                    $url = substr_replace($url, '', $pos, strlen($prefix));
+                }
             }
 
             if (str_contains($url, Controller::PREVIEW_URL) && Backend\Facades\BackendAuth::getUser()) {

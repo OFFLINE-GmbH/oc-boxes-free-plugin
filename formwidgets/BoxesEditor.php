@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Session;
 use October\Rain\Exception\SystemException;
 use October\Rain\Support\Facades\Event;
 use October\Rain\Support\Facades\Flash;
-use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Classes\CMS\Controller;
 use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Features;
@@ -437,8 +436,6 @@ class BoxesEditor extends FormWidgetBase
 
         $previewType = $this->isFullMode() ? 'page' : 'content';
 
-        $site = Site::getSiteFromContext();
-
         $pages = $this->isFullMode()
             ? Page::currentDrafts()->orderBy('nest_left')->get()->toNested(false)
             : collect([]);
@@ -449,8 +446,8 @@ class BoxesEditor extends FormWidgetBase
             'pages' => $pages->values(),
             'partials' => PartialReader::instance()->listPartials([]),
             'i18n' => trans('offline.boxes::lang'),
-            'previewUrl' => url()->to($site->base_url . \OFFLINE\Boxes\Classes\CMS\Controller::PREVIEW_URL . $previewType),
-            'baseUrl' => url()->to($site?->base_url),
+            'previewUrl' => url()->to(\OFFLINE\Boxes\Classes\CMS\Controller::PREVIEW_URL . $previewType),
+            'baseUrl' => url()->to('/'),
             'mode' => $this->mode,
             'initialPageId' => $pageModel->id,
             'initialBoxId' => get('boxes_box'),

@@ -208,20 +208,6 @@ class PartialReader
     {
         return $this->boxesConfig;
     }
-
-    /**
-     * Gather and store the partial dirs from all themes (child/parent).
-     */
-    protected function handleThemePartialsDir(Theme $theme)
-    {
-        $this->themePartialsDir = [
-            sprintf('%s/partials', $theme->getPath()),
-        ];
-
-        if ($parentTheme = $theme->getParentTheme()) {
-            $this->themePartialsDir[] = sprintf('%s/partials', $parentTheme->getPath());
-        }
-    }
     
     /**
      * Returns all partials that have a YAML config.
