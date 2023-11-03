@@ -293,3 +293,5 @@
 - "Minor multi-site bugs fixed"
 3.3.6:
 - "Fixed pages from appearing multiple times in SiteSearch results"
+3.3.7:
+- "Fixed loading of nested pages in menu structures"

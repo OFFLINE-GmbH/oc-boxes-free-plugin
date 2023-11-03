@@ -91,7 +91,7 @@ trait HasMenuItems
 
         // Add the child pages to this item as well if nesting is active.
         if ($item->nesting) {
-            $children = $page->allChildren()->where('url', '<>', '')->get()->toNested(false);
+            $children = $page->allChildren()->current()->where('url', '<>', '')->get()->toNested(false);
 
             $menuItem['items'] = $iterator($children);
         }
