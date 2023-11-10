@@ -320,7 +320,7 @@ class Page extends Model
 
         $clone->moveAfter($this);
 
-        $this->moveNestedBoxesToNewParents($clone);
+        $this->moveNestedBoxesToNewParents($this, $clone);
 
         return $clone;
     }
@@ -526,36 +526,6 @@ class Page extends Model
     public static function multisiteCacheKey($pageId, $siteId)
     {
         return sprintf('boxes.pages.multisite.%d.%d', $pageId, $siteId);
-    }
-
-    /**
-     * Duplicated nested boxes still point to the original parent.
-     * This method moves them to the new parent.
-     */
-    protected function moveNestedBoxesToNewParents(Page $new)
-    {
-        $oldBoxes = $this->boxes->keyBy('id');
-        $newBoxes = $new->boxes->keyBy('unique_id');
-
-        $new->boxes->each(function ($box) use ($oldBoxes, $newBoxes) {
-            if (!$box->parent_id) {
-                return;
-            }
-
-            $originalParent = $oldBoxes[$box->parent_id] ?? null;
-
-            if (!$originalParent) {
-                return;
-            }
-
-            $newParent = $newBoxes[$originalParent->unique_id] ?? null;
-
-            if ($newParent) {
-                $box->nest_depth = $newParent->nest_depth + 1;
-                $box->parent_id = $newParent->id;
-                $box->save();
-            }
-        });
     }
 
     /**

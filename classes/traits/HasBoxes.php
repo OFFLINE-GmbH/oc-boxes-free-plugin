@@ -9,6 +9,8 @@ use October\Rain\Support\Collection;
 use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Partial\RenderContext;
 use OFFLINE\Boxes\Models\Box;
+use OFFLINE\Boxes\Models\Content;
+use OFFLINE\Boxes\Models\Page;
 use System\Models\File;
 
 trait HasBoxes
@@ -176,6 +178,40 @@ trait HasBoxes
         });
 
         $this->componentsAdded = true;
+    }
+
+    /**
+     * Duplicated nested boxes still point to the original parent.
+     * This method moves them to the new parent.
+     *
+     * @var Page|Content $new
+     * @param mixed $oldModel
+     * @param mixed $newModel
+     */
+    protected function moveNestedBoxesToNewParents($oldModel, $newModel)
+    {
+        $oldBoxes = $oldModel->boxes->keyBy('id');
+        $newBoxes = $newModel->boxes->keyBy('unique_id');
+
+        $newModel->boxes->each(function ($box) use ($oldBoxes, $newBoxes) {
+            if (!$box->parent_id) {
+                return;
+            }
+
+            $originalParent = $oldBoxes[$box->parent_id] ?? null;
+
+            if (!$originalParent) {
+                return;
+            }
+
+            $newParent = $newBoxes[$originalParent->unique_id] ?? null;
+
+            if ($newParent) {
+                $box->nest_depth = $newParent->nest_depth + 1;
+                $box->parent_id = $newParent->id;
+                $box->save();
+            }
+        });
     }
     
     /**
