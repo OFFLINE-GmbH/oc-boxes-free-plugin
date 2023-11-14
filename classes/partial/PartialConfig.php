@@ -19,6 +19,8 @@ class PartialConfig
 
     public const PARTIAL_CONFIG_SEPARATOR = '==';
 
+    public const SYSTEM_PARTIAL = 'system';
+
     public string $handle = '';
 
     public array $children = [];
@@ -53,6 +55,8 @@ class PartialConfig
 
     public bool $isSingleFile = false;
 
+    public string $specialCategory = '';
+
     public function __construct(SplFileInfo $file = null)
     {
         if (!$file) {
@@ -67,7 +71,7 @@ class PartialConfig
 
         $path = $file->getRealPath();
 
-        // Under some circumstances (symlinks, etc.) the real path is not available.
+        // Under some circumstances (symlinks, etc.) the pathname is not available.
         // We try a fallback version here.
         if (!$path) {
             $path = base_path($file);

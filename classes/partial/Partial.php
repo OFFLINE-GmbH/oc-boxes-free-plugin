@@ -190,7 +190,7 @@ class Partial
                 return str_replace($themePath . '/partials/', '', $this->path);
             }
 
-            if (starts_with($this->path, plugins_path())) {
+            if ($this->config->specialCategory === PartialConfig::SYSTEM_PARTIAL || starts_with($this->path, plugins_path())) {
                 return sprintf('%s%s', self::EXTERNAL_PREFIX, $this->path);
             }
         }

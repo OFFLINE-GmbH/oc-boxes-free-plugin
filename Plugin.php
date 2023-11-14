@@ -81,15 +81,13 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        $basePath = App::basePath();
-
-        Event::listen('cms.page.beforeRenderPartial', function ($controller, $partial) use ($basePath) {
+        Event::listen('cms.page.beforeRenderPartial', function ($controller, $partial) {
             // Allow external partials to be loaded by the CMS. This allows
             // third-party plugins to provide custom partials for the plugin.
             if (starts_with($partial, Partial::EXTERNAL_PREFIX)) {
                 $filename = str_replace(Partial::EXTERNAL_PREFIX, '', $partial);
 
-                if (file_exists($filename) && starts_with($filename, $basePath)) {
+                if (file_exists($filename)) {
                     return ExternalPartial::load('', $filename);
                 }
             }

@@ -179,6 +179,33 @@ trait HasBoxes
 
         $this->componentsAdded = true;
     }
+    
+    /**
+     * Recursively create Boxes from a configuration array.
+     * @param null|mixed $parentBoxId
+     */
+    public function createBoxesFromConfig(Collection $boxes, $parentBoxId = null): Collection
+    {
+        $configuredBoxes = collect([]);
+
+        foreach ($boxes as $box) {
+            if ($parentBoxId !== null) {
+                $box['parent_id'] = $parentBoxId;
+            }
+
+            $mainBox = Box::make($box);
+            $configuredBoxes->push($mainBox);
+
+            if (isset($box['children'])) {
+                $mainBox->save();
+                $configuredBoxes = $configuredBoxes->merge(
+                    $this->createBoxesFromConfig(collect($box['children']), $mainBox->id)
+                );
+            }
+        }
+
+        return $configuredBoxes;
+    }
 
     /**
      * Duplicated nested boxes still point to the original parent.
@@ -213,7 +240,7 @@ trait HasBoxes
             }
         });
     }
-    
+
     /**
      * Validates the asset definition and adds default values for missing keys.
      */

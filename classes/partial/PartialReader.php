@@ -364,7 +364,9 @@ class PartialReader
         $partials = collect([]);
 
         if (Features::instance()->references) {
-            $partials->push(PartialConfig::fromYaml('plugins/offline/boxes/views/partials/reference.yaml'));
+            $partial = PartialConfig::fromYaml('plugins/offline/boxes/views/partials/reference.yaml');
+            $partial->specialCategory = PartialConfig::SYSTEM_PARTIAL;
+            $partials->push($partial);
         }
 
         return $partials;
