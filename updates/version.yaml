@@ -299,3 +299,5 @@
 - "Added missing method to free version"
 3.3.10:
 - "Fixed replication of nested content boxes"
+3.3.11:
+- "Optimized handling of preview pages on multisite setups"

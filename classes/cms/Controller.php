@@ -10,6 +10,7 @@ use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
+use Site;
 use System\Classes\SiteManager;
 use System\Models\SiteDefinition;
 
@@ -58,6 +59,14 @@ class Controller
             return null;
         }
 
+        // Make sure the active Site is always the site the page belongs to.
+        // Drafts can be viewed on hostnames that could technically belong to
+        // another site. This makes sure that the draft is always displayed
+        // using the right site context.
+        if ($draftId && Site::getActiveSite()?->id !== $page->site_id) {
+            Site::setActiveSiteId($page->site_id);
+        }
+
         if (class_exists(\RainLab\Translate\Models\Locale::class)) {
             $page->translateContext(Translator::instance()->getLocale());
         }
@@ -91,6 +100,13 @@ class Controller
         $model = $previewType === 'page' ? Page::withoutGlobalScope(MultisiteScope::class) : Content::query();
 
         $page = $model->find($pageId);
+
+        // Make sure the active Site is always the site the page belongs to.
+        // This is required if the backend is viewed on a hostname that
+        // technically belongs to another site.
+        if (Site::getActiveSite()?->id !== $page->site_id) {
+            Site::setActiveSiteId($page->site_id);
+        }
 
         if (!$page) {
             return null;
