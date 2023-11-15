@@ -303,3 +303,5 @@
 - "Optimized handling of preview pages on multisite setups"
 3.3.12:
 - "Fixed handling of Boxes references when using symlinks"
+3.3.13:
+- "Improved handling of partials in child themes"

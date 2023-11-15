@@ -110,6 +110,22 @@ class PartialReader
             $config = $this->configForPartial($partialPath);
 
             if ($this->byHandle->has($config->handle)) {
+                $currentTheme = self::getSiteThemeFromContext();
+
+                // If this is a child theme, it is possible that the parent theme has the same partial.
+                // In this case, simply ignore it.
+                if ($currentTheme && $currentTheme->hasParentTheme()) {
+                    // Only consider partials from themes here.
+                    if (!str_starts_with($partialPath->getPath(), themes_path())) {
+                        continue;
+                    }
+
+                    // The partial is not from the current theme, so ignore it.
+                    if (!str_starts_with($partialPath->getPath(), $currentTheme->getPath())) {
+                        continue;
+                    }
+                }
+
                 throw new LogicException(
                     sprintf(
                         '[OFFLINE.Boxes] Duplicate partial handle "%s" detected. Make sure to use each handle only once.',
