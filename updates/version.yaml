@@ -305,3 +305,5 @@
 - "Fixed handling of Boxes references when using symlinks"
 3.3.13:
 - "Improved handling of partials in child themes"
+3.3.14:
+- "Added two events to filter available partials (see https://docs.boxes.offline.ch/reference/events.html)"

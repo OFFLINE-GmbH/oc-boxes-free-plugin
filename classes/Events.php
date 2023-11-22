@@ -17,4 +17,8 @@ class Events
     public const EDITOR_RENDER = 'offline.boxes.editorRender';
 
     public const EDITOR_EXTEND_PAGES = 'offline.boxes.editorExtendPages';
+
+    public const BEFORE_FILTER_PARTIALS = 'offline.boxes.beforeFilterPartials';
+
+    public const FILTER_PARTIALS = 'offline.boxes.filterPartials';
 }

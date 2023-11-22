@@ -143,6 +143,12 @@ class PartialReader
             ->getSystemPartials()
             ->mapInto(Partial::class)
             ->each(fn (Partial $partial) => $this->byHandle->put($partial->config->handle, $partial));
+
+        // Notify consumers about all available partials.
+        Event::fire(Events::BEFORE_FILTER_PARTIALS, [clone $this->byHandle]);
+
+        // Allow consumers to filter the available partials.
+        Event::fire(Events::FILTER_PARTIALS, [$this->byHandle]);
     }
 
     /**
