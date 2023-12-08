@@ -286,9 +286,9 @@
 3.3.2:
 - "Always use latest version when generating menu items"
 3.3.3:
-- "Fixed Migration-Error from Version Bump"   
+- "Fixed Migration-Error from Version Bump"
 3.3.4:
-- "Fixed Migration-Error from Version Bump 2"    
+- "Fixed Migration-Error from Version Bump 2"
 3.3.5:
 - "Minor multi-site bugs fixed"
 3.3.6:
@@ -307,3 +307,5 @@
 - "Improved handling of partials in child themes"
 3.3.14:
 - "Added two events to filter available partials (see https://docs.boxes.offline.ch/reference/events.html)"
+3.3.15:
+- "Added dutch translations (thanks to @RitsmG)"
