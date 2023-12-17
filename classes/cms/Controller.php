@@ -101,15 +101,15 @@ class Controller
 
         $page = $model->find($pageId);
 
+        if (!$page) {
+            return null;
+        }
+
         // Make sure the active Site is always the site the page belongs to.
         // This is required if the backend is viewed on a hostname that
         // technically belongs to another site.
         if (Site::getActiveSite()?->id !== $page->site_id) {
             Site::setActiveSiteId($page->site_id);
-        }
-
-        if (!$page) {
-            return null;
         }
 
         $cmsPage = $page->buildCmsPage();

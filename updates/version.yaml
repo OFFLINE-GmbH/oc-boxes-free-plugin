@@ -309,3 +309,5 @@
 - "Added two events to filter available partials (see https://docs.boxes.offline.ch/reference/events.html)"
 3.3.15:
 - "Added dutch translations (thanks to @RitsmG)"
+3.3.16:
+- "Fixed publishing of nested boxes"

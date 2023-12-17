@@ -211,12 +211,18 @@ trait HasBoxes
      * Duplicated nested boxes still point to the original parent.
      * This method moves them to the new parent.
      *
-     * @var Page|Content $new
      * @param mixed $oldModel
      * @param mixed $newModel
+     * @var Page|Content $new
      */
     protected function moveNestedBoxesToNewParents($oldModel, $newModel)
     {
+        // The duplicated boxes become their own new origin.
+        $newModel->boxes->each(function (Box $box) {
+            $box->origin_box_id = $box->id;
+            $box->save();
+        });
+
         $oldBoxes = $oldModel->boxes->keyBy('id');
         $newBoxes = $newModel->boxes->keyBy('unique_id');
 
