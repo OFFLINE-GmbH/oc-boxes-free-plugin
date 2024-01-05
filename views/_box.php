@@ -1,5 +1,5 @@
 <?php
-/** @var \OFFLINE\Boxes\Classes\Partial\RenderContext $context */
+/** @var OFFLINE\Boxes\Classes\Partial\RenderContext $context */
 
 /** @var string $output */
 
@@ -29,7 +29,7 @@ if ($renderScaffolding):
         data-box-name="<?= e($context->partial->config->name); ?>"
         <?php if ($context->partial->config->children): ?>
             data-box-supports-children
-            data-box-partial-contexts="<?= e(implode(\OFFLINE\Boxes\Classes\Partial\PartialConfig::PARTIAL_CONTEXT_SEPARATOR, $context->partial->config->children)); ?>"
+            data-box-partial-contexts="<?= e(implode(OFFLINE\Boxes\Classes\Partial\PartialConfig::PARTIAL_CONTEXT_SEPARATOR, $context->partial->config->children)); ?>"
         <?php endif; ?>
         <?php
             if (is_array($box->locked) && count($box->locked) > 0):

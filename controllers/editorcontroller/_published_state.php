@@ -1,8 +1,8 @@
 <?php
-/** @var \OFFLINE\Boxes\Models\Page $record */
+/** @var OFFLINE\Boxes\Models\Page $record */
 $class = match ($record->published_state) {
-    \OFFLINE\Boxes\Classes\PublishedState::DRAFT => 'text-info',
-    \OFFLINE\Boxes\Classes\PublishedState::PUBLISHED => 'text-success',
+    OFFLINE\Boxes\Classes\PublishedState::DRAFT => 'text-info',
+    OFFLINE\Boxes\Classes\PublishedState::PUBLISHED => 'text-success',
     default => 'text-muted',
 };
 ?>

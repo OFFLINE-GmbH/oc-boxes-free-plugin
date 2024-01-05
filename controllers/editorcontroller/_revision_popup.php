@@ -1,5 +1,5 @@
 <?php
-/** @var \OFFLINE\Boxes\Models\Page $revision */
+/** @var OFFLINE\Boxes\Models\Page $revision */
 /** @var string $previewUrl */
 ?>
 <div class="flex flex-col user-select-none w-full">

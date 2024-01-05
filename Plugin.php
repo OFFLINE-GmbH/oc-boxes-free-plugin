@@ -71,7 +71,7 @@ class Plugin extends PluginBase
      */
     public function register()
     {
-        $this->registerConsoleCommand('boxes.heal', \OFFLINE\Boxes\Console\HealBoxesTreeCommand::class);
+        $this->registerConsoleCommand('boxes.heal', Console\HealBoxesTreeCommand::class);
     }
 
     /**
@@ -181,7 +181,7 @@ class Plugin extends PluginBase
                 $model->implement[] = \OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class;
             });
 
-            if (class_exists(\OFFLINE\Boxes\Models\Content::class)) {
+            if (class_exists(Content::class)) {
                 Content::extend(static function ($model) {
                     $model->implement[] = \OFFLINE\Seeder\Behaviors\HasSeederFactoryBehavior::class;
                 });

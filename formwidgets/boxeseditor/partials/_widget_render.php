@@ -1,6 +1,6 @@
 <?php
 /** @var $handler */
-/** @var \Backend\Widgets\Form $widget */
+/** @var Backend\Widgets\Form $widget */
 ?>
 
 <?= Form::open(['id' => 'boxes-page-form', 'data-change-monitor' => 1]); ?>

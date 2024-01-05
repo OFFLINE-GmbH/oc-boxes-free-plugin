@@ -377,7 +377,7 @@ class Page extends Model
      */
     public function getLayoutOptions()
     {
-        return (new \Cms\Classes\Page())->getLayoutOptions();
+        return (new CmsPage())->getLayoutOptions();
     }
 
     /**

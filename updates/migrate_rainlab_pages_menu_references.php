@@ -56,7 +56,7 @@ class MigrateRainlabPagesMenuReferences extends Migration
             })->toArray();
         };
 
-        \RainLab\Pages\Classes\Menu::get()->each(function (Menu $menu) use ($iterator, $map) {
+        Menu::get()->each(function (Menu $menu) use ($iterator, $map) {
             $items = $iterator(collect($menu->items));
 
             $menu->item_data = $map($items);

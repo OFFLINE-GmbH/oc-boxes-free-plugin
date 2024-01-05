@@ -16,7 +16,7 @@ class FixFaultyPagePublishing extends Migration
             return;
         }
 
-        \OFFLINE\Boxes\Models\Page::query()
+        OFFLINE\Boxes\Models\Page::query()
             ->where('published_state', '<>', 'draft')
             ->get()
             ->each

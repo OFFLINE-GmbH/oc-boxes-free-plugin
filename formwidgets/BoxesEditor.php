@@ -446,7 +446,7 @@ class BoxesEditor extends FormWidgetBase
             'pages' => $pages->values(),
             'partials' => PartialReader::instance()->listPartials([]),
             'i18n' => trans('offline.boxes::lang'),
-            'previewUrl' => url()->to(\OFFLINE\Boxes\Classes\CMS\Controller::PREVIEW_URL . $previewType),
+            'previewUrl' => url()->to(Controller::PREVIEW_URL . $previewType),
             'baseUrl' => url()->to('/'),
             'mode' => $this->mode,
             'initialPageId' => $pageModel->id,
@@ -542,7 +542,7 @@ class BoxesEditor extends FormWidgetBase
         }
         // In case of a onSaveAttachmentConfig handler, we can find the Box by the attachment
         // ID that is being edited in this request.
-        elseif (post('file_id') && str_contains($this->getController()->getAjaxHandler(), 'onSaveAttachmentConfig')) {
+        elseif (post('file_id') && post('Box') && str_contains($this->getController()->getAjaxHandler(), 'onSaveAttachmentConfig')) {
             $box = File::findOrFail(post('file_id'))->attachment;
         }
 
