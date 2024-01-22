@@ -315,3 +315,5 @@
 - "Fixed editing of file attachment details when using Boxes in a custom plugin form"
 3.3.18:
 - "Keep site_root_id when publishing Pages"
+3.3.19:
+- "Fixed revisions status query"
