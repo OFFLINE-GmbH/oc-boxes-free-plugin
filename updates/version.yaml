@@ -313,3 +313,5 @@
 - "Fixed publishing of nested boxes"
 3.3.17:
 - "Fixed editing of file attachment details when using Boxes in a custom plugin form"
+3.3.18:
+- "Keep site_root_id when publishing Pages"
