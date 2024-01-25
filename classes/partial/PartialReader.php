@@ -188,14 +188,11 @@ class PartialReader
     {
         $toolsSection = Lang::get('offline.boxes::lang.tools_section');
 
-        $partialList = $this
-            ->getPartials()
-            ->filter(fn (SplFileInfo $info) => !starts_with($info->getFilename(), self::MIXIN_PREFIX))
-            ->mapInto(PartialConfig::class)
-            ->concat($this->getSystemPartials())
+        $partialList = $this->byHandle
+            ->pluck('config')
             ->filter(fn (PartialConfig $config) => $config->isAvailableInContext($context))
-            ->sortBy(fn ($partial) => $partial->section === $toolsSection ? 'ZZZZZZ_LAST_SECTION' : $partial->section)
-            ->keyBy('handle');
+            ->filter(fn (PartialConfig $config) => !starts_with(basename($config->path), self::MIXIN_PREFIX))
+            ->sortBy(fn (PartialConfig $config) => $config->section === $toolsSection ? 'ZZZZZZ_LAST_SECTION' : $config->section);
 
         // Use the section order from the boxes.yaml file, if available.
         $sectionOrder = array_flip($this->boxesConfig->get('sections', []));
