@@ -444,7 +444,7 @@ class BoxesEditor extends FormWidgetBase
 
         return [
             'pages' => $pages->values(),
-            'partials' => PartialReader::instance()->listPartials([]),
+            'partials' => PartialReader::instance()->listPartials([])->keyBy('handle'),
             'i18n' => trans('offline.boxes::lang'),
             'previewUrl' => url()->to(Controller::PREVIEW_URL . $previewType),
             'baseUrl' => url()->to('/'),
