@@ -5,6 +5,7 @@ namespace OFFLINE\Boxes\Classes\Partial;
 use Exception;
 use Illuminate\Support\Facades\URL;
 use October\Rain\Parse\Yaml;
+use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
 use RuntimeException;
 use SplFileInfo;
 
@@ -20,6 +21,8 @@ class PartialConfig
     public const PARTIAL_CONFIG_SEPARATOR = '==';
 
     public const SYSTEM_PARTIAL = 'system';
+
+    public const EXTERNAL_PARTIAL = 'external';
 
     public string $handle = '';
 
@@ -57,6 +60,8 @@ class PartialConfig
 
     public string $specialCategory = '';
 
+    protected string $themePath = '';
+
     public function __construct(SplFileInfo $file = null)
     {
         if (!$file) {
@@ -91,6 +96,8 @@ class PartialConfig
                 )
             );
         }
+
+        $this->themePath = themes_path(ThemeResolver::instance()->getThemeCode());
 
         $this->applyYaml($path, $yaml);
     }
@@ -247,6 +254,10 @@ class PartialConfig
 
         if (!$this->section) {
             $this->section = trans('offline.boxes::lang.section_common');
+        }
+
+        if (!$this->specialCategory && !str_starts_with($this->path, $this->themePath)) {
+            $this->specialCategory = self::EXTERNAL_PARTIAL;
         }
     }
 

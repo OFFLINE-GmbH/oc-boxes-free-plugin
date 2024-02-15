@@ -72,6 +72,8 @@ class Plugin extends PluginBase
     public function register()
     {
         $this->registerConsoleCommand('boxes.heal', Console\HealBoxesTreeCommand::class);
+
+        Event::listen('editor.extension.register', fn () => Classes\Editor\EditorExtension::class);
     }
 
     /**
