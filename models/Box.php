@@ -108,6 +108,12 @@ class Box extends Model
     ];
 
     public $hasMany = [
+        'repeater_items' => [
+            RepeaterItem::class,
+            'key' => 'parent_id',
+            'delete' => true,
+            'replicate' => true,
+        ],
     ];
 
     public $belongsTo = [
