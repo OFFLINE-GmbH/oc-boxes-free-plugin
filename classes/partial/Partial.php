@@ -144,6 +144,15 @@ class Partial
     }
 
     /**
+     * Relative path to the partial in the current theme's directory.
+     * @return string
+     */
+    public function relativePartialName()
+    {
+        return str_replace($this->config->themePath . '/partials', '', $this->path);
+    }
+
+    /**
      * Return the preview image file.
      */
     protected function getExampleImage(): ?File

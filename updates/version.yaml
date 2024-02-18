@@ -321,3 +321,5 @@
 - "Fixed offline.boxes.filterPartials event being ignored in partial selector"
 3.3.21:
 - "Fixed structure list in Backend Editor"
+3.4.0:
+- "You can now edit Boxes directly in the Editor section in the backend"

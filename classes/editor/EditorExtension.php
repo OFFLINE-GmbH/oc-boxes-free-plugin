@@ -15,6 +15,7 @@ use OFFLINE\Boxes\Classes\Exceptions\PartialNotFoundException;
 use OFFLINE\Boxes\Classes\Partial\PartialConfig;
 use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\VueComponents\EditorExtension as EditorExtensionVueComponent;
+use RuntimeException;
 use SystemException;
 use ValidationException;
 
@@ -220,19 +221,22 @@ class EditorExtension extends ExtensionBase
             $sectionNode->setDisplayMode(NodeDefinition::DISPLAY_MODE_TREE);
             $sectionNode->setChildKeyPrefix('boxes:');
 
-            $basePath = '';
+            $basePath = false;
             $sectionKey = 'Common';
 
             // Guess the path and section key based on the first partial.
             if ($firstPartial = $partials->firstWhere('specialCategory', '<>', PartialConfig::EXTERNAL_PARTIAL)) {
-                $basePath = pathinfo($firstPartial->path, PATHINFO_DIRNAME);
-                $basePath = str_replace($this->getPartialsPath(), '', $basePath);
+                $parts = explode('partials', pathinfo($firstPartial->path, PATHINFO_DIRNAME));
+
+                if (count($parts) > 1) {
+                    $basePath = $parts[1];
+                }
 
                 $sectionKey = $firstPartial->section;
             }
 
             // Only add the creation actions if at least one partial of this section is within the current theme.
-            if ($basePath) {
+            if ($basePath !== false) {
                 $this->addSectionMenuItems($sectionNode, $sectionKey, $basePath);
             }
 
@@ -314,6 +318,8 @@ class EditorExtension extends ExtensionBase
             throw new ValidationException(['fileName' => 'Partial with the same name already exists.']);
         }
 
+        $this->ensureDir(dirname($partialPath));
+
         file_put_contents($partialPath, $markup);
         file_put_contents($configPath, $config);
 
@@ -347,39 +353,34 @@ class EditorExtension extends ExtensionBase
         file_put_contents($partial->path, $markup);
 
         // Handle rename.
-        [$relativePartialName, $isExternal] = $this->getRelativePartialPath($partial->path);
-
+        $relativePartialName = $partial->relativePartialName();
         $relativePartialName = trim($relativePartialName, " \n\r\t\v\0/\\");
-        $ext = pathinfo($relativePartialName, PATHINFO_EXTENSION);
 
-        $relativePartialName = str_replace('.' . $ext, '', $relativePartialName);
+        // Remove the file extension from the relative path.
+        $relativePartialName = $this->removeExtension($relativePartialName);
 
         if ($fileName !== $relativePartialName) {
-            if ($isExternal) {
+            if ($partial->config->specialCategory === PartialConfig::EXTERNAL_PARTIAL) {
                 throw new ValidationException(['fileName' => 'Renaming external partials is currently not supported.']);
             }
 
-            $oldMarkupName = $this->getPartialsPath($relativePartialName . '.htm');
-            $newMarkupName = $this->getPartialsPath($fileName . '.htm');
+            $oldMarkupName = $partial->config->themePath . '/partials/' . $relativePartialName . '.htm';
+            $newMarkupName = $partial->config->themePath . '/partials/' . $fileName . '.htm';
 
-            $partialDir = realpath(dirname($newMarkupName));
-
-            if (!str_starts_with($partialDir, $this->getPartialsPath())) {
-                throw new ValidationException(['fileName' => 'Renaming partials outside of the theme directory is not allowed.']);
+            if (file_exists($newMarkupName)) {
+                throw new ValidationException(['fileName' => 'Partial with the same name already exists.']);
             }
 
             // Ensure the directory structure exists.
-            if (!is_dir(dirname($newMarkupName))) {
-                mkdir(dirname($newMarkupName), 0774, true);
-            }
+            $this->ensureDir(dirname($newMarkupName));
 
             rename($oldMarkupName, $newMarkupName);
 
             if (!$partial->config->isSingleFile) {
                 $ext = pathinfo($partial->config->path, PATHINFO_EXTENSION);
 
-                $oldConfigName = $this->getPartialsPath(str_replace('.htm', '', $relativePartialName) . '.' . $ext);
-                $newConfigName = $this->getPartialsPath(str_replace('.htm', '', $fileName) . '.' . $ext);
+                $oldConfigName = str_replace('.htm', '', $oldMarkupName) . '.' . $ext;
+                $newConfigName = str_replace('.htm', '', $newMarkupName) . '.' . $ext;
 
                 if (file_exists($oldConfigName)) {
                     rename($oldConfigName, $newConfigName);
@@ -390,6 +391,9 @@ class EditorExtension extends ExtensionBase
         return $this->buildActionReturnValue($newHandle);
     }
 
+    /**
+     * Return value for save and create actions.
+     */
     protected function buildActionReturnValue(string $handle)
     {
         // Make sure there is no cached data since we may have changed
@@ -405,7 +409,7 @@ class EditorExtension extends ExtensionBase
             throw new SystemException('Partial not found');
         }
 
-        [$filename, $isExternal] = $this->getRelativePartialPath($partial->path);
+        $filename = $partial->relativePartialName();
 
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -428,7 +432,6 @@ class EditorExtension extends ExtensionBase
             'name' => $partial->config->name,
             'uniqueKey' => base64_encode($handle),
             'type' => 'offline-boxes',
-            'isExternal' => $isExternal,
         ];
 
         return [
@@ -437,6 +440,9 @@ class EditorExtension extends ExtensionBase
         ];
     }
 
+    /**
+     * Add the main menu item sections.
+     */
     protected function addSectionMenuItems(NodeDefinition $section, string $sectionKey, string $basePath)
     {
         $createMenuItem = new ItemDefinition(ItemDefinition::TYPE_TEXT, Lang::get('offline.boxes::lang.create_box'), 'offline.boxes:create-document@boxes');
@@ -450,34 +456,32 @@ class EditorExtension extends ExtensionBase
     }
 
     /**
-     * Return the path to the partials directory of the current Theme.
+     * Remove an extension from a path.
+     * @param string $path
      * @return string
      */
-    protected function getPartialsPath(?string $filename = '')
+    protected function removeExtension(string $path): string
     {
-        $theme = ThemeResolver::instance()->getThemeCode();
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-        return rtrim(themes_path($theme . '/partials/' . $filename), '/');
+        if ($ext) {
+            $path = str_replace('.' . $ext, '', $path);
+        }
+
+        return $path;
     }
 
     /**
-     * @param string $fileName
-     * @return array{string, bool}
+     * Ensure a directory exists.
+     * @param string $dirname
+     * @return void
      */
-    protected function getRelativePartialPath(string $path): array
+    protected function ensureDir(string $dirname)
     {
-        // By default, use the partial's filename as the name.
-        $filename = pathinfo($path, PATHINFO_FILENAME);
-        $isExternal = true;
-
-        $partialsPath = $this->getPartialsPath();
-
-        // If the partial is in our theme's partials directory, use the relative path as the name.
-        if (str_starts_with($path, $partialsPath)) {
-            $filename = str_replace($partialsPath, '', $path);
-            $isExternal = false;
+        if (!is_dir($dirname)) {
+            if (!mkdir($dirname, 0755, true) && !is_dir($dirname)) {
+                throw new RuntimeException(sprintf('Failed to create "%s"', $dirname));
+            }
         }
-
-        return [$filename, $isExternal];
     }
 }

@@ -20,8 +20,14 @@ class PartialConfig
 
     public const PARTIAL_CONFIG_SEPARATOR = '==';
 
+    /**
+     * System partials are special partials provided by the plugin itself.
+     */
     public const SYSTEM_PARTIAL = 'system';
 
+    /**
+     * External partials are not stored in the theme directory (i.e. provided by a plugin).
+     */
     public const EXTERNAL_PARTIAL = 'external';
 
     public string $handle = '';
@@ -60,7 +66,7 @@ class PartialConfig
 
     public string $specialCategory = '';
 
-    protected string $themePath = '';
+    public string $themePath = '';
 
     public function __construct(SplFileInfo $file = null)
     {
@@ -97,7 +103,13 @@ class PartialConfig
             );
         }
 
-        $this->themePath = themes_path(ThemeResolver::instance()->getThemeCode());
+        $themePaths = array_reverse(ThemeResolver::instance()->getThemePaths());
+
+        foreach ($themePaths as $themePath) {
+            if (str_starts_with($path, $themePath)) {
+                $this->themePath = $themePath;
+            }
+        }
 
         $this->applyYaml($path, $yaml);
     }
@@ -256,7 +268,7 @@ class PartialConfig
             $this->section = trans('offline.boxes::lang.section_common');
         }
 
-        if (!$this->specialCategory && !str_starts_with($this->path, $this->themePath)) {
+        if (!$this->specialCategory && !str_starts_with($this->path, themes_path())) {
             $this->specialCategory = self::EXTERNAL_PARTIAL;
         }
     }

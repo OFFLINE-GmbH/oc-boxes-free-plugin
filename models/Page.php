@@ -292,15 +292,19 @@ class Page extends Model
 
     /**
      * Create a copy of this page.
+     * @param mixed $noSuffix
+     * @param mixed $noMove
      */
-    public function duplicate()
+    public function duplicate($noSuffix = false, $noMove = false)
     {
         $clone = $this->replicateWithRelations();
         $clone->useNestedTreeStructure = true;
 
-        $clone->name .= ' (' . trans('offline.boxes::lang.copy_noun') . ')';
+        if (!$noSuffix) {
+            $clone->name .= ' (' . trans('offline.boxes::lang.copy_noun') . ')';
+        }
 
-        if ($clone->url) {
+        if ($clone->url && !$noSuffix) {
             $clone->url .= '-copy';
         }
 
@@ -318,7 +322,9 @@ class Page extends Model
         $clone->origin_page_id = $clone->id;
         $clone->save();
 
-        $clone->moveAfter($this);
+        if (!$noMove) {
+            $clone->moveAfter($this);
+        }
 
         $this->moveNestedBoxesToNewParents($this, $clone);
 
