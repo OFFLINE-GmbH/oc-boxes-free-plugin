@@ -30,7 +30,6 @@ The following table compares the features of both versions:
 | [Revisions](https://docs.boxes.offline.ch/concepts/revisions.html)                                                    | ✅   | ❌    |
 | [References](https://docs.boxes.offline.ch/concepts/box-references.html)                                              | ✅   | ❌    |
 | [Multisite Support](https://docs.boxes.offline.ch/use-cases/multisite.html)                                           | ✅   | ❌    |
-| [Exporting and Importing](https://docs.boxes.offline.ch/use-cases/export-import.html)                                 | ✅   | ❌    |
 | [Page Templates](https://docs.boxes.offline.ch/use-cases/page-templates.html)                                         | ✅   | ❌    |
 
 ## 📕 Documentation

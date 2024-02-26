@@ -6,6 +6,7 @@ columns:
     published_by:
         label: 'offline.boxes::lang.published_by_short'
         type: partial
+        path: published_by
     published_at:
         label: 'offline.boxes::lang.published_at'
         type: timetense

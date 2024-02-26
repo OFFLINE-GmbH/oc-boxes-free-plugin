@@ -44,6 +44,7 @@ tabs:
             tab: CMS
         revisions:
             type: partial
+            path: revisions
             tab: 'offline.boxes::lang.revisions'
         meta_title:
             label: 'cms::lang.editor.meta_title'

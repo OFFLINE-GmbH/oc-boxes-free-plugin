@@ -326,3 +326,5 @@
 3.4.1:
 - "Added support for repeater item models with file attachment support (see https://docs.boxes.offline.ch/use-cases/relations.html#repeater-relations-with-file-upload-support-since-v3-4)"
 - create_repeater_items_table.php
+3.4.2:
+- "Fixed compatibility issue with October 3.6"
