@@ -328,3 +328,7 @@
 - create_repeater_items_table.php
 3.4.2:
 - "Fixed compatibility issue with October 3.6"
+3.4.3:
+- "Fixed 'Add Box' action when nested more than two levels deep"
+3.4.4:
+- "Fixed 'Add Box' action when nested more than two levels deep"
