@@ -3,12 +3,12 @@
 namespace OFFLINE\Boxes\Components;
 
 use Backend\Facades\BackendAuth;
-use Closure;
 use Cms\Classes\ComponentBase;
 use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Classes\PublishedState;
+use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 
@@ -78,11 +78,11 @@ class BoxesPage extends ComponentBase
 
         $this->boxesPage = $this->page[$this->alias] = $model->query()
             ->with([
-                'boxes' => $this->eagerLoadBoxes(),
+                'boxes' => Box::eagerLoadClause(),
             ])
             ->when(
                 $this->modelType === Page::class,
-                fn ($q) => $q->with(['children.boxes' => $this->eagerLoadBoxes()]),
+                fn ($q) => $q->with(['children.boxes' => Box::eagerLoadClause()]),
             )
             ->when(
                 // Hide hidden pages from non-admins.
@@ -107,17 +107,6 @@ class BoxesPage extends ComponentBase
                 fn ($q) => $q->withoutGlobalScope(MultisiteScope::class)->where('id', $id)
             )
             ->first();
-    }
-
-    /**
-     * Returns a query scope that only returns enabled boxes (for non-admins).
-     */
-    protected function eagerLoadBoxes(): Closure
-    {
-        return static fn ($q) => $q->when(
-            !BackendAuth::getUser(),
-            fn ($q) => $q->where('is_enabled', true)->when(Features::instance()->references, fn ($q) => $q->with('reference')),
-        );
     }
 
     /**

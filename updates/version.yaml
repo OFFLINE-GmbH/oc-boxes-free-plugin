@@ -332,3 +332,5 @@
 - "Fixed 'Add Box' action when nested more than two levels deep"
 3.4.4:
 - "Fixed 'Add Box' action when nested more than two levels deep"
+3.4.5:
+- "Fixed eager-loading of disabled Boxes"

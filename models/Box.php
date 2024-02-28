@@ -4,6 +4,7 @@ namespace OFFLINE\Boxes\Models;
 
 use App;
 use Backend\Facades\BackendAuth;
+use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Model;
@@ -533,6 +534,25 @@ class Box extends Model
     public function uniqueComponentAlias(string $component): string
     {
         return $component . $this->unique_id;
+    }
+
+    /**
+     * Returns a query clause that only returns enabled Boxes and
+     * loads references, if enabled.
+     *
+     * This can be used when eager loading Boxes.
+     *
+     * @return Closure
+     */
+    public static function eagerLoadClause(array $with = [])
+    {
+        return static function ($q) use ($with) {
+            $q
+                ->when(!BackendAuth::getUser(), fn ($q) => $q->where('is_enabled', true))
+                ->when(Features::instance()->references, fn ($q) => $q->with('reference'))
+                ->when(count($with), fn ($q) => $q->with($with))
+            ;
+        };
     }
 
     /**

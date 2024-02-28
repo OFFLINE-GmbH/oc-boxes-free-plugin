@@ -44,14 +44,15 @@ trait HasBoxes
         $eagerLoads = $this->boxes
             ->flatMap(fn (Box $box) => $box->getPartial()?->config?->eagerLoad ?? [])
             ->filter()
-            ->map(fn (string $eagerLoad) => 'boxes.' . $eagerLoad)
-            ->when(
-                class_exists(\RainLab\Translate\Plugin::class),
-                fn ($collection) => $collection->push('translations')
-            );
+            ->map(fn (string $eagerLoad) => $eagerLoad)
+            ->unique();
 
         if ($eagerLoads->count()) {
-            $this->load($eagerLoads->toArray());
+            $this->load(['boxes' => Box::eagerLoadClause($eagerLoads->toArray())]);
+        }
+
+        if (class_exists(\RainLab\Translate\Plugin::class)) {
+            $this->load('translations');
         }
 
         $boxes = $this->boxes->toNested();
