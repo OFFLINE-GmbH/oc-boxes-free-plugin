@@ -97,15 +97,18 @@ trait HasNestedTreeStructure
 
     public function scopeCurrentThemeSiteAndStatus($query)
     {
-        if (!$this->exists()) {
-            return;
-        }
-
         if (get_class($this) === Page::class) {
-            $query
-                ->where('site_id', $this->site_id)
-                ->where('published_state', $this->published_state)
-                ->where('theme', $this->theme);
+            if ($this->site_id) {
+                $query->where('site_id', $this->site_id);
+            }
+
+            if ($this->published_state) {
+                $query->where('published_state', $this->published_state);
+            }
+
+            if ($this->theme) {
+                $query->where('theme', $this->theme);
+            }
         }
 
         if (get_class($this) === Box::class) {
@@ -141,5 +144,13 @@ trait HasNestedTreeStructure
     public function useNestedTreeStructure(): bool
     {
         return $this->useNestedTreeStructure;
+    }
+
+    /**
+     * newNestedTreeQuery creates a new query for nested sets
+     */
+    protected function newNestedTreeQuery()
+    {
+        return $this->newQuery()->currentThemeSiteAndStatus();
     }
 }

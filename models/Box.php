@@ -550,8 +550,7 @@ class Box extends Model
             $q
                 ->when(!BackendAuth::getUser(), fn ($q) => $q->where('is_enabled', true))
                 ->when(Features::instance()->references, fn ($q) => $q->with('reference'))
-                ->when(count($with), fn ($q) => $q->with($with))
-            ;
+                ->when(count($with), fn ($q) => $q->with($with));
         };
     }
 

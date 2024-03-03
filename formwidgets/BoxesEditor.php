@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use October\Rain\Exception\SystemException;
 use October\Rain\Support\Facades\Event;
 use October\Rain\Support\Facades\Flash;
+use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Classes\CMS\Controller;
 use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Features;
@@ -21,6 +22,7 @@ use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RuntimeException;
 use System\Models\File;
+use System\Models\SiteDefinition;
 
 /**
  * BoxesEditor Form Widget.
@@ -442,6 +444,12 @@ class BoxesEditor extends FormWidgetBase
 
         Event::fire(Events::EDITOR_EXTEND_PAGES, [&$pages]);
 
+        $sites = Site::listEnabled()->map(fn (SiteDefinition $site) => [
+            'id' => $site->id,
+            'name' => $site->name,
+            'locale' => $site->locale,
+        ])->toArray();
+
         return [
             'pages' => $pages->values(),
             'partials' => PartialReader::instance()->listPartials([])->keyBy('handle'),
@@ -457,6 +465,8 @@ class BoxesEditor extends FormWidgetBase
             'draftParam' => Controller::DRAFT_ID_PARAM,
             'partialContexts' => $this->partialContexts,
             'features' => Features::instance()->toArray(),
+            'sites' => $sites,
+            'site' => Site::getSiteFromContext(),
         ];
     }
 

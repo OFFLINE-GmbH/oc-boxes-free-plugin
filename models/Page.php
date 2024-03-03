@@ -574,29 +574,4 @@ class Page extends Model
             Cache::forget(self::multisiteCacheKey($this->id, $site->id));
         }
     }
-
-    /**
-     * newNestedTreeQuery creates a new query for nested sets
-     */
-    protected function newNestedTreeQuery()
-    {
-        $query = $this->newQuery();
-
-        // Scope the query to the current site/theme.
-        if ($this->exists) {
-            if ($this->site_id) {
-                $query->where('site_id', $this->site_id);
-            }
-
-            if ($this->theme) {
-                $query->where('theme', $this->theme);
-            }
-
-            if ($this->published_state) {
-                $query->where('published_state', $this->published_state);
-            }
-        }
-
-        return $query;
-    }
 }

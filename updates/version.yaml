@@ -334,3 +334,5 @@
 - "Fixed 'Add Box' action when nested more than two levels deep"
 3.4.5:
 - "Fixed eager-loading of disabled Boxes"
+3.5.0:
+- "Disabled automatic page mirroring when switching sites (see https://docs.boxes.offline.ch/getting-started/changelog.html)"
