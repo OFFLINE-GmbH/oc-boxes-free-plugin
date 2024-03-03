@@ -338,3 +338,5 @@
 - "Disabled automatic page mirroring when switching sites (see https://docs.boxes.offline.ch/getting-started/changelog.html)"
 3.5.1:
 - "Added offline.boxes.filterLayouts event"
+3.5.2:
+- "Optimized Boxes sorting"
