@@ -336,3 +336,5 @@
 - "Fixed eager-loading of disabled Boxes"
 3.5.0:
 - "Disabled automatic page mirroring when switching sites (see https://docs.boxes.offline.ch/getting-started/changelog.html)"
+3.5.1:
+- "Added offline.boxes.filterLayouts event"

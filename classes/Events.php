@@ -21,4 +21,6 @@ class Events
     public const BEFORE_FILTER_PARTIALS = 'offline.boxes.beforeFilterPartials';
 
     public const FILTER_PARTIALS = 'offline.boxes.filterPartials';
+
+    public const FILTER_LAYOUTS = 'offline.boxes.filterLayouts';
 }

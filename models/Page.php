@@ -7,6 +7,7 @@ use Backend\Models\User;
 use Backend\Widgets\Form;
 use Closure;
 use Cms\Classes\Page as CmsPage;
+use Event;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ use October\Rain\Exception\ValidationException;
 use October\Rain\Support\Facades\Str;
 use OFFLINE\Boxes\Classes\CMS\CmsPageParams;
 use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
+use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\Classes\PatchedTreeCollection;
@@ -383,7 +385,11 @@ class Page extends Model
      */
     public function getLayoutOptions()
     {
-        return (new CmsPage())->getLayoutOptions();
+        $layouts = collect((new CmsPage())->getLayoutOptions());
+
+        Event::fire(Events::FILTER_LAYOUTS, [$layouts]);
+
+        return $layouts->toArray();
     }
 
     /**
