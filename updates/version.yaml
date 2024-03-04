@@ -340,3 +340,5 @@
 - "Added offline.boxes.filterLayouts event"
 3.5.2:
 - "Optimized Boxes sorting"
+3.5.3:
+- "Minor UI tweak"
