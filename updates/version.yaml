@@ -348,3 +348,5 @@
 - "Introduced offline.boxes.extendBoxScaffoldingClasses Event to add custom css classes to the .oc-box elements"
 3.5.6:
 - "Ignore empty box scaffolding classes"
+3.5.7:
+- "Fixed passing scaffolding classes to children"

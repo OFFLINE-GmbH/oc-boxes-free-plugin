@@ -257,6 +257,9 @@ class Box extends Model
     {
         $context = $this->wrapContext($context);
 
+        // Clear scaffolding classes for children.
+        $context->scaffoldingClasses = [];
+
         $count = $this->children->count();
 
         if ($count === 0) {
@@ -279,6 +282,9 @@ class Box extends Model
     public function renderChild(RenderContext|array $context, int $childIndex): string
     {
         $context = $this->wrapContext($context);
+
+        // Clear scaffolding classes for children.
+        $context->scaffoldingClasses = [];
 
         return $this->children->get($childIndex, new Box())?->render($context) ?? '';
     }
