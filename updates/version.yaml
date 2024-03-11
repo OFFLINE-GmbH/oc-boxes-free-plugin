@@ -344,3 +344,5 @@
 - "Minor UI tweak"
 3.5.4:
 - "Updated default rich editor styles"
+3.5.5:
+- "Introduced offline.boxes.extendBoxScaffoldingClasses Event to add custom css classes to the .oc-box elements"

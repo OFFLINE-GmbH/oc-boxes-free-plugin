@@ -8,6 +8,8 @@ class Events
 
     public const BEFORE_BOX_RENDER = 'offline.boxes.beforeBoxRender';
 
+    public const EXTEND_BOX_SCAFFOLDING_CLASSES = 'offline.boxes.extendBoxScaffoldingClasses';
+
     public const AFTER_BOX_RENDER = 'offline.boxes.afterBoxRender';
 
     public const BEFORE_PAGE_RENDER = 'offline.boxes.beforePageRender';

@@ -224,6 +224,8 @@ class Box extends Model
 
         Event::fire(Events::BEFORE_BOX_RENDER, [$this, $context]);
 
+        $this->extendScaffoldingClasses($context);
+
         $contents = $this->getPartial()->render($this, $context);
 
         Event::fire(Events::AFTER_BOX_RENDER, [$this, $context, &$contents]);
@@ -671,5 +673,19 @@ class Box extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * Add additional classes to the scaffolding.
+     */
+    protected function extendScaffoldingClasses(RenderContext $context)
+    {
+        $scaffoldingClasses = Event::fire(Events::EXTEND_BOX_SCAFFOLDING_CLASSES, [$this, $context]);
+
+        if (is_array($scaffoldingClasses) && count($scaffoldingClasses) > 0) {
+            foreach ($scaffoldingClasses as $classes) {
+                array_push($context->scaffoldingClasses, ... $classes);
+            }
+        }
     }
 }

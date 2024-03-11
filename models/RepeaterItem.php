@@ -6,6 +6,8 @@ use October\Rain\Database\ExpandoModel;
 
 class RepeaterItem extends ExpandoModel
 {
+    use \October\Rain\Database\Traits\Sortable;
+
     public $table = 'offline_boxes_repeater_items';
 
     public $attachMany = [
@@ -18,5 +20,8 @@ class RepeaterItem extends ExpandoModel
         'file' => \System\Models\File::class,
     ];
 
-    protected $expandoPassthru = ['parent_id'];
+    protected $expandoPassthru = [
+        'parent_id',
+        'sort_order',
+    ];
 }

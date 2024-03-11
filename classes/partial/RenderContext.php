@@ -53,6 +53,11 @@ class RenderContext implements Iterator
     public bool $renderScaffolding = true;
 
     /**
+     * Holds additional classes for the scaffolding.
+     */
+    public array $scaffoldingClasses = [];
+
+    /**
      * The Partial that is being rendered.
      */
     public ?Partial $partial;

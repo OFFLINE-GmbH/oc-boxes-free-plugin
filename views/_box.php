@@ -19,6 +19,7 @@ if ($renderScaffolding):
         <?= $context->loop['last'] ? 'oc-box--last' : ''; ?>
         <?= !$box->is_enabled ? 'oc-box--disabled' : ''; ?>
         <?= e($box->spacingClasses); ?>
+        <?= e(count($context->scaffoldingClasses) ? implode(' ', $context->scaffoldingClasses) : ''); ?>
     "
     data-box="<?= e((string)$box->id); ?>"
     <?php if ($context->referenceFor): ?>
