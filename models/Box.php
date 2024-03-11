@@ -682,10 +682,18 @@ class Box extends Model
     {
         $scaffoldingClasses = Event::fire(Events::EXTEND_BOX_SCAFFOLDING_CLASSES, [$this, $context]);
 
-        if (is_array($scaffoldingClasses) && count($scaffoldingClasses) > 0) {
-            foreach ($scaffoldingClasses as $classes) {
-                array_push($context->scaffoldingClasses, ... $classes);
-            }
+        if (!is_array($scaffoldingClasses)) {
+            return;
+        }
+
+        $scaffoldingClasses = array_filter($scaffoldingClasses);
+
+        if (count($scaffoldingClasses) === 0) {
+            return;
+        }
+
+        foreach ($scaffoldingClasses as $classes) {
+            array_push($context->scaffoldingClasses, ... $classes);
         }
     }
 }

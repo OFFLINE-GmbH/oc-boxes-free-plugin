@@ -346,3 +346,5 @@
 - "Updated default rich editor styles"
 3.5.5:
 - "Introduced offline.boxes.extendBoxScaffoldingClasses Event to add custom css classes to the .oc-box elements"
+3.5.6:
+- "Ignore empty box scaffolding classes"
