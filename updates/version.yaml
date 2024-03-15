@@ -350,3 +350,5 @@
 - "Ignore empty box scaffolding classes"
 3.5.7:
 - "Fixed passing scaffolding classes to children"
+3.5.8:
+- "Hide pending placeholder when clicking on an existing Box"

@@ -242,6 +242,9 @@
                 return;
             }
 
+            // Remove any placeholders that might be visible.
+            placeholder.classList.remove('visible')
+
             let locked = []
 
             if (currentTarget.dataset.boxLocked) {
