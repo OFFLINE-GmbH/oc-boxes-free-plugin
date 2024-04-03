@@ -444,7 +444,7 @@ class BoxesEditor extends FormWidgetBase
 
         Event::fire(Events::EDITOR_EXTEND_PAGES, [&$pages]);
 
-        $sites = Site::listEnabled()->map(fn (SiteDefinition $site) => [
+        $sites = Site::listSites()->map(fn (SiteDefinition $site) => [
             'id' => $site->id,
             'name' => $site->name,
             'locale' => $site->locale,

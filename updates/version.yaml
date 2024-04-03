@@ -352,3 +352,5 @@
 - "Fixed passing scaffolding classes to children"
 3.5.8:
 - "Hide pending placeholder when clicking on an existing Box"
+3.5.9:
+- "Show all available Sites when copying a page"
