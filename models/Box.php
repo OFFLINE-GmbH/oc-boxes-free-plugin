@@ -181,6 +181,15 @@ class Box extends Model
             $this->setRulesFromPartial();
         });
 
+        $this->bindEvent('model.beforeSave', function () {
+            // Make sure there is no eager-loaded parent data present.
+            // If the nestedTreeStructure is not used, it won't be ignored in
+            // the generated SQL query. Unsetting it as a workaround.
+            if (!$this->useNestedTreeStructure) {
+                unset($this->parent);
+            }
+        });
+
         $this->bindEvent('model.afterFetch', function () {
             $this->setTranslatableFromPartial();
         });

@@ -354,3 +354,5 @@
 - "Hide pending placeholder when clicking on an existing Box"
 3.5.9:
 - "Show all available Sites when copying a page"
+3.5.10:
+- "Fixed replication of Pages with eager-loaded Box data'
