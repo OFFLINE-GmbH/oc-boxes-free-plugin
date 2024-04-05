@@ -111,7 +111,7 @@ trait HasNestedTreeStructure
             }
         }
 
-        if (get_class($this) === Box::class) {
+        if ($this->exists && get_class($this) === Box::class) {
             $query
                 ->where('holder_id', $this->holder_id)
                 ->where('holder_type', $this->holder_type);
@@ -126,7 +126,7 @@ trait HasNestedTreeStructure
      */
     public function scopeSiblings($query, $includeSelf = false)
     {
-        if (get_class($this) === Box::class) {
+        if ($this->exists && get_class($this) === Box::class) {
             // Scope the query only to the current holder's nodes.
             $query
                 ->where('holder_id', $this->holder_id)

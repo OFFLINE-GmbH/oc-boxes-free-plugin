@@ -356,3 +356,5 @@
 - "Show all available Sites when copying a page"
 3.5.11:
 - "Fixed replication of Pages with eager-loaded Box data"
+3.5.12:
+- "Fixed duplication of nested Boxes"
