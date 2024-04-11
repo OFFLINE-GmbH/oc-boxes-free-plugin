@@ -119,7 +119,7 @@ trait HasMenuItems
                     'url' => $pageUrl,
                     'title' => $child->name,
                     'isActive' => $pageUrl === $currentUrl,
-                    'viewBag' => ['isHidden' => (bool)$child->is_hidden],
+                    'viewBag' => ['isHidden' => $child->is_hidden || $child->is_hidden_in_navigation],
                 ];
 
                 if ($allowNesting && $child->children->count() > 0) {

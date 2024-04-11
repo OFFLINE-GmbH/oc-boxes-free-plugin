@@ -358,3 +358,5 @@
 - "Fixed replication of Pages with eager-loaded Box data"
 3.5.12:
 - "Fixed duplication of nested Boxes"
+3.5.13:
+- "Fixed hidden in navigation state of nested pages"
