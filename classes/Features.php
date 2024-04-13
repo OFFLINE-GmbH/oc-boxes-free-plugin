@@ -21,11 +21,11 @@ class Features
 
     public function init(): void
     {
-        $this->revisions = BoxesSetting::get('revisions_enabled', false);
-        $this->multisite = config('offline.boxes::features.multisite', false);
-        $this->references = config('offline.boxes::features.references', false);
-        $this->placeholderPreviews = config('offline.boxes::features.placeholderPreviews', true);
         $this->isProVersion = config('offline.boxes::features.isProVersion', false);
+        $this->revisions = $this->isProVersion && BoxesSetting::get('revisions_enabled', false);
+        $this->multisite = $this->isProVersion && config('offline.boxes::features.multisite', false);
+        $this->references = $this->isProVersion && config('offline.boxes::features.references', false);
+        $this->placeholderPreviews = config('offline.boxes::features.placeholderPreviews', true);
     }
 
     public function isEnabled(string $feature)

@@ -5,6 +5,7 @@ namespace OFFLINE\Boxes\Updates;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Updates\Migration;
+use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Models\BoxesSetting;
 
 /**
@@ -26,6 +27,11 @@ class SetInitialRevisionsSetting extends Migration
 
         // If the revisions system was explicitly disabled before, keep it disabled.
         if (config('offline.boxes::features.revisions') === false) {
+            $enableRevisions = false;
+        }
+
+        // Disable for non-pro versions by default.
+        if (!Features::instance()->isProVersion) {
             $enableRevisions = false;
         }
 
