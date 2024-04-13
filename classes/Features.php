@@ -3,6 +3,7 @@
 namespace OFFLINE\Boxes\Classes;
 
 use October\Rain\Support\Traits\Singleton;
+use OFFLINE\Boxes\Models\BoxesSetting;
 
 class Features
 {
@@ -16,12 +17,15 @@ class Features
 
     public bool $placeholderPreviews;
 
+    public bool $isProVersion;
+
     public function init(): void
     {
-        $this->revisions = config('offline.boxes::features.revisions', false);
+        $this->revisions = BoxesSetting::get('revisions_enabled', false);
         $this->multisite = config('offline.boxes::features.multisite', false);
         $this->references = config('offline.boxes::features.references', false);
         $this->placeholderPreviews = config('offline.boxes::features.placeholderPreviews', true);
+        $this->isProVersion = config('offline.boxes::features.isProVersion', false);
     }
 
     public function isEnabled(string $feature)

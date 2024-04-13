@@ -360,3 +360,6 @@
 - "Fixed duplication of nested Boxes"
 3.5.13:
 - "Fixed hidden in navigation state of nested pages"
+3.6.0:
+- "The revisions system is now configurable in the backend settings and is disabled by default for new installations"
+- set_initial_revisions_setting.php

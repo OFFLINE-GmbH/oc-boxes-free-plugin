@@ -19,12 +19,21 @@ fields:
         comment: offline.boxes::lang.settings.section_revisions_comment
         type: section
 
+    revisions_enabled:
+        label: offline.boxes::lang.settings.revisions_enabled
+        comment: offline.boxes::lang.settings.revisions_enabled_comment
+        type: switch
+
     revisions_cleanup_enabled:
         label: offline.boxes::lang.settings.revisions_cleanup_enabled
         comment: offline.boxes::lang.settings.revisions_cleanup_enabled_comment
         type: switch
         span: full
         default: 1
+        trigger:
+            action: show
+            field: revisions_enabled
+            condition: checked
 
     revisions_keep_number:
         label: offline.boxes::lang.settings.revisions_keep_number
@@ -32,6 +41,10 @@ fields:
         type: number
         span: auto
         default: 20
+        trigger:
+            action: show
+            field: revisions_cleanup_enabled
+            condition: checked
 
     revisions_keep_days:
         label: offline.boxes::lang.settings.revisions_keep_days
@@ -39,3 +52,7 @@ fields:
         type: number
         span: auto
         default: 14
+        trigger:
+            action: show
+            field: revisions_cleanup_enabled
+            condition: checked

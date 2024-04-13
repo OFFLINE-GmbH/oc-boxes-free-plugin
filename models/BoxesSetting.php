@@ -3,6 +3,8 @@
 namespace OFFLINE\Boxes\Models;
 
 use Model;
+use October\Rain\Element\ElementHolder;
+use OFFLINE\Boxes\Classes\Features;
 use ValidationException;
 
 class BoxesSetting extends Model
@@ -17,9 +19,20 @@ class BoxesSetting extends Model
 
     public function initSettingsData()
     {
-        $this->revisions_cleanup_enabled = true;
-        $this->revisions_keep_number = 20;
-        $this->revisions_keep_days = 14;
+        $this->revisions_enabled = false;
+        $this->revisions_cleanup_enabled = false;
+        $this->revisions_keep_number = 10;
+        $this->revisions_keep_days = 7;
+    }
+
+    public function filterFields(ElementHolder $fields, $context = null)
+    {
+        if (!Features::instance()->isProVersion) {
+            $fields->get('revisions_enabled')->hidden = true;
+            $fields->get('section_revisions')->hidden = true;
+            $fields->get('revisions_keep_number')->hidden = true;
+            $fields->get('revisions_keep_days')->hidden = true;
+        }
     }
 
     /**
