@@ -133,7 +133,7 @@ class Plugin extends PluginBase
                 return $controller->renderComponent($isEditor ? 'boxesPageEditor' : 'boxesPage');
             }
 
-            return '';
+            return null;
         });
 
         // Add the BoxList component to any page that serves a boxes page.

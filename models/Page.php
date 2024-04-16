@@ -175,6 +175,11 @@ class Page extends Model
         });
 
         $this->bindEvent('model.form.filterFields', function (Form $widget, ElementHolder $holder) {
+            // Do not extend nested forms (like repeaters).
+            if ($widget->isNested) {
+                return;
+            }
+
             // Hide Revisions Tab if feature is disabled.
             if (!Features::instance()->revisions) {
                 // Move it to an existing tab so there is no flash of the tab before it is hidden.

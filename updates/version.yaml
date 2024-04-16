@@ -365,3 +365,5 @@
 - set_initial_revisions_setting.php
 3.6.1:
 - "Fixed settings migration for free version."
+3.6.2:
+- "Added support for repeaters on the Page form"
