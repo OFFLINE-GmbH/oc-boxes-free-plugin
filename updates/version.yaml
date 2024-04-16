@@ -367,3 +367,5 @@
 - "Fixed settings migration for free version."
 3.6.2:
 - "Added support for repeaters on the Page form"
+3.6.3:
+- "Fixed sorting of nested Boxes in Editor sidebar"

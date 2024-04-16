@@ -186,12 +186,6 @@ class BoxesEditor extends FormWidgetBase
         } else {
             $box->moveAfter($relativeTo);
         }
-
-        $page = $this->resolvePageModel();
-
-        return $this->withState([
-            'id' => $box->id,
-        ]);
     }
 
     public function onDuplicateBox()
