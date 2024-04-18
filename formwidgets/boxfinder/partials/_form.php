@@ -1,5 +1,5 @@
 
 <?=
-/** @var Backend\Widgets\Form $widget */
+/** @var \Backend\Widgets\Form $widget */
 $widget->render();
 ?>

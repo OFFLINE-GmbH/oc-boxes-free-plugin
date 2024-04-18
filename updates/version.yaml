@@ -371,3 +371,5 @@
 - "Fixed sorting of nested Boxes in Editor sidebar"
 3.6.4:
 - "Fixed sorting of nested Boxes in Editor sidebar"
+3.6.6:
+- "Fixed missing 'Create page' action"
