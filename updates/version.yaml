@@ -377,3 +377,5 @@
 - "Fixed page query when revisions are disabled"
 3.6.8:
 - "Fixed support for Site theme overrides in Editor preview"
+3.6.9:
+- "Fixed support for Site theme overrides in Editor preview"

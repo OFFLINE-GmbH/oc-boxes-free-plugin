@@ -15,6 +15,7 @@ use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Classes\CMS\CmsPageParams;
 use OFFLINE\Boxes\Classes\CMS\Controller;
 use OFFLINE\Boxes\Classes\Features;
+use OFFLINE\Boxes\Classes\Middleware\SetSiteForPreviewUrls;
 use OFFLINE\Boxes\Classes\Partial\ExternalPartial;
 use OFFLINE\Boxes\Classes\Partial\Partial;
 use OFFLINE\Boxes\Classes\PatchedTreeCollection;
@@ -95,7 +96,11 @@ class Plugin extends PluginBase
             }
         });
 
-        // Dynamically create a CMS page that is available via the Controller::PREVIEW_URL.
+        // Check if we display a preview of a page or a draft. Apply the correct site context.
+        \Cms\Classes\CmsController::extend(function ($controller) {
+            $controller->middleware(SetSiteForPreviewUrls::class);
+        });
+
         Event::listen('cms.router.beforeRoute', function ($url) {
             $site = Site::getSiteFromContext();
 

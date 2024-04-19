@@ -42,7 +42,7 @@ class Controller
         $page = Page::query()
             ->when(
                 $draftId,
-                fn ($q) => $q->withoutGlobalScope(MultisiteScope::class)->where('id', $draftId),
+                fn ($q) => $q->withoutGlobalScopes([MultisiteScope::class, ThemeScope::class])->where('id', $draftId),
             )
             ->when(!$draftId, fn ($q) => $q->when(
                 class_exists(\RainLab\Translate\Models\Locale::class),
@@ -65,6 +65,8 @@ class Controller
         // using the right site context.
         if ($draftId && Site::getActiveSite()?->id !== $page->site_id) {
             Site::setActiveSiteId($page->site_id);
+
+            Site::applyActiveSite(Site::getActiveSite());
         }
 
         if (class_exists(\RainLab\Translate\Models\Locale::class)) {
@@ -89,7 +91,7 @@ class Controller
             }
         });
 
-        $previewParts = array_filter(explode('/', str_replace(self::PREVIEW_URL, '', $url)));
+        $previewParts = self::getPreviewPartsFromUrl($url);
 
         if (count($previewParts) !== 2) {
             return null;
@@ -119,5 +121,23 @@ class Controller
         $cmsPage->apiBag[CmsPageParams::BOXES_IS_EDITOR] = true;
 
         return $cmsPage;
+    }
+
+    /**
+     * Turns a URL like /__boxes-preview/page/650 into an array like ['page', '650'].
+     * @param string $url
+     * @return string[]
+     */
+    public static function getPreviewPartsFromUrl(string $url)
+    {
+        if (!str_starts_with($url, '/')) {
+            $url = '/' . $url;
+        }
+
+        if (!str_contains($url, self::PREVIEW_URL)) {
+            return [];
+        }
+
+        return array_values(array_filter(explode('/', str_replace(self::PREVIEW_URL, '', $url))));
     }
 }
