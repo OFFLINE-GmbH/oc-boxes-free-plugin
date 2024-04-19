@@ -375,3 +375,5 @@
 - "Fixed missing 'Create page' action"
 3.6.7:
 - "Fixed page query when revisions are disabled"
+3.6.8:
+- "Fixed support for Site theme overrides in Editor preview"

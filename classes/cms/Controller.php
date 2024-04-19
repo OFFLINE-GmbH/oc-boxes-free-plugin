@@ -6,6 +6,7 @@ use Backend\Facades\BackendAuth;
 use Cms\Classes\Page as CmsPage;
 use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Support\Traits\Singleton;
+use OFFLINE\Boxes\Classes\Scopes\ThemeScope;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
@@ -96,7 +97,7 @@ class Controller
 
         [$previewType, $pageId] = $previewParts;
 
-        $model = $previewType === 'page' ? Page::withoutGlobalScope(MultisiteScope::class) : Content::query();
+        $model = $previewType === 'page' ? Page::withoutGlobalScopes([MultisiteScope::class, ThemeScope::class]) : Content::query();
 
         $page = $model->find($pageId);
 
