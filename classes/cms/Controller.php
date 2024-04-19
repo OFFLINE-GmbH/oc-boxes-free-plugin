@@ -6,7 +6,6 @@ use Backend\Facades\BackendAuth;
 use Cms\Classes\Page as CmsPage;
 use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Support\Traits\Singleton;
-use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
@@ -50,7 +49,7 @@ class Controller
                 fn ($q) => $q->where('url', $url)
             ))
             ->when(
-                !$draftId && Features::instance()->revisions,
+                !$draftId,
                 fn ($q) => $q->current()
             )
             ->first();
