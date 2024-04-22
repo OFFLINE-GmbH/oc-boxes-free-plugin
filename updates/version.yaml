@@ -379,3 +379,5 @@
 - "Fixed support for Site theme overrides in Editor preview"
 3.6.9:
 - "Fixed support for Site theme overrides in Editor preview"
+3.6.10:
+- "Optimized support for Site theme overrides in Editor preview"

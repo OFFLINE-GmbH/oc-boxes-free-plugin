@@ -81,16 +81,6 @@ class Controller
      */
     public function getPreviewPage(string $url): ?CmsPage
     {
-        // Remove all Site prefixes from the URL. This is necessary
-        // since when editing a disabled Site, October does not provide this site
-        // in the Context. This makes it impossible to strip the Site prefix
-        // since we don't know what Site the URL belongs to.
-        SiteManager::instance()->listSites()->each(function (SiteDefinition $site) use (&$url) {
-            if ($site->is_prefixed) {
-                $url = str_replace($site->route_prefix, '', $url);
-            }
-        });
-
         $previewParts = self::getPreviewPartsFromUrl($url);
 
         if (count($previewParts) !== 2) {
@@ -134,10 +124,42 @@ class Controller
             $url = '/' . $url;
         }
 
+        // Remove all Site prefixes from the URL. This is necessary
+        // since when editing a disabled Site, October does not provide this site
+        // in the Context. This makes it impossible to strip the Site prefix
+        // since we don't know what Site the URL belongs to.
+        SiteManager::instance()->listSites()->each(function (SiteDefinition $site) use (&$url) {
+            if ($site->is_prefixed) {
+                $url = str_replace($site->route_prefix, '', $url);
+            }
+        });
+
         if (!str_contains($url, self::PREVIEW_URL)) {
             return [];
         }
 
         return array_values(array_filter(explode('/', str_replace(self::PREVIEW_URL, '', $url))));
+    }
+
+    public static function resolvePreviewPage($draft)
+    {
+        if (!BackendAuth::getUser() || app()->runningInConsole()) {
+            return;
+        }
+
+        if (!$draft) {
+            $previewParts = Controller::getPreviewPartsFromUrl(request()->path());
+
+            if (count($previewParts) === 2 && $previewParts[0] === 'page') {
+                $draft = $previewParts[1];
+            }
+        }
+
+        if (!$draft) {
+            return;
+        }
+
+        return Page::withoutGlobalScopes([MultisiteScope::class, ThemeScope::class])
+            ->find($draft);
     }
 }

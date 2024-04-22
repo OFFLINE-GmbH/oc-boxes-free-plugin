@@ -3,6 +3,7 @@
 namespace OFFLINE\Boxes;
 
 use Backend;
+use Backend\Facades\BackendAuth;
 use Cms\Classes\Controller as CmsController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
@@ -96,6 +97,14 @@ class Plugin extends PluginBase
             }
         });
 
+        Event::listen('cms.theme.getActiveTheme', function () {
+            $page = Controller::resolvePreviewPage(get(Controller::DRAFT_ID_PARAM));
+
+            if ($page) {
+                return $page->theme;
+            }
+        });
+
         // Check if we display a preview of a page or a draft. Apply the correct site context.
         \Cms\Classes\CmsController::extend(function ($controller) {
             $controller->middleware(SetSiteForPreviewUrls::class);
@@ -120,7 +129,7 @@ class Plugin extends PluginBase
                 }
             }
 
-            if (str_contains($url, Controller::PREVIEW_URL) && Backend\Facades\BackendAuth::getUser()) {
+            if (str_contains($url, Controller::PREVIEW_URL) && BackendAuth::getUser()) {
                 return Controller::instance()->getPreviewPage($url);
             }
 
@@ -301,7 +310,7 @@ class Plugin extends PluginBase
 
     protected function isEditModeRequest()
     {
-        return get(Controller::PREVIEW_PARAM) && Backend\Facades\BackendAuth::getUser();
+        return get(Controller::PREVIEW_PARAM) && BackendAuth::getUser();
     }
 
     /**

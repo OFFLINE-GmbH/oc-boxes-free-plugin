@@ -23,6 +23,7 @@ class BoxesSetting extends Model
         $this->revisions_cleanup_enabled = false;
         $this->revisions_keep_number = 10;
         $this->revisions_keep_days = 7;
+        $this->partial_selector_default_cols = 4;
     }
 
     public function filterFields(ElementHolder $fields, $context = null)
