@@ -383,3 +383,5 @@
 - "Optimized support for Site theme overrides in Editor preview"
 3.6.11:
 - "Added russian locale"
+3.6.12:
+- "Added reference to parent Box to context variable"

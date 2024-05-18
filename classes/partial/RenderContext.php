@@ -72,6 +72,11 @@ class RenderContext implements Iterator
      */
     public Content|Page $model;
 
+    /**
+     * The parent Box.
+     */
+    public ?Box $parent;
+
     private $iteratorPosition = 0;
 
     /**
