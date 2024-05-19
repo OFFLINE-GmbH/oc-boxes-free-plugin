@@ -385,3 +385,5 @@
 - "Added russian locale"
 3.6.12:
 - "Added reference to parent Box to context variable"
+3.6.13:
+- "Fixed page finder references when using mulitple Sites"
