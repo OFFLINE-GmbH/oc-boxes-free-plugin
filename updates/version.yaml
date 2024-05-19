@@ -387,3 +387,5 @@
 - "Added reference to parent Box to context variable"
 3.6.13:
 - "Fixed page finder references when using mulitple Sites"
+3.6.14:
+- "Fixed saving of file upload descriptions before a Box was saved"

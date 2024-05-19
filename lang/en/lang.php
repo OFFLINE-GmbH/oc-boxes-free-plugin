@@ -54,6 +54,7 @@ return [
     'sizes' => 'Sizes',
     'reference' => 'Reference',
     'box_required' => 'Box is required',
+    'box_must_be_saved' => 'The Box must be saved before the image description can be edited',
     'cancel' => 'Cancel',
     'delete' => 'Delete',
     'page' => 'Page',

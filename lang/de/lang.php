@@ -54,6 +54,7 @@ return [
     'sizes' => 'Grössen',
     'reference' => 'Verweis',
     'box_required' => 'Box wird benötigt',
+    'box_must_be_saved' => 'Die Box muss gespeichert werden bevor die Bildbeschreibung bearbeitet werden kann',
     'cancel' => 'Abbrechen',
     'delete' => 'Löschen',
     'page' => 'Seite',

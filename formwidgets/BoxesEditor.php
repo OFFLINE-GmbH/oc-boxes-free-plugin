@@ -23,6 +23,7 @@ use OFFLINE\Boxes\Models\Page;
 use RuntimeException;
 use System\Models\File;
 use System\Models\SiteDefinition;
+use ValidationException;
 
 /**
  * BoxesEditor Form Widget.
@@ -548,6 +549,10 @@ class BoxesEditor extends FormWidgetBase
         // ID that is being edited in this request.
         elseif (post('file_id') && post('Box') && str_contains($this->getController()->getAjaxHandler(), 'onSaveAttachmentConfig')) {
             $box = File::findOrFail(post('file_id'))->attachment;
+
+            if (!$box) {
+                throw new ValidationException(['title' => trans('offline.boxes::lang.box_must_be_saved')]);
+            }
         }
 
         if ($partial = post('Box.partial')) {
