@@ -5,7 +5,8 @@
     "require": {
         "php": "^8.0",
         "composer/installers": "~1.0",
-        "october/rain": "^3.0"
+        "october/rain": "^3.0",
+        "fakerphp/faker": "^1.23"
     },
     "extra": {
         "installer-name": "boxes"
