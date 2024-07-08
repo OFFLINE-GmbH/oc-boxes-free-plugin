@@ -392,3 +392,5 @@
 3.6.15:
 - "Added fakerphp as direct dpendency"
 - "Fixed labelFrom property"
+3.6.16:
+- "Respect allowed children contexts when moving Boxes"
