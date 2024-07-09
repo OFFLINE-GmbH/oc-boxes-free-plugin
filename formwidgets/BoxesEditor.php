@@ -158,6 +158,8 @@ class BoxesEditor extends FormWidgetBase
 
         if ($position === 'before') {
             $page->moveBefore($relativeTo);
+        } elseif ($position === 'below') {
+            $page->makeChildOf($relativeTo);
         } else {
             $page->moveAfter($relativeTo);
         }
@@ -184,6 +186,8 @@ class BoxesEditor extends FormWidgetBase
 
         if ($position === 'before') {
             $box->moveBefore($relativeTo);
+        } elseif ($position === 'below') {
+            $box->makeChildOf($relativeTo);
         } else {
             $box->moveAfter($relativeTo);
         }

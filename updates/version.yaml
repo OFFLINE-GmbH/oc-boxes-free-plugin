@@ -394,3 +394,5 @@
 - "Fixed labelFrom property"
 3.6.16:
 - "Respect allowed children contexts when moving Boxes"
+3.6.17:
+- "Fixed Boxes drag-and-drop reordering"
