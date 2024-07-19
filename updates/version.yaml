@@ -396,3 +396,5 @@
 - "Respect allowed children contexts when moving Boxes"
 3.6.17:
 - "Fixed Boxes drag-and-drop reordering"
+3.6.18:
+- "Fixed nested Boxes display"
