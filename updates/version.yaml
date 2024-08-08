@@ -398,3 +398,5 @@
 - "Fixed Boxes drag-and-drop reordering"
 3.6.18:
 - "Fixed nested Boxes display"
+3.6.19:
+- "Fixed bug where too many pages get deleted when using an old Boxes database"
