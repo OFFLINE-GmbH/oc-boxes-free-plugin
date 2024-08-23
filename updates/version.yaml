@@ -402,3 +402,5 @@
 - "Fixed bug where too many pages get deleted when using an old Boxes database"
 3.6.20:
 - "Added duplicate Box icon to sidebar"
+3.6.21:
+- "Added sections overview to Partial selection modal"
