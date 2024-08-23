@@ -28,6 +28,7 @@ if ($renderScaffolding):
     <?php
         if ($context->isEditor): ?>
         data-box-name="<?= e($context->partial->config->name); ?>"
+        data-box-partial="<?= e($context->partial->config->handle); ?>"
         <?php if ($context->partial->config->children): ?>
             data-box-supports-children
             data-box-partial-contexts="<?= e(implode(OFFLINE\Boxes\Classes\Partial\PartialConfig::PARTIAL_CONTEXT_SEPARATOR, $context->partial->config->children)); ?>"

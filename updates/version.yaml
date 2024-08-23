@@ -400,3 +400,5 @@
 - "Fixed nested Boxes display"
 3.6.19:
 - "Fixed bug where too many pages get deleted when using an old Boxes database"
+3.6.20:
+- "Added duplicate Box icon to sidebar"
