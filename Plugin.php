@@ -31,7 +31,6 @@ use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\BoxesSetting;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
-use RainLab\Translate\Classes\Translator;
 use System\Classes\PluginBase;
 use Url;
 
@@ -127,23 +126,6 @@ class Plugin extends PluginBase
 
                 if ($pos !== false) {
                     $url = substr_replace($url, '', $pos, strlen($prefix));
-                }
-            }
-
-            // Remove URL prefix, legacy support for RainLab.Translate,
-            if (class_exists(\RainLab\Translate\Models\Locale::class)) {
-                $translator = Translator::instance();
-
-                if ($translator->loadLocaleFromRequest() && $locale = $translator->getLocale()) {
-                    $prefix = "/{$locale}";
-
-                    if ($url === $prefix || str_starts_with($url, $prefix . '/')) {
-                        $url = str_replace($prefix, '', $url);
-                    }
-
-                    if ($url === '') {
-                        $url = '/';
-                    }
                 }
             }
 

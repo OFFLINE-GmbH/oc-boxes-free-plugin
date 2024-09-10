@@ -4,6 +4,7 @@ namespace OFFLINE\Boxes\FormWidgets;
 
 use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
+use Illuminate\Support\Facades\Lang;
 use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\Page;
 
@@ -40,8 +41,8 @@ class BoxFinder extends FormWidgetBase
             'fields' => [
                 'reference_page' => [
                     'type' => 'dropdown',
-                    'label' => 'Seite',
-                    'emptyOption' => '-- Bitte wählen',
+                    'label' => Lang::get('offline.boxes::lang.page'),
+                    'emptyOption' => '-- ' . Lang::get('offline.boxes::lang.please_select'),
                     'options' => 'OFFLINE\Boxes\FormWidgets\BoxFinder::getPageOptions',
                     'value' => post(self::PREFIX . '.reference_page'),
                     // TODO: This is somehow registered for each Box on the page and results in one request per box.
@@ -49,8 +50,8 @@ class BoxFinder extends FormWidgetBase
                 ],
                 'reference_box' => [
                     'type' => 'dropdown',
-                    'label' => 'Box',
-                    'emptyOption' => '-- Bitte wählen',
+                    'label' => Lang::get('offline.boxes::lang.box'),
+                    'emptyOption' => '-- ' . Lang::get('offline.boxes::lang.please_select'),
                     'options' => 'OFFLINE\Boxes\FormWidgets\BoxFinder::getBoxOptions',
                     'trigger' => [
                         'action' => 'hide',
