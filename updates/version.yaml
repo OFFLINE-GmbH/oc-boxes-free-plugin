@@ -406,5 +406,9 @@
 - "Added sections overview to Partial selection modal"
 3.6.22:
 - "Optimized page list"
+3.6.23:
+- "Optimized RainLab.Translate <2.0 Support"
 3.6.24:
 - "Added translation strings in BoxFinder form widget"
+3.6.25:
+- "Changed Boxes pagefinder prefix"
