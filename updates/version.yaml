@@ -412,3 +412,5 @@
 - "Added translation strings in BoxFinder form widget"
 3.6.25:
 - "Changed Boxes pagefinder prefix"
+3.6.26:
+- "Fixed copying page to other Site without existing parent"
