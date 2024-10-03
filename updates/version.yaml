@@ -414,3 +414,7 @@
 - "Changed Boxes pagefinder prefix"
 3.6.26:
 - "Fixed copying page to other Site without existing parent"
+3.6.27:
+- "Optimized copying page to ohter Site"
+3.6.28:
+- "Optimized copying page to ohter Site"
