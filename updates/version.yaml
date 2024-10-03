@@ -418,3 +418,5 @@
 - "Optimized copying page to ohter Site"
 3.6.28:
 - "Optimized copying page to ohter Site"
+3.6.29:
+  - "Fixes selection in dropdown for site_rood_id"
