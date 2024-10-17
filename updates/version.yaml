@@ -420,3 +420,5 @@
 - "Optimized copying page to ohter Site"
 3.6.29:
   - "Fixes selection in dropdown for site_rood_id"
+3.6.30:
+  - "Fixed invisible table popup when richeditor is in fullscreen mode"
