@@ -424,3 +424,5 @@
   - "Fixed invisible table popup when richeditor is in fullscreen mode"
 3.6.31:
   - "Added support for Partial descriptions"
+3.6.32:
+  - "Added support for Phosphor icons"
