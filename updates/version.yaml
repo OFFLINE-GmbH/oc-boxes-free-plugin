@@ -422,3 +422,5 @@
   - "Fixes selection in dropdown for site_rood_id"
 3.6.30:
   - "Fixed invisible table popup when richeditor is in fullscreen mode"
+3.6.31:
+  - "Added support for Partial descriptions"
