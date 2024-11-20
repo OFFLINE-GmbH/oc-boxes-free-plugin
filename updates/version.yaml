@@ -426,3 +426,7 @@
   - "Added support for Partial descriptions"
 3.6.32:
   - "Added support for Phosphor icons"
+3.6.33:
+  - "Fixed repeater items relation"
+3.6.34:
+  - "Fixed repeater items relation"

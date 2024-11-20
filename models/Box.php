@@ -269,7 +269,7 @@ class Box extends Model
         if ($count === 0) {
             return '';
         }
-        
+
         $context = $this->wrapContext($context);
 
         // Clear scaffolding classes for children.
