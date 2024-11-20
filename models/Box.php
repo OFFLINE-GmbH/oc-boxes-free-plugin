@@ -483,8 +483,12 @@ class Box extends Model
             array_keys($this->belongsToMany),
         );
 
-        // The repater_items relation is a special case and should not be considered.
-        return array_filter($values, fn ($value) => $value !== 'repeater_items');
+        return array_filter($values, function ($value) {
+            // Exclude any relation here that uses the RepeaterItem class. This relation must remain untouched.
+            $relationModel = $this->getRelationDefinition($value)['0'] ?? null;
+
+            return $relationModel !== RepeaterItem::class;
+        });
     }
 
     /**
