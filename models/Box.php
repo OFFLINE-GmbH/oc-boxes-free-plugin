@@ -477,11 +477,14 @@ class Box extends Model
      */
     public function extractExternalRelations()
     {
-        return array_merge(
+        $values = array_merge(
             array_keys($this->hasMany),
             array_keys($this->hasManyThrough),
             array_keys($this->belongsToMany),
         );
+
+        // The repater_items relation is a special case and should not be considered.
+        return array_filter($values, fn ($value) => $value !== 'repeater_items');
     }
 
     /**
