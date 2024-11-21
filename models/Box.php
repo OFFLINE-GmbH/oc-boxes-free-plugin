@@ -422,19 +422,23 @@ class Box extends Model
         $attachments = $this->extractAttachmentRelations();
         $locallyStored = $this->extractLocalRelations();
         $externallyStored = $this->extractExternalRelations();
+        $repeaterItems = $this->extractRepeaterItemRelations();
 
         $values = collect($values)
             // Remove attachments
             ->filter(fn ($value, $key) => !in_array($key, $attachments, true))
             // Move all externally stored relations to the model itself, so it is handled by the framework.
-            ->filter(function ($value, $key) use ($externallyStored) {
-                if (in_array($key, $externallyStored, true)) {
+            ->filter(function ($value, $key) use ($externallyStored, $repeaterItems) {
+                $isRepeaterItem = in_array($key, $repeaterItems, true);
+
+                if (in_array($key, $externallyStored, true) && !$isRepeaterItem) {
+                    // Never store repeater items on the model itself since they are handled separately by the FormWidget.
                     $this->$key = $value;
 
                     return false;
                 }
 
-                return true;
+                return !$isRepeaterItem;
             })
             // Convert all locally stored relation names to a proper foreign key name.
             ->mapWithKeys(function ($value, $key) use ($locallyStored) {
@@ -477,18 +481,21 @@ class Box extends Model
      */
     public function extractExternalRelations()
     {
-        $values = array_merge(
+        return array_merge(
             array_keys($this->hasMany),
             array_keys($this->hasManyThrough),
             array_keys($this->belongsToMany),
         );
+    }
 
-        return array_filter($values, function ($value) {
-            // Exclude any relation here that uses the RepeaterItem class. This relation must remain untouched.
-            $relationModel = $this->getRelationDefinition($value)['0'] ?? null;
+    /**
+     * Returns all repeater item relations.
+     */
+    public function extractRepeaterItemRelations()
+    {
+        $externalRelations = $this->extractExternalRelations();
 
-            return $relationModel !== RepeaterItem::class;
-        });
+        return array_filter($externalRelations, fn ($relation) => array_get($this->getRelationDefinition($relation), '0') === RepeaterItem::class);
     }
 
     /**
