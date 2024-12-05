@@ -434,3 +434,5 @@
   - "Fixed repeater items relation"
 3.6.36:
   - "Fixed repeater items relation"
+3.6.37:
+  - "Fixed isActive menu state for homepage"

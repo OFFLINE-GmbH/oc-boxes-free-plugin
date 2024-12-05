@@ -84,6 +84,9 @@ trait HasMenuItems
 
         $pageUrl = URL::to($site->base_url . $page->url);
 
+        $pageUrl = rtrim($pageUrl, '/');
+        $currentUrl = rtrim($currentUrl, '/');
+
         $menuItem = [
             'url' => $pageUrl,
             'isActive' => $pageUrl === $currentUrl,
