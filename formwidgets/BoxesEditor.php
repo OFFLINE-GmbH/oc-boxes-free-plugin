@@ -143,10 +143,13 @@ class BoxesEditor extends FormWidgetBase
             $page->save([], post('_session_key'));
         });
 
+        $refresh = false;
+
         return $this->withState([
             'id' => $page->id,
             'publish' => $this->handlePagePublishing($page, 'onSavePageForm', $page->id),
             'origin' => 'onSavePageForm',
+            'refresh' => $refresh,
         ]);
     }
 

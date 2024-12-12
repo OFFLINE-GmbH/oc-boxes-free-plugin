@@ -193,7 +193,7 @@ class Page extends Model
             }
 
             // Remove the template field if no templates are registered.
-            if ($widget->model->exists || !$holder->get('template')?->options()) {
+            if (($widget->model->exists && $widget->model->boxes->count() > 0) || !$holder->get('template')?->options()) {
                 $holder->get('template')->config['hidden'] = true;
             }
         });

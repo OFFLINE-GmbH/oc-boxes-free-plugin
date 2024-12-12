@@ -438,3 +438,5 @@
   - "Fixed isActive menu state for homepage"
 3.6.38:
   - "Fixed copying to other Site with child themes"
+3.6.40:
+  - "Allow page templates to be applied to empty pages"
