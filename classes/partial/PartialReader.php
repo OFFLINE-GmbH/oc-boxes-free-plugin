@@ -320,23 +320,27 @@ class PartialReader
      */
     protected function readBoxesConfig()
     {
-        $baseDir = self::getSiteThemeFromContext()?->getPath();
+        $dirs = ThemeResolver::instance()->getThemePaths();
 
-        if (!$baseDir) {
+        if (!$dirs || count($dirs) === 0) {
             return collect(['sections' => [], 'templates' => collect([])]);
         }
 
-        $file = Finder::create()
-            ->files()
-            ->name('boxes.yaml')
-            ->depth('== 0')
-            ->in($baseDir);
+        foreach ($dirs as $baseDir) {
+            $file = Finder::create()
+                ->files()
+                ->name('boxes.yaml')
+                ->depth('== 0')
+                ->in($baseDir);
 
-        if (!$file->hasResults()) {
-            return collect(['sections' => [], 'templates' => collect([])]);
+            if (!$file->hasResults()) {
+                continue;
+            }
+
+            return collect($this->yaml->parseFile(sprintf('%s/%s', $baseDir, 'boxes.yaml')));
         }
 
-        return collect($this->yaml->parseFile(sprintf('%s/%s', $baseDir, 'boxes.yaml')));
+        return collect(['sections' => [], 'templates' => collect([])]);
     }
 
     /**

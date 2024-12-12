@@ -440,3 +440,5 @@
   - "Fixed copying to other Site with child themes"
 3.6.40:
   - "Allow page templates to be applied to empty pages"
+3.6.41:
+  - "Added support for boxes.yaml in child-themes"
