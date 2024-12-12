@@ -39,6 +39,7 @@ return [
     'copy_to_site' => 'Für andere Website/Sprache kopieren',
     'copy_to_site_text' => 'Wähle eine Website/Sprache aus',
     'site' => 'Website/Sprache',
+    'sites' => 'Sites',
     'copy_noun' => 'Kopie',
     'copy_verb' => 'Kopieren',
     'copy_created' => 'Kopie wurde erstellt',

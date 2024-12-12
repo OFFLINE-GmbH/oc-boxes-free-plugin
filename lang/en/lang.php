@@ -39,6 +39,7 @@ return [
     'copy_to_site' => 'Copy to another site/language',
     'copy_to_site_text' => 'Select a site to copy the page to',
     'site' => 'Site',
+    'sites' => 'Sites',
     'copy_noun' => 'Copy',
     'copy_verb' => 'Copy',
     'copy_created' => 'Copy created successfully',

@@ -447,6 +447,7 @@ class BoxesEditor extends FormWidgetBase
             'id' => $site->id,
             'name' => $site->name,
             'locale' => $site->locale,
+            'group' => $site->group?->name ?? '__ungrouped',
         ])->toArray();
 
         return [

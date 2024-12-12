@@ -436,3 +436,5 @@
   - "Fixed repeater items relation"
 3.6.37:
   - "Fixed isActive menu state for homepage"
+3.6.38:
+  - "Fixed copying to other Site with child themes"
