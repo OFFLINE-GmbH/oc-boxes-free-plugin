@@ -444,3 +444,5 @@
   - "Added support for boxes.yaml in child-themes"
 3.6.42:
   - "Fixed copying to other Site with child themes"
+3.6.43:
+  - "Improved SQLite support"

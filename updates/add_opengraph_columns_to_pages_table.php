@@ -25,11 +25,7 @@ class AddOpenGraphColumnsToPagesTable extends Migration
     public function down()
     {
         Schema::table('offline_boxes_pages', function (Blueprint $table) {
-            $table->dropColumn('og_title');
-            $table->dropColumn('og_description');
-            $table->dropColumn('og_type');
-            $table->dropColumn('canonical_url');
-            $table->dropColumn('meta_robots');
+            $table->dropColumn(['og_title', 'og_description', 'og_type', 'canonical_url', 'meta_robots']);
         });
     }
 }

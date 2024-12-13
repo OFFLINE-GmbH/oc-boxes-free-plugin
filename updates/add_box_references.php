@@ -37,8 +37,7 @@ class AddBoxReferences extends Migration
     public function down()
     {
         Schema::table('offline_boxes_boxes', function (Blueprint $table) {
-            $table->dropColumn('origin_box_id');
-            $table->dropColumn('references_box_id');
+            $table->dropColumn(['origin_box_id', 'references_box_id']);
         });
     }
 }

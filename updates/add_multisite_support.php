@@ -28,8 +28,7 @@ class AddMultisiteSupport extends Migration
     public function down()
     {
         Schema::table('offline_boxes_pages', function (Blueprint $table) {
-            $table->dropColumn('site_id');
-            $table->dropColumn('site_root_id');
+            $table->dropColumn(['site_id', 'site_root_id']);
         });
     }
 }

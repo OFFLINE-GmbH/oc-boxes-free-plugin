@@ -32,12 +32,18 @@ class AddHasPendingChangesFlag extends Migration
     public function down()
     {
         Schema::table('offline_boxes_pages', function (Blueprint $table) {
+            $columns = [];
+
             if (Schema::hasColumn('offline_boxes_pages', 'has_pending_changes')) {
-                $table->dropColumn('has_pending_changes');
+                $columns[] = 'has_pending_changes';
             }
 
             if (Schema::hasColumn('offline_boxes_pages', 'version')) {
-                $table->dropColumn('version');
+                $columns[] = 'version';
+            }
+
+            if (count($columns)) {
+                $table->dropColumn($columns);
             }
         });
     }

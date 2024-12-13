@@ -53,10 +53,7 @@ class PagePublishing extends Migration
     public function down()
     {
         Schema::table('offline_boxes_pages', function (Blueprint $table) {
-            $table->dropColumn('published_state');
-            $table->dropColumn('published_at');
-            $table->dropColumn('published_by');
-            $table->dropColumn('updated_by');
+            $table->dropColumn(['published_state', 'published_at', 'published_by', 'updated_by']);
         });
     }
 }
