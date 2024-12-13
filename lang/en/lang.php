@@ -47,7 +47,7 @@ return [
     'create_subpage' => 'Create Subpage',
     'tools_section' => 'Tools',
     'add_box_to_page' => 'Add a Box to this page',
-    'add_box_child' => 'Add a Child to this Box',
+    'add_box_child' => 'Add a Child to ":parent"',
     'add_box' => 'Add Box',
     'add_box_before' => 'Add Box above',
     'move_up' => 'Move up',

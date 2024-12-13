@@ -448,3 +448,5 @@
   - "Improved SQLite support"
 3.6.44:
   - "Improved SQLite support"
+3.6.45:
+  - "Include parent name in add child box link"

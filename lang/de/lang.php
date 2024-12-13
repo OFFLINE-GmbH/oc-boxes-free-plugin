@@ -47,7 +47,7 @@ return [
     'create_subpage' => 'Unterseite erstellen',
     'tools_section' => 'Werkzeuge',
     'add_box_to_page' => 'Box zu dieser Seite hinzufügen',
-    'add_box_child' => 'Kindelement hinzufügen',
+    'add_box_child' => 'Kindelement zu ":parent" hinzufügen',
     'add_box' => 'Box hinzufügen',
     'add_box_before' => 'Box oberhalb hinzufügen',
     'move_up' => 'Nach oben verschieben',

@@ -54,7 +54,7 @@ if ($renderScaffolding):
                 data-parent-id="<?= e((string)$box->id); ?>"
                 class="oc-boxes-add-box oc-boxes-add-box--child"
             >
-                <?= e(trans('offline.boxes::lang.add_box_child')); ?>
+                <?= e(trans('offline.boxes::lang.add_box_child', ['parent' => $box->getPartial()->config->name])); ?>
             </a>
         </div>
     <?php

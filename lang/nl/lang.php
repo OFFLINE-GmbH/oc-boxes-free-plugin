@@ -39,7 +39,7 @@ return [
     'create_subpage' => 'Subpagina aanmaken',
     'tools_section' => 'Hulpmiddelen',
     'add_box_to_page' => 'Voeg een Box toe aan deze pagina',
-    'add_box_child' => 'Voeg een Kind toe aan deze Box',
+    'add_box_child' => 'Voeg een Kind toe aan ":parent"',
     'add_box' => 'Voeg Box toe',
     'add_box_before' => 'Voeg Box toe bovenaan',
     'move_up' => 'Omhoog verplaatsen',
