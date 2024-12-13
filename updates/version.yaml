@@ -446,3 +446,5 @@
   - "Fixed copying to other Site with child themes"
 3.6.43:
   - "Improved SQLite support"
+3.6.44:
+  - "Improved SQLite support"

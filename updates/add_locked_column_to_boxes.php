@@ -15,7 +15,9 @@ class AddLockedColumnToBoxes extends Migration
     {
         Schema::table('offline_boxes_boxes', function (Blueprint $table) {
             $table->json('locked')->nullable()->after('data');
+        });
 
+        Schema::table('offline_boxes_boxes', function (Blueprint $table) {
             if (Schema::hasColumn('offline_boxes_boxes', 'read_only')) {
                 $table->dropColumn(['read_only']);
             }
