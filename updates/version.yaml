@@ -450,3 +450,5 @@
   - "Improved SQLite support"
 3.6.45:
   - "Include parent name in add child box link"
+3.6.46:
+  - "Added support for Mixins in Repeater Groups"

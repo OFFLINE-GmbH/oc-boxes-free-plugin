@@ -202,6 +202,15 @@ class PartialConfig
                 if (array_get($field, 'type') === 'repeater' && is_array(array_get($field, 'form.fields'))) {
                     $fields[$key]['form']['fields'] = $process($field['form']['fields']);
                 }
+
+                // Process repeater groups.
+                if (array_get($field, 'type') === 'repeater' && is_array(array_get($field, 'groups'))) {
+                    $fields[$key]['groups'] = array_map(function ($group) use ($process) {
+                        $group['fields'] = $process($group['fields']);
+
+                        return $group;
+                    }, $field['groups']);
+                }
             }
 
             if ($hasMixinChildren) {
