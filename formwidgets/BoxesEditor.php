@@ -638,11 +638,9 @@ class BoxesEditor extends FormWidgetBase
                 ->orderBy('updated_at', 'desc');
         });
 
-        $revisionsWidget->bindEvent('list.overrideRecordAction', function ($record) {
-            return [
-                'onclick' => "\$.popup({ handler: 'onShowRevisionDetail', extraData: { id: {$record->id} } })",
-            ];
-        });
+        $revisionsWidget->bindEvent('list.overrideRecordAction', fn ($record) => [
+            'onclick' => "\$.popup({ handler: 'onShowRevisionDetail', extraData: { id: {$record->id} } })",
+        ]);
 
         $revisionsWidget->bindToController();
 

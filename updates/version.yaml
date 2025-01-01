@@ -452,3 +452,5 @@
   - "Include parent name in add child box link"
 3.6.46:
   - "Added support for Mixins in Repeater Groups"
+3.6.47:
+  - "Fixed Tailor content integration"
