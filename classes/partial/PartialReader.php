@@ -186,26 +186,42 @@ class PartialReader
      */
     public function listPartials(array $context = []): Collection
     {
-        $toolsSection = Lang::get('offline.boxes::lang.tools_section');
-
         $partialList = $this->byHandle
             ->pluck('config')
             ->filter(fn (PartialConfig $config) => $config->isAvailableInContext($context))
-            ->filter(fn (PartialConfig $config) => !starts_with(basename($config->path), self::MIXIN_PREFIX))
-            ->sortBy(fn (PartialConfig $config) => $config->section === $toolsSection ? 'ZZZZZZ_LAST_SECTION' : $config->section);
+            ->filter(fn (PartialConfig $config) => !starts_with(basename($config->path), self::MIXIN_PREFIX));
 
         // Use the section order from the boxes.yaml file, if available.
         $sectionOrder = array_flip($this->boxesConfig->get('sections', []));
+        $toolsSection = Lang::get('offline.boxes::lang.tools_section');
 
-        if (count($sectionOrder) === 0) {
-            return $partialList;
-        }
+        // Sort the partials by section and name/manual order.
+        return $partialList->sort(function ($a, $b) use ($sectionOrder, $toolsSection) {
+            $getSection = function ($config) use ($toolsSection, $sectionOrder) {
+                // Tools section should always be last.
+                if ($config->section === $toolsSection) {
+                    return count($sectionOrder) ? 99999 : 'ZZZZZZZZZ';
+                }
 
-        return $partialList->sort(function ($a, $b) use ($sectionOrder) {
-            $aPos = $sectionOrder[$a->section] ?? 99999;
-            $bPos = $sectionOrder[$b->section] ?? 99999;
+                // Use the section order from the boxes.yaml file, if available.
+                if (count($sectionOrder)) {
+                    return $sectionOrder[$config->section] ?? 99999;
+                }
 
-            return $aPos <=> $bPos;
+                return $config->section;
+            };
+
+            $sectionA = $getSection($a);
+            $sectionB = $getSection($b);
+
+            $nameA = $a->order ?? $a->name ?? $a->handle;
+            $nameB = $b->order ?? $b->name ?? $b->handle;
+
+            if ($sectionA === $sectionB) {
+                return $nameA <=> $nameB;
+            }
+
+            return $sectionA <=> $sectionB;
         });
     }
 

@@ -456,3 +456,5 @@
   - "Fixed Tailor content integration"
 3.6.48:
   - "Added option to limit the maximum of nested page levels"
+3.6.49:
+  - "Added order property to yaml schema, to manually sort partials in the selector"

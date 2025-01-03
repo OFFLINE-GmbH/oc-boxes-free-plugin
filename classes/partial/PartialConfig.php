@@ -50,6 +50,8 @@ class PartialConfig
 
     public string $icon = '';
 
+    public ?int $order = null;
+
     public bool $placeholderPreview = true;
 
     public string $section = '';
@@ -302,6 +304,7 @@ class PartialConfig
         $yaml['name'] = trans($yaml['name'] ?? $yaml['handle']);
         $yaml['description'] = trans($yaml['description'] ?? '');
         $yaml['contexts'] = $yaml['contexts'] ?? ['default'];
+        $yaml['order'] = $yaml['order'] ?? null;
 
         if (array_get($yaml, 'children') === true) {
             $yaml['children'] = ['default'];
