@@ -454,3 +454,5 @@
   - "Added support for Mixins in Repeater Groups"
 3.6.47:
   - "Fixed Tailor content integration"
+3.6.48:
+  - "Added option to limit the maximum of nested page levels"

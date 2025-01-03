@@ -111,6 +111,9 @@ return [
         'revisions_keep_number_comment' => 'Tijdens opruiming worden minstens zoveel revisies altijd bewaard',
         'revisions_keep_days' => 'Minimaal aantal dagen om revisies te bewaren',
         'revisions_keep_days_comment' => 'Tijdens opruiming worden alleen revisies ouder dan dit aantal dagen verwijderd',
+        'limit_page_levels' => 'Beperk paginaniveaus',
+        'limit_page_levels_comment' => 'Beperk het aantal niveaus dat is toegestaan in de paginahierarchie',
+        'max_page_levels' => 'Max. aantal niveaus',
     ],
     'permissions' => [
         'manage_settings' => 'Beheer instellingen',

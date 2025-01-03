@@ -123,6 +123,9 @@ return [
         'revisions_keep_number_comment' => 'During cleanup, at least this number of revisions per page will always be kept',
         'revisions_keep_days' => 'Least number of days to keep revisions',
         'revisions_keep_days_comment' => 'During cleanup, only revisions older than this number of days will be deleted',
+        'limit_page_levels' => 'Limit page levels',
+        'limit_page_levels_comment' => 'Limit the number of levels allowed in the page structure',
+        'max_page_levels' => 'Max. number of levels',
     ],
     'permissions' => [
         'manage_settings' => 'Manage settings',

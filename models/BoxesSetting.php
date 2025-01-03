@@ -24,6 +24,9 @@ class BoxesSetting extends Model
         $this->revisions_keep_number = 10;
         $this->revisions_keep_days = 7;
         $this->partial_selector_default_cols = 4;
+
+        $this->limit_page_levels = false;
+        $this->max_page_levels = 2;
     }
 
     public function filterFields(ElementHolder $fields, $context = null)
@@ -44,10 +47,10 @@ class BoxesSetting extends Model
     {
         $settings = new self();
 
-        $partialCols = $settings->get('partial_selector_default_cols', 4);
-
         return [
-            'partial_selector_default_cols' => (int)$partialCols,
+            'partial_selector_default_cols' => (int)$settings->get('partial_selector_default_cols', 4),
+            'limit_page_levels' => (int)$settings->get('limit_page_levels', false),
+            'max_page_levels' => (int)$settings->get('max_page_levels', 2),
         ];
     }
 

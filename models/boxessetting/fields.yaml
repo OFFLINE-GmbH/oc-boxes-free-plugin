@@ -14,6 +14,22 @@ fields:
         max: 5
         span: auto
 
+    limit_page_levels:
+        label: offline.boxes::lang.settings.limit_page_levels
+        comment: offline.boxes::lang.settings.limit_page_levels_comment
+        type: checkbox
+        span: auto
+
+    max_page_levels:
+        label: offline.boxes::lang.settings.max_page_levels
+        type: number
+        span: auto
+        default: 1
+        trigger:
+            action: show
+            field: limit_page_levels
+            condition: checked
+
     section_revisions:
         label: offline.boxes::lang.settings.section_revisions
         comment: offline.boxes::lang.settings.section_revisions_comment

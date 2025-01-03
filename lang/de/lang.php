@@ -123,6 +123,9 @@ return [
         'revisions_keep_number_comment' => 'Bei der automatischen Bereinigung werden immer mindestens so viele Versionen einer Seite behalten',
         'revisions_keep_days' => 'Min. Anzahl zu behaltender Tage',
         'revisions_keep_days_comment' => 'Bei der automatischen Bereinigung werden nur Versionen gelöscht, die älter sind als die angegebene Anzahl Tage',
+        'limit_page_levels' => 'Anzahl Seitenebenen beschränken',
+        'limit_page_levels_comment' => 'Beschränke die Anzahl der Ebenen, die in der Seitenstruktur erlaubt sind',
+        'max_page_levels' => 'Max. Anzahl an Ebenen',
     ],
     'permissions' => [
         'manage_settings' => 'Einstellungen verwalten',
