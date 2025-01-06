@@ -89,9 +89,11 @@ class Controller
 
         [$previewType, $pageId] = $previewParts;
 
-        $model = $previewType === 'page' ? Page::withoutGlobalScopes([MultisiteScope::class, ThemeScope::class]) : Content::query();
+        $model = $previewType === 'page'
+            ? Page::query()
+            : Content::query();
 
-        $page = $model->find($pageId);
+        $page = $model->withoutGlobalScopes([MultisiteScope::class, ThemeScope::class])->find($pageId);
 
         if (!$page) {
             return null;

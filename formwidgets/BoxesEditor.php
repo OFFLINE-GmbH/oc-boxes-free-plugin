@@ -646,4 +646,13 @@ class BoxesEditor extends FormWidgetBase
 
         return $revisionsWidget;
     }
+
+    /**
+     * If the form field is initialized in a relational manage widget, we don't want to run the init logic.
+     * @return bool
+     */
+    protected function isRenderedInRelationWidget()
+    {
+        return str_contains($this->formField?->getId(), 'relationRelatedManageForm');
+    }
 }

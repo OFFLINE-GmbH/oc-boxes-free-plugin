@@ -8,6 +8,7 @@ use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Classes\PublishedState;
+use OFFLINE\Boxes\Classes\Scopes\ThemeScope;
 use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\Content;
 use OFFLINE\Boxes\Models\Page;
@@ -104,7 +105,7 @@ class BoxesPage extends ComponentBase
             )
             ->when(
                 $id = $this->property('id'),
-                fn ($q) => $q->withoutGlobalScope(MultisiteScope::class)->where('id', $id)
+                fn ($q) => $q->withoutGlobalScopes([MultisiteScope::class, ThemeScope::class])->where('id', $id)
             )
             ->first();
     }

@@ -458,3 +458,5 @@
   - "Added option to limit the maximum of nested page levels"
 3.6.49:
   - "Added order property to yaml schema, to manually sort partials in the selector"
+3.6.50:
+  - "Fixed bug where usage in Tailor initialized two Cotnent models"
