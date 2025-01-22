@@ -460,3 +460,5 @@
   - "Added order property to yaml schema, to manually sort partials in the selector"
 3.6.50:
   - "Fixed bug where usage in Tailor initialized two Cotnent models"
+3.6.51:
+  - "Updated rendering of Page structure when References are used"

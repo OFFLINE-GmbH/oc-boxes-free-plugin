@@ -515,7 +515,7 @@ class BoxesEditor extends FormWidgetBase
 
     protected function resolvePageModel(): Page|Content
     {
-        $id = post('Page.id', post('Box.holder_id', get('boxes_page')));
+        $id = post('Page.id', get('boxes_page', post('Box.holder_id')));
 
         $page = Page::with('boxes')->findOrNew($id);
 
