@@ -309,6 +309,12 @@
             ocRequest('onRefreshBoxesPreview')
                 .then((result) => {
                     applyPartialUpdates(result)
+                    // Trigger ajax partials.
+                    editor.querySelectorAll('[data-ajax-partial]').forEach(el => {
+                        if (el.children.length > 0) {
+                            oc.request(el.children[0])
+                        }
+                    })
                     window.document.dispatchEvent(new CustomEvent('offline.boxes.editorRefreshed'))
                     resetFocus()
                 })

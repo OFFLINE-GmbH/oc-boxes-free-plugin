@@ -470,3 +470,5 @@
     - "Allow references to pages on other sites"
 3.6.55:
     - "Reference picker bugfix"
+3.6.56:
+    - "Fixed rendering of ajax partials"
