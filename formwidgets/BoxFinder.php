@@ -69,7 +69,7 @@ class BoxFinder extends FormWidgetBase
 
     public static function getPageOptions()
     {
-        return Page::getPageOptionsKeyBy('origin_page_id');
+        return Page::getAllSitePages();
     }
 
     public function onReferencePageChange()
