@@ -464,3 +464,5 @@
     - "Updated rendering of Page structure when References are used"
 3.6.52:
     - "Display all sites in root page dropdown"
+3.6.53:
+    - "Fixed site context in Content form widget"

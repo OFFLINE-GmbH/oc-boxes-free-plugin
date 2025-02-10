@@ -99,11 +99,17 @@ class Controller
             return null;
         }
 
-        // Make sure the active Site is always the site the page belongs to.
-        // This is required if the backend is viewed on a hostname that
-        // technically belongs to another site.
-        if (Site::getActiveSite()?->id !== $page->site_id) {
-            Site::setActiveSiteId($page->site_id);
+        // Content models need to use the site context from the preview URL.
+        // There is no other way for them to find out to what model (on what site) they belong to otherwise.
+        if ($page instanceof Content && get('_site_id')) {
+            Site::setActiveSiteId(get('_site_id'));
+        } else {
+            // Make sure the active Site is always the site the page belongs to.
+            // This is required if the backend is viewed on a hostname that
+            // technically belongs to another site.
+            if (Site::getActiveSite()?->id !== $page->site_id) {
+                Site::setActiveSiteId($page->site_id);
+            }
         }
 
         $cmsPage = $page->buildCmsPage();

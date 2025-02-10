@@ -453,6 +453,8 @@ class BoxesEditor extends FormWidgetBase
             'group' => $site->group?->name ?? '__ungrouped',
         ])->toArray();
 
+        $site = Site::getSiteFromContext();
+
         return [
             'pages' => $pages->values(),
             'partials' => PartialReader::instance()->listPartials([])->keyBy('handle'),
@@ -469,7 +471,7 @@ class BoxesEditor extends FormWidgetBase
             'partialContexts' => $this->partialContexts,
             'features' => Features::instance()->toArray(),
             'sites' => $sites,
-            'site' => Site::getSiteFromContext(),
+            'site' => $site,
         ];
     }
 
