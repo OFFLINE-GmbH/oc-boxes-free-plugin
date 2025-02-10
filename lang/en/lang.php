@@ -23,6 +23,7 @@ return [
     'partial' => 'Partial',
     'icon' => 'Icon',
     'box' => 'Box',
+    'special' => 'Special',
     'create_box' => 'Create Box',
     'new_box' => 'New Box',
     'error_loading_box' => 'Error loading Box',

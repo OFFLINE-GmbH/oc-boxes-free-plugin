@@ -23,6 +23,7 @@ return [
     'partial' => 'Sectie',
     'icon' => 'Icoon',
     'box' => 'Box',
+    'special' => 'Speciaal',
     'is_enabled' => 'Is ingeschakeld',
     'is_enabled_comment' => 'Ingeschakelde Boxen zijn zichtbaar op de website',
     'save' => 'Opslaan',

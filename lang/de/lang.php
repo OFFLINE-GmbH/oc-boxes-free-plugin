@@ -23,6 +23,7 @@ return [
     'partial' => 'Partial',
     'icon' => 'Icon',
     'box' => 'Box',
+    'special' => 'Speziell',
     'create_box' => 'Box erstellen',
     'new_box' => 'Neue Box',
     'error_loading_box' => 'Fehler beim Laden der Box',
