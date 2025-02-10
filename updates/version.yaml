@@ -468,3 +468,5 @@
     - "Fixed site context in Content form widget"
 3.6.54:
     - "Allow references to pages on other sites"
+3.6.55:
+    - "Reference picker bugfix"

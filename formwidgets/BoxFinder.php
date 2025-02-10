@@ -5,6 +5,7 @@ namespace OFFLINE\Boxes\FormWidgets;
 use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
 use Illuminate\Support\Facades\Lang;
+use October\Rain\Database\Scopes\MultisiteScope;
 use OFFLINE\Boxes\Models\Box;
 use OFFLINE\Boxes\Models\Page;
 
@@ -82,7 +83,9 @@ class BoxFinder extends FormWidgetBase
         $id = post(self::PREFIX . '.reference_page');
 
         $page = Page::currentDrafts()
-            ->with('boxes')
+            ->with(['boxes' => function ($q) {
+                $q->where('partial', '<>', 'Boxes\\Internal\\Reference')->withoutGlobalScope(MultisiteScope::class);
+            }])
             ->where(fn ($q) => $q->where('origin_page_id', $id)->orWhere('id', $id))
             ->first();
 
