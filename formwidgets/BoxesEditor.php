@@ -212,6 +212,22 @@ class BoxesEditor extends FormWidgetBase
         );
     }
 
+    public function onEnableBox()
+    {
+        $model = $this->resolveBoxModel();
+        $model->is_enabled = true;
+        $model->save();
+
+        Flash::success(trans('offline.boxes::lang.enabled_box'));
+
+        return $this->withState(
+            $this->onRenderBoxForm($model),
+            [
+                'boxes' => $model->holder->boxes->toNested()->values(),
+            ]
+        );
+    }
+
     public function onMoveBox()
     {
         $box = Box::findOrFail(post('Box.id'));

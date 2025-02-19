@@ -472,3 +472,5 @@
     - "Reference picker bugfix"
 3.6.56:
     - "Fixed rendering of ajax partials"
+3.6.57:
+    - "Added quick toggle to enable Box"
