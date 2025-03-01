@@ -86,6 +86,12 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
+        // Add a routing exception for the preview URL.
+        $urlExceptions = Config::get('cms.url_exceptions', []);
+        $urlExceptions[Controller::PREVIEW_URL . '*'] = 'site|maintenance';
+
+        Config::set('cms.url_exceptions', $urlExceptions);
+
         Event::listen('cms.page.beforeRenderPartial', function ($controller, $partial) {
             // Allow external partials to be loaded by the CMS. This allows
             // third-party plugins to provide custom partials for the plugin.

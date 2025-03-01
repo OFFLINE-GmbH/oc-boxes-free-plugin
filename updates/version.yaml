@@ -476,3 +476,5 @@
     - "Added quick toggle to enable Box"
 3.6.58:
     - "Fixed sorting of Pages/Boxes"
+3.6.59:
+    - "Added middleware exceptions for preview page"
