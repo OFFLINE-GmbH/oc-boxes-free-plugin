@@ -474,3 +474,5 @@
     - "Fixed rendering of ajax partials"
 3.6.57:
     - "Added quick toggle to enable Box"
+3.6.58:
+    - "Fixed sorting of Pages/Boxes"
