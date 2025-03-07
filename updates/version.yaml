@@ -478,3 +478,5 @@
     - "Fixed sorting of Pages/Boxes"
 3.6.59:
     - "Added middleware exceptions for preview page"
+3.6.60:
+    - "Made Editor breakpoints configurable (see https://docs.boxes.offline.ch/use-cases/editor-customization.html)"

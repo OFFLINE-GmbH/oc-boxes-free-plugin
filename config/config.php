@@ -12,6 +12,17 @@ return [
     'main_menu_order' => (int)env('BOXES_MAIN_MENU_ORDER', 500),
 
     /**
+     * Defines the breakpoints for the Editor preview.
+     */
+    'editor' => [
+        'breakpoints' => [
+            'mobile' => 480,
+            'tablet' => 720,
+            'desktop' => 1280,
+        ],
+    ],
+
+    /**
      * Define spacings for your partials.
      * Use the `spacing` option on your YAML definition to select which groups
      * are available for a given partial.

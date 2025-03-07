@@ -488,6 +488,11 @@ class BoxesEditor extends FormWidgetBase
             'features' => Features::instance()->toArray(),
             'sites' => $sites,
             'site' => $site,
+            'breakpoints' => config('offline.boxes::config.editor.breakpoints', [
+                'mobile' => 480,
+                'tablet' => 720,
+                'desktop' => 1280,
+            ]),
         ];
     }
 
