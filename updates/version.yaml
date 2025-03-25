@@ -484,3 +484,5 @@
     - "Changed handling of Box focus"
 3.6.62:
     - "Changed handling of Box focus"
+3.6.63:
+    - "Save current Box when parent model is saved"
