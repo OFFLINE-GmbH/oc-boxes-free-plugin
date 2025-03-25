@@ -149,6 +149,16 @@ class PartialReader
 
         // Allow consumers to filter the available partials.
         Event::fire(Events::FILTER_PARTIALS, [$this->byHandle]);
+
+        // Allow consumers to change the partial configs.
+        foreach ($this->byHandle as $handle => $partial) {
+            $response = Event::fire(Events::EXTEND_PARTIAL, [$handle, $partial->config]);
+
+            if (count($response) > 0 && $response[0] instanceof PartialConfig) {
+                $partial->config = $response[0];
+                $this->byHandle->put($handle, $partial);
+            }
+        }
     }
 
     /**

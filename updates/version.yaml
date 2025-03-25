@@ -486,3 +486,5 @@
     - "Changed handling of Box focus"
 3.6.63:
     - "Save current Box when parent model is saved"
+3.6.64:
+    - "Added offline.boxes.extendPartial event"
