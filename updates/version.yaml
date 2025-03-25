@@ -480,3 +480,5 @@
     - "Added middleware exceptions for preview page"
 3.6.60:
     - "Made Editor breakpoints configurable (see https://docs.boxes.offline.ch/use-cases/editor-customization.html)"
+3.6.61:
+    - "Changed handling of Box focus"
