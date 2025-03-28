@@ -1,9 +1,10 @@
 <?php
 /** @var $handler */
+/** @var string $type */
 /** @var Backend\Widgets\Form $widget */
 ?>
 
-<?= Form::open(['id' => 'boxes-page-form', 'data-change-monitor' => 1]); ?>
+<?= Form::open(['id' => 'boxes-' . $type . '-form', 'data-change-monitor' => 1]); ?>
 
 <?= $widget->render(); ?>
 

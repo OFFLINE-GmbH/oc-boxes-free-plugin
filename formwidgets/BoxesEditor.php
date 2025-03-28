@@ -116,6 +116,7 @@ class BoxesEditor extends FormWidgetBase
         return [
             '#boxes-page-form-container' => $this->makePartial('widget_render', [
                 'handler' => 'onSavePageForm',
+                'type' => 'page',
             ]),
             '#boxes-box-form-container' => $this->makePartial('box_tab_empty'),
             'boxes' => $model->boxes->toNested()->values(),
@@ -254,6 +255,7 @@ class BoxesEditor extends FormWidgetBase
         return [
             '#boxes-box-form-container' => $this->makePartial('widget_render', [
                 'handler' => 'onSaveBoxForm',
+                'type' => 'box',
             ]),
             'holder_id' => $model->holder_id,
             'holder_type' => $model->holder_type,

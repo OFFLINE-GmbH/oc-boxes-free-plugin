@@ -159,4 +159,5 @@ return [
         'published' => 'Published',
         'outdated' => 'Outdated',
     ],
+    'unsaved_changes_prompt' => 'There are unsaved changes. Do you want to continue?',
 ];

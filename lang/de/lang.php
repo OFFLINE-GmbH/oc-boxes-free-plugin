@@ -159,4 +159,5 @@ return [
         'published' => 'Veröffentlicht',
         'outdated' => 'Ersetzt',
     ],
+    'unsaved_changes_prompt' => 'Es gibt nicht gespeicherte Änderungen. Trotzdem fortfahren?',
 ];

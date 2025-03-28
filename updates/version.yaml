@@ -490,3 +490,5 @@
     - "Added offline.boxes.extendPartial event"
 3.6.65:
     - "Override tag in mixin even if the mixin sets one as default"
+3.6.66:
+    - "Added change monitor"
