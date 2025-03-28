@@ -169,9 +169,7 @@ class PartialConfig
                 // Merge in the tab value on all fields if the mixin definition has a mixin.
                 if ($tab = array_get($config, 'tab', '')) {
                     foreach ($mixin as $field => $values) {
-                        if (!isset($values['tab'])) {
-                            $mixin[$field]['tab'] = $tab;
-                        }
+                        $mixin[$field]['tab'] = $tab;
                     }
                 }
 

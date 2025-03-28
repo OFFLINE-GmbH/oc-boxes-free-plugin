@@ -488,3 +488,5 @@
     - "Save current Box when parent model is saved"
 3.6.64:
     - "Added offline.boxes.extendPartial event"
+3.6.65:
+    - "Override tag in mixin even if the mixin sets one as default"
