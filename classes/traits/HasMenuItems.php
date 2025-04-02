@@ -90,6 +90,9 @@ trait HasMenuItems
         $menuItem = [
             'url' => $pageUrl,
             'isActive' => $pageUrl === $currentUrl,
+            'alternate_locale_urls' => $page->multisite_pages?->mapWithKeys(
+                fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)]
+            )?->toArray() ?? [],
         ];
 
         // Add the child pages to this item as well if nesting is active.
@@ -123,6 +126,9 @@ trait HasMenuItems
                     'title' => $child->name,
                     'isActive' => $pageUrl === $currentUrl,
                     'viewBag' => ['isHidden' => $child->is_hidden || $child->is_hidden_in_navigation],
+                    'alternate_locale_urls' => $child->multisite_pages?->mapWithKeys(
+                        fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)]
+                    )?->toArray() ?? [],
                 ];
 
                 if ($allowNesting && $child->children->count() > 0) {
