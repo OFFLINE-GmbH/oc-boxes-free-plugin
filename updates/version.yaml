@@ -492,3 +492,5 @@
     - "Override tag in mixin even if the mixin sets one as default"
 3.6.66:
     - "Added change monitor"
+3.6.67:
+    - "Fixed change monitor"
