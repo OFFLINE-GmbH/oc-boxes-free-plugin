@@ -496,3 +496,5 @@
     - "Fixed change monitor"
 3.6.68:
     - "Added alternate_locale_urls to menu items"
+3.6.69:
+    - "Fixed multisite scope"
