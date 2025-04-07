@@ -500,3 +500,5 @@
     - "Fixed multisite scope"
 3.6.70:
     - "Fixed handling of custom partial paths on Windows"
+3.6.71:
+    - "Fixed change monitor"
