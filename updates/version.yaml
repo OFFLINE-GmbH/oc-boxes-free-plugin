@@ -498,3 +498,5 @@
     - "Added alternate_locale_urls to menu items"
 3.6.69:
     - "Fixed multisite scope"
+3.6.70:
+    - "Fixed handling of custom partial paths on Windows"

@@ -338,7 +338,14 @@ class PartialReader
      */
     protected function makeAbsolute(string $path): string
     {
-        return str_replace_first('$', App::basePath(), $path);
+        $path = str_replace_first('$', App::basePath(), $path);
+
+        // Fix the path for Windows
+        if (str_contains($path, '\\')) {
+            $path = str_replace('\\', '/', $path);
+        }
+
+        return $path;
     }
 
     /**
