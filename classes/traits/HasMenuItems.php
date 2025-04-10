@@ -120,7 +120,8 @@ trait HasMenuItems
             $branch = [];
 
             foreach ($children as $child) {
-                $pageUrl = URL::to($child->url);
+                $sitePrefix = $child->site?->base_url ?? '';
+                $pageUrl = URL::to($sitePrefix . $child->url);
                 $item = [
                     'url' => $pageUrl,
                     'title' => $child->name,

@@ -502,3 +502,5 @@
     - "Fixed handling of custom partial paths on Windows"
 3.6.71:
     - "Fixed change monitor"
+3.6.72:
+    - "Added site prefix to menu items"
