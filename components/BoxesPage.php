@@ -73,7 +73,7 @@ class BoxesPage extends ComponentBase
 
     protected function setData()
     {
-        $this->modelType = $this->property('modelType');
+        $this->modelType = $this->property('modelType', Page::class);
 
         $model = new ($this->modelType);
 

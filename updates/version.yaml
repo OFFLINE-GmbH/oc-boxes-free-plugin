@@ -506,3 +506,5 @@
     - "Added site prefix to menu items"
 3.6.73:
     - "Added code property to menu items"
+3.6.74:
+    - "Set default modelType value for BoxesPage component"
