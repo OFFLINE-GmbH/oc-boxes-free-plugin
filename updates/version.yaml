@@ -504,3 +504,5 @@
     - "Fixed change monitor"
 3.6.72:
     - "Added site prefix to menu items"
+3.6.73:
+    - "Added code property to menu items"

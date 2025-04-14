@@ -125,6 +125,7 @@ trait HasMenuItems
                 $item = [
                     'url' => $pageUrl,
                     'title' => $child->name,
+                    'code' => $child->slug,
                     'isActive' => $pageUrl === $currentUrl,
                     'viewBag' => ['isHidden' => $child->is_hidden || $child->is_hidden_in_navigation],
                     'alternate_locale_urls' => $child->multisite_pages?->mapWithKeys(
