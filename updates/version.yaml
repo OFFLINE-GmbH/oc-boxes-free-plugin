@@ -508,3 +508,5 @@
     - "Added code property to menu items"
 3.6.74:
     - "Set default modelType value for BoxesPage component"
+3.6.75:
+    - "Fixed change monitor when used in custom plugins"
