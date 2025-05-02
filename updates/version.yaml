@@ -510,3 +510,5 @@
     - "Set default modelType value for BoxesPage component"
 3.6.75:
     - "Fixed change monitor when used in custom plugins"
+3.6.76:
+    - "Made pages list resizeable"
