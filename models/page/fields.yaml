@@ -32,6 +32,9 @@ tabs:
             comment: 'offline.boxes::lang.url_comment'
             type: text
             tab: CMS
+            preset:
+                field: name
+                type: slug
         layout:
             label: 'cms::lang.editor.layout'
             type: dropdown
