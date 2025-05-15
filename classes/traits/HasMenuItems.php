@@ -87,12 +87,16 @@ trait HasMenuItems
         $pageUrl = rtrim($pageUrl, '/');
         $currentUrl = rtrim($currentUrl, '/');
 
+        $alternateLocaleUrls = $page
+            ->multisite_pages
+            ?->filter(fn ($page) => $page->site !== null)
+            ?->mapWithKeys(fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)])
+            ?->toArray() ?? [];
+
         $menuItem = [
             'url' => $pageUrl,
             'isActive' => $pageUrl === $currentUrl,
-            'alternate_locale_urls' => $page->multisite_pages?->mapWithKeys(
-                fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)]
-            )?->toArray() ?? [],
+            'alternate_locale_urls' => $alternateLocaleUrls,
         ];
 
         // Add the child pages to this item as well if nesting is active.
@@ -122,15 +126,20 @@ trait HasMenuItems
             foreach ($children as $child) {
                 $sitePrefix = $child->site?->base_url ?? '';
                 $pageUrl = URL::to($sitePrefix . $child->url);
+
+                $alternateLocaleUrls = $child
+                    ->multisite_pages
+                    ?->filter(fn ($page) => $page->site !== null)
+                    ?->mapWithKeys(fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)])
+                    ?->toArray() ?? [];
+
                 $item = [
                     'url' => $pageUrl,
                     'title' => $child->name,
                     'code' => $child->slug,
                     'isActive' => $pageUrl === $currentUrl,
                     'viewBag' => ['isHidden' => $child->is_hidden || $child->is_hidden_in_navigation],
-                    'alternate_locale_urls' => $child->multisite_pages?->mapWithKeys(
-                        fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)]
-                    )?->toArray() ?? [],
+                    'alternate_locale_urls' => $alternateLocaleUrls,
                 ];
 
                 if ($allowNesting && $child->children->count() > 0) {

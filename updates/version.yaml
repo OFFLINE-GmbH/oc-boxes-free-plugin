@@ -512,5 +512,5 @@
     - "Fixed change monitor when used in custom plugins"
 3.6.76:
     - "Made pages list resizeable"
-3.6.77:
-    - "Added support for mixins in nested forms"
+3.6.78:
+    - "Fixed alternate locale URL generation"

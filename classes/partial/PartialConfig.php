@@ -211,11 +211,6 @@ class PartialConfig
                         return $group;
                     }, $field['groups']);
                 }
-
-                // Process nested forms.
-                if (array_get($field, 'type') === 'nestedform' && is_array(array_get($field, 'form.fields'))) {
-                    $fields[$key]['form']['fields'] = $process($field['form']['fields']);
-                }
             }
 
             if ($hasMixinChildren) {
