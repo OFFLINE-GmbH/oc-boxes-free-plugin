@@ -518,3 +518,5 @@
     - "Fixed alternate locale URL generation"
 3.6.79:
     - "Fixed styling issue"
+3.6.80:
+    - "Minor UX improvement / optimized Windows compatibility"

@@ -198,10 +198,12 @@ class Partial
             if (starts_with($this->path, $themePath)) {
                 return str_replace($themePath . '/partials/', '', $this->path);
             }
+        }
 
-            if ($this->config->specialCategory === PartialConfig::SYSTEM_PARTIAL || starts_with($this->path, plugins_path())) {
-                return sprintf('%s%s', self::EXTERNAL_PREFIX, $this->path);
-            }
+        $normalizedPluginsPath = str_replace('\\', '/', plugins_path());
+
+        if ($this->config->specialCategory === PartialConfig::SYSTEM_PARTIAL || starts_with($this->path, $normalizedPluginsPath)) {
+            return sprintf('%s%s', self::EXTERNAL_PREFIX, $this->path);
         }
 
         return $this->path;
