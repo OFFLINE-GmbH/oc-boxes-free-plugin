@@ -6,6 +6,7 @@ use Backend\Classes\FormField;
 use Backend\Classes\FormWidgetBase;
 use Backend\Widgets\Form;
 use Backend\Widgets\Lists;
+use Exception;
 use Illuminate\Support\Facades\Session;
 use October\Rain\Exception\SystemException;
 use October\Rain\Support\Facades\Event;
@@ -158,6 +159,11 @@ class BoxesEditor extends FormWidgetBase
     {
         $page = Page::findOrFail(post('page'));
         $relativeTo = Page::findOrFail(post('relativeTo'));
+
+        if ($page->id === $relativeTo->id) {
+            throw new Exception('Cannot sort a page relative to itself.');
+        }
+
         $position = post('position');
 
         if ($position === 'before') {
@@ -186,6 +192,11 @@ class BoxesEditor extends FormWidgetBase
     {
         $box = Box::findOrFail(post('Box.id'));
         $relativeTo = Box::findOrFail(post('relativeTo'));
+
+        if ($box->id === $relativeTo->id) {
+            throw new Exception('Cannot sort a box relative to itself.');
+        }
+
         $position = post('position');
 
         if ($position === 'before') {
@@ -328,7 +339,7 @@ class BoxesEditor extends FormWidgetBase
                 ->orderBy('nest_left', 'desc')
                 ->first();
 
-            if ($lastBoxOfParent) {
+            if ($lastBoxOfParent && $box->id !== $lastBoxOfParent->id) {
                 $box->moveAfter($lastBoxOfParent);
             }
         }

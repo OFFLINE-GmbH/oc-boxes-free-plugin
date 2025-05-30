@@ -101,6 +101,7 @@ class BoxesDataForm extends FormWidgetBase
         $config = (object)($this->partial->config->form ?? new stdClass());
         $config->arrayName = $this->formField->getName();
         $config->model = $this->model;
+        $config->alias = 'boxesFormData';
 
         if (property_exists($this->partial->config, 'spacing') && is_array($this->partial->config->spacing)) {
             $config = $this->addSpacingTab($config);

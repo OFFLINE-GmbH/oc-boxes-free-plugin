@@ -520,3 +520,5 @@
     - "Fixed styling issue"
 3.6.80:
     - "Minor UX improvement / optimized Windows compatibility"
+3.6.81:
+    - "Fixed nested form widget usage"
