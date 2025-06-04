@@ -522,3 +522,5 @@
     - "Minor UX improvement / optimized Windows compatibility"
 3.6.81:
     - "Fixed nested form widget usage"
+3.6.82:
+    - "Fixed handling of Partial example data"

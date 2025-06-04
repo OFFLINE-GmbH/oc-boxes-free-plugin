@@ -132,7 +132,9 @@ class Partial
                     }
                 }
 
-                $carry[$name] = trans($example ?: $label ?: $field ?: '');
+                $value = $example ?: $label ?: '';
+
+                $carry[$name] = trans($value);
             }
 
             return $carry;
