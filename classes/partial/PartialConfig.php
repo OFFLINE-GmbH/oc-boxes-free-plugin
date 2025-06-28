@@ -42,6 +42,8 @@ class PartialConfig
 
     public array $translatable = [];
 
+    public ?string $labelFrom = '';
+
     public ?string $name = '';
 
     public ?string $description = '';
@@ -72,7 +74,7 @@ class PartialConfig
 
     public string $themePath = '';
 
-    public function __construct(SplFileInfo $file = null)
+    public function __construct(?SplFileInfo $file = null)
     {
         if (!$file) {
             return;
@@ -301,18 +303,18 @@ class PartialConfig
         }
 
         $yaml['path'] = $path;
-        $yaml['icon'] = $yaml['icon'] ?? '';
-        $yaml['placeholderPreview'] = $yaml['placeholderPreview'] ?? true;
+        $yaml['icon'] ??= '';
+        $yaml['placeholderPreview'] ??= true;
         $yaml['section'] = isset($yaml['section']) ? trans($yaml['section']) : '';
         $yaml['name'] = trans($yaml['name'] ?? $yaml['handle']);
         $yaml['description'] = trans($yaml['description'] ?? '');
-        $yaml['contexts'] = $yaml['contexts'] ?? ['default'];
-        $yaml['order'] = $yaml['order'] ?? null;
+        $yaml['contexts'] ??= ['default'];
+        $yaml['order'] ??= null;
 
         if (array_get($yaml, 'children') === true) {
             $yaml['children'] = ['default'];
         } else {
-            $yaml['children'] = $yaml['children'] ?? [];
+            $yaml['children'] ??= [];
         }
 
         foreach ($yaml as $key => $value) {

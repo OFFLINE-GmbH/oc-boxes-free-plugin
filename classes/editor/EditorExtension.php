@@ -262,21 +262,21 @@ class EditorExtension extends ExtensionBase
         );
 
         $html = <<<HTML
-        <div>
-            {{ d(box) }}
-        </div>
-        HTML;
+            <div>
+                {{ d(box) }}
+            </div>
+            HTML;
 
         $yaml = <<<YAML
-        name: %s
-        handle: new-box-{time}
-        section: %s
-        form:
-          fields:
-            text:
-              label: Text
-              type: text
-        YAML;
+            name: %s
+            handle: new-box-{time}
+            section: %s
+            form:
+              fields:
+                text:
+                  label: Text
+                  type: text
+            YAML;
 
         $newBoxData->setInitialDocumentData([
             'markup' => $html,
@@ -479,7 +479,7 @@ class EditorExtension extends ExtensionBase
     protected function ensureDir(string $dirname)
     {
         if (!is_dir($dirname)) {
-            if (!mkdir($dirname, 0755, true) && !is_dir($dirname)) {
+            if (!mkdir($dirname, 0o755, true) && !is_dir($dirname)) {
                 throw new RuntimeException(sprintf('Failed to create "%s"', $dirname));
             }
         }

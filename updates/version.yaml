@@ -526,3 +526,5 @@
     - "Fixed handling of Partial example data"
 3.6.83:
     - "Added October v4 support"
+3.6.84:
+    - "Optimized PHP 8.4 compatibility"

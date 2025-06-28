@@ -4,11 +4,11 @@ namespace OFFLINE\Boxes\Models;
 
 use App;
 use Backend\Facades\BackendAuth;
+use Carbon\Carbon;
 use Closure;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Model;
-use October\Rain\Argon\Argon;
 use October\Rain\Support\Facades\Event;
 use OFFLINE\Boxes\Classes\Events;
 use OFFLINE\Boxes\Classes\Exceptions\PartialNotFoundException;
@@ -153,7 +153,7 @@ class Box extends Model
 
         $this->bindEvent('model.beforeCreate', function () {
             if (!$this->unique_id) {
-                $this->unique_id = substr(sha1((string)Argon::now()->getPreciseTimestamp()), 0, 8);
+                $this->unique_id = substr(sha1((string)Carbon::now()->getPreciseTimestamp()), 0, 8);
             }
             $this->handleSpecialPartials();
         });

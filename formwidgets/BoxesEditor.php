@@ -108,7 +108,7 @@ class BoxesEditor extends FormWidgetBase
 
     public function onRenderPageForm(?Page $model = null)
     {
-        $model = $model ?? $this->resolvePageModel();
+        $model ??= $this->resolvePageModel();
 
         $widget = $this->buildPageForm($model);
 
@@ -257,7 +257,7 @@ class BoxesEditor extends FormWidgetBase
 
     public function onRenderBoxForm(?Box $model = null)
     {
-        $model = $model ?? $this->resolveBoxModel();
+        $model ??= $this->resolveBoxModel();
 
         $widget = $this->buildBoxForm($model);
 
