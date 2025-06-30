@@ -528,3 +528,5 @@
     - "Added October v4 support"
 3.6.84:
     - "Optimized PHP 8.4 compatibility"
+3.6.85:
+    - "Updated NL translations"
