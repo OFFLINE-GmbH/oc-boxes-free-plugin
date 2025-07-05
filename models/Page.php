@@ -443,6 +443,10 @@ class Page extends Model
     {
         $routePrefix = '';
 
+        if (starts_with($slug, 'october://') && parse_url($slug, PHP_URL_USER) === self::MENU_TYPE_PAGES) {
+            $slug = trim(parse_url($slug, PHP_URL_PATH), '/');
+        }
+
         $page = self::withoutGlobalScope(MultisiteScope::class)->where('slug', $slug)->first();
 
         if (!$page) {
@@ -468,7 +472,7 @@ class Page extends Model
 
         $attribute = array_get($args, 'attribute', 'url');
 
-        $value = $page->getAttribute($attribute);
+        $value = $page->getAttribute($attribute) ?? '';
 
         if ($attribute !== 'url') {
             return $value;

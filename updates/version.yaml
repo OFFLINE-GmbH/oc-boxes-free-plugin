@@ -530,3 +530,5 @@
     - "Optimized PHP 8.4 compatibility"
 3.6.85:
     - "Updated NL translations"
+3.6.86:
+    - "Added support for page links to the |boxesPage filter"
