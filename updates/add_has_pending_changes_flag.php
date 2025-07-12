@@ -24,7 +24,7 @@ class AddHasPendingChangesFlag extends Migration
             }
 
             if (!Schema::hasColumn('offline_boxes_pages', 'version')) {
-                $table->boolean('version')->nullable()->after('has_pending_changes');
+                $table->integer('version')->nullable()->after('has_pending_changes');
             }
         });
     }

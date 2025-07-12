@@ -32,7 +32,7 @@ class MigrateRainlabPagesMenuReferences extends Migration
                     return $item;
                 }
 
-                $page = Page::withoutGlobalScopes()->where('id', $item->reference)->first();
+                $page = Page::withoutGlobalScopes()->where('id', (int)$item->reference)->first();
 
                 if (!$page) {
                     return $item;

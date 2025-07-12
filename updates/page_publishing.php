@@ -27,11 +27,11 @@ class PagePublishing extends Migration
             $table->integer('published_by')->nullable()->after('published_at');
             $table->integer('updated_by')->nullable()->after('updated_at');
             $table->boolean('has_pending_changes')->default(false)->after('published_by');
-            $table->boolean('version')->nullable()->after('has_pending_changes');
+            $table->integer('version')->nullable()->after('has_pending_changes');
         });
 
         Schema::table('offline_boxes_boxes', function (Blueprint $table) {
-            $table->dropIndex('offline_boxes_boxes_unique_id_unique');
+            $table->dropForeign('offline_boxes_boxes_unique_id_unique');
 
             $table->integer('origin_box_id')->nullable()->after('holder_id');
             $table->integer('references_box_id')->nullable()->after('origin_box_id');

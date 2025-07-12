@@ -532,3 +532,5 @@
     - "Updated NL translations"
 3.6.86:
     - "Added support for page links to the |boxesPage filter"
+3.6.87:
+    - "Optimized Postgres support"
