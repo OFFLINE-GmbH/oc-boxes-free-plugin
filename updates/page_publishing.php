@@ -2,6 +2,7 @@
 
 namespace OFFLINE\Boxes\Updates;
 
+use Illuminate\Support\Facades\DB;
 use October\Rain\Database\Schema\Blueprint;
 use October\Rain\Database\Updates\Migration;
 use OFFLINE\Boxes\Classes\PublishedState;
@@ -31,7 +32,11 @@ class PagePublishing extends Migration
         });
 
         Schema::table('offline_boxes_boxes', function (Blueprint $table) {
-            $table->dropForeign('offline_boxes_boxes_unique_id_unique');
+            if (DB::connection()->getDriverName() === 'postgres') {
+                $table->dropForeign('offline_boxes_boxes_unique_id_unique');
+            } else {
+                $table->dropIndex('offline_boxes_boxes_unique_id_unique');
+            }
 
             $table->integer('origin_box_id')->nullable()->after('holder_id');
             $table->integer('references_box_id')->nullable()->after('origin_box_id');

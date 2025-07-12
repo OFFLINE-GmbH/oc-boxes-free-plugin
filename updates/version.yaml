@@ -534,3 +534,5 @@
     - "Added support for page links to the |boxesPage filter"
 3.6.87:
     - "Optimized Postgres support"
+3.6.89:
+    - "Optimized Postgres support"
