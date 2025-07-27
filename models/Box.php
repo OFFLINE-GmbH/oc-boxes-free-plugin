@@ -303,12 +303,10 @@ class Box extends Model
     public function scopeForCurrentlyPublishedPage(Builder $query)
     {
         if (Features::instance()->references) {
-            $query->whereHas('holder', function ($q) {
-                if (BackendAuth::getUser()) {
-                    $q->currentDrafts();
-                } else {
-                    $q->currentPublished();
-                }
+            $query->where(function (Builder $q) {
+                $q
+                    ->whereHasMorph('holder', [Page::class], fn ($q) => $q->current())
+                    ->orWhereHasMorph('holder', [Content::class], fn ($q) => $q->current());
             });
         }
     }
