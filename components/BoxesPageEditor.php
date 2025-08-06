@@ -71,4 +71,9 @@ class BoxesPageEditor extends BoxesPage
             ),
         ];
     }
+
+    public function getCSRFToken()
+    {
+        return csrf_token();
+    }
 }

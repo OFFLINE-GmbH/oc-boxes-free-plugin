@@ -44,8 +44,6 @@
                     class="btn btn-default oc-icon-save"
                     data-request="<?= e($handler); ?>"
                     data-request-success="window.document.dispatchEvent(new CustomEvent('boxes.handler.success', { detail: { handler: '<?= e($handler); ?>', response: data } }))"
-                    data-hotkey="ctrl+s, cmd+s"
-                    data-tooltip-text=" (Ctrl/Cmd+S)"
                     data-disposable
                 >
                     <?= e(trans('offline.boxes::lang.save')); ?>

@@ -109,6 +109,7 @@
 
     // ocRequest sends a request using October's AJAX Framework API.
     function ocRequest(handler, payload = {}) {
+        const token = document.querySelector('.oc-boxes-editor[data-csrf]').dataset.csrf;
         return new Promise((resolve, reject) => {
             fetch(location.href + '/', {
                 method: 'POST',
@@ -116,7 +117,8 @@
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                     'X-OCTOBER-REQUEST-HANDLER': handler,
                     'X-OCTOBER-REQUEST-PARTIALS': '',
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-Token': token,
                 },
                 body: new URLSearchParams(payload),
             })
@@ -277,6 +279,9 @@
                 preview.innerHTML = `<div class="oc-boxes-box-placeholder__loading">${spinner}</div>`;
                 ocRequest('onRenderPlaceholder', {partial: e.detail.partial}).then(result => {
                     applyPartialUpdates(result)
+                }).catch(e => {
+                    console.error('failed to fetch preview data', e)
+                    preview.innerHTML = ``;
                 })
             } else {
                 preview.innerHTML = ``;
@@ -317,6 +322,8 @@
                     })
                     window.document.dispatchEvent(new CustomEvent('offline.boxes.editorRefreshed'))
                     resetFocus()
+                }).catch(e => {
+                    console.error('failed to fetch preview data', e)
                 })
         })
 

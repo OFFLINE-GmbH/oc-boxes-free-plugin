@@ -540,3 +540,5 @@
     - "Optimized query"
 3.6.91:
     - "Optimized Postgres support"
+3.6.92:
+    - "Fixed duplicate creation of Boxes when using Ctrl+S"
