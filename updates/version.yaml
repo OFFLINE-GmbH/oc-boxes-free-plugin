@@ -538,3 +538,5 @@
     - "Optimized Postgres support"
 3.6.90:
     - "Optimized query"
+3.6.91:
+    - "Optimized Postgres support"

@@ -32,7 +32,7 @@ class PagePublishing extends Migration
         });
 
         Schema::table('offline_boxes_boxes', function (Blueprint $table) {
-            if (DB::connection()->getDriverName() === 'postgres') {
+            if (DB::connection()->getDriverName() === 'pgsql') {
                 $table->dropForeign('offline_boxes_boxes_unique_id_unique');
             } else {
                 $table->dropIndex('offline_boxes_boxes_unique_id_unique');
