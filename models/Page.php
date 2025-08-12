@@ -483,13 +483,13 @@ class Page extends Model
 
     public function getParentIdOptions()
     {
-        $query = self::newQuery()->where('category_id', $this->category_id ?? get('category_id'));
+        $query = self::newQuery()->current()->where('category_id', $this->category_id ?? get('category_id'));
 
         if ($this->exists) {
             $query->where('id', '<>', $this->id);
         }
 
-        return [null => '-- ' . trans('offline.boxes::lang.top_level')] + $query->listsNested('name', 'id');
+        return [null => '-- ' . trans('offline.boxes::lang.no_parent')] + $query->listsNested('name', 'id');
     }
 
     /**

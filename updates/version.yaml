@@ -542,3 +542,7 @@
     - "Optimized Postgres support"
 3.6.92:
     - "Fixed duplicate creation of Boxes when using Ctrl+S"
+3.6.93:
+    - "Make parent page selectable"
+3.6.94:
+    - "Display root page info in Boxes Editor"

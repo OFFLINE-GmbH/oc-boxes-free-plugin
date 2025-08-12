@@ -139,7 +139,13 @@ class BoxesEditor extends FormWidgetBase
 
         $widget = $this->buildPageForm($page);
 
-        $page->fill($widget->getSaveData());
+        $widgetData = $widget->getSaveData();
+
+        $page->fill($widgetData);
+
+        if (!array_key_exists('parent_id', $widgetData)) {
+            $page->parent_id = null;
+        }
 
         $page->withoutMultisiteScope(function () use ($page) {
             $page->save([], post('_session_key'));
@@ -469,8 +475,14 @@ class BoxesEditor extends FormWidgetBase
 
         $previewType = $this->isFullMode() ? 'page' : 'content';
 
+        $pageQuery = Page::currentDrafts()->orderBy('nest_left');
+
+        if (Features::instance()->multisite) {
+            $pageQuery->with('root_page');
+        }
+
         $pages = $this->isFullMode()
-            ? Page::currentDrafts()->orderBy('nest_left')->get()->toNested(false)
+            ? $pageQuery->get()->toNested(false)
             : collect([]);
 
         Event::fire(Events::EDITOR_EXTEND_PAGES, [&$pages]);

@@ -1,8 +1,6 @@
 fields:
     id:
         type: hidden
-    parent_id:
-        type: hidden
     name:
         label: 'offline.boxes::lang.name'
         type: text
@@ -38,6 +36,11 @@ tabs:
         layout:
             label: 'cms::lang.editor.layout'
             type: dropdown
+            tab: CMS
+        parent_id:
+            type: dropdown
+            label: 'offline.boxes::lang.parent_id'
+            comment: 'offline.boxes::lang.parent_id_comment'
             tab: CMS
         images:
             label: 'offline.boxes::lang.image'
