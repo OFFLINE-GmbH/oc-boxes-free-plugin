@@ -546,3 +546,5 @@
     - "Make parent page selectable"
 3.6.94:
     - "Display root page info in Boxes Editor"
+3.6.95:
+    - "Fixed parsing of boxes.yaml"

@@ -501,6 +501,10 @@ class Page extends Model
 
         $templates = PartialReader::instance()->getBoxesConfig()->get('templates');
 
+        if (!$templates) {
+            return [];
+        }
+
         return $templates
             ->filter(fn ($template) => array_intersect($template['contexts'], $contexts))
             ->mapWithKeys(fn ($template) => [$template['handle'] => $template['name']])
