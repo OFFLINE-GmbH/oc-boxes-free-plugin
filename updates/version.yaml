@@ -551,3 +551,7 @@
 3.6.96:
     - "Fixes type of version column"
     - fix_version_column.php
+3.6.97:
+    - "Always use current site Page when resolving page attributes"
+3.6.98:
+    - "Optimized Menu queries"

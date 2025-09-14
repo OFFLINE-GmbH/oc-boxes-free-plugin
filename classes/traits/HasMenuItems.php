@@ -10,6 +10,7 @@ use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Support\Facades\Site;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
+use System\Classes\SiteManager;
 
 trait HasMenuItems
 {
@@ -21,7 +22,12 @@ trait HasMenuItems
      */
     public static function resolveMenuItem($item, $currentUrl)
     {
-        $iterator = self::iterateChildMenuItems($currentUrl, $item->nesting);
+        $sites = SiteManager::instance()->listSites()->keyBy('id');
+
+        // To prevent loading related site infos, we use a cached Site lookup.
+        $getSite = fn ($page) => $sites[$page->site_id] ?? null;
+
+        $iterator = self::iterateChildMenuItems($currentUrl, $item->nesting, $getSite);
 
         if ($item->type === Page::MENU_TYPE_ALL_PAGES) {
             $query = self::query()
@@ -89,8 +95,8 @@ trait HasMenuItems
 
         $alternateLocaleUrls = $page
             ->multisite_pages
-            ?->filter(fn ($page) => $page->site !== null)
-            ?->mapWithKeys(fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)])
+            ?->filter(fn ($page) => $page->site_id !== null)
+            ?->mapWithKeys(fn ($page) => [$getSite($page)->locale => URL::to($getSite($page)->base_url . $page->url)])
             ?->toArray() ?? [];
 
         $menuItem = [
@@ -113,24 +119,28 @@ trait HasMenuItems
      * Returns an iterator that iterates over a Collection and builds
      * nested menu items for RainLab.Pages.
      * @param mixed $currentUrl
+     * @param null|mixed $getSite
      */
-    public static function iterateChildMenuItems($currentUrl, ?bool $allowNesting = true): Closure
+    public static function iterateChildMenuItems($currentUrl, ?bool $allowNesting = true, $getSite = null): Closure
     {
         $iterator = function (\October\Rain\Database\Collection $children) use (
             &$iterator,
             $currentUrl,
-            $allowNesting
+            $allowNesting,
+            $getSite,
         ) {
             $branch = [];
 
+            $children->load('multisite_pages');
+
             foreach ($children as $child) {
-                $sitePrefix = $child->site?->base_url ?? '';
+                $sitePrefix = $getSite($child)?->base_url ?? '';
                 $pageUrl = URL::to($sitePrefix . $child->url);
 
                 $alternateLocaleUrls = $child
                     ->multisite_pages
-                    ?->filter(fn ($page) => $page->site !== null)
-                    ?->mapWithKeys(fn ($page) => [$page->site->locale => URL::to($page->site->base_url . $page->url)])
+                    ?->filter(fn ($page) => $page->site_id !== null)
+                    ?->mapWithKeys(fn ($page) => [$getSite($page)->locale => URL::to($getSite($page)->base_url . $page->url)])
                     ?->toArray() ?? [];
 
                 $item = [

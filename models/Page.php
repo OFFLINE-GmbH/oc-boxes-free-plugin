@@ -447,9 +447,9 @@ class Page extends Model
             $slug = trim(parse_url($slug, PHP_URL_PATH), '/');
         }
 
-        $page = self::withoutGlobalScope(MultisiteScope::class)->where('slug', $slug)->first();
+        $pages = self::withoutGlobalScope(MultisiteScope::class)->where('slug', $slug)->get();
 
-        if (!$page) {
+        if ($pages->count() === 0) {
             return '';
         }
 
@@ -457,6 +457,17 @@ class Page extends Model
 
         if ($currentSite->is_prefixed) {
             $routePrefix = $currentSite->route_prefix;
+        }
+
+        $page = null;
+
+        if ($pages->count() > 1) {
+            // Prefer the current site if multiple pages are found.
+            $page = $pages->firstWhere('site_id', $currentSite->id);
+        }
+
+        if (!$page) {
+            $page = $pages->first();
         }
 
         // If the current site is not the primary site, try to find the related page for the current site.
