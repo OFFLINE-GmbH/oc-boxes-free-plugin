@@ -292,6 +292,10 @@ class Page extends Model
                 : URL::to($this->canonical_url);
         }
 
+        if (Features::instance()->multisite && $this->root_page) {
+            return URL::to($this->root_page->url);
+        }
+
         return trim($this->url)
             ? URL::to($this->url)
             : '';
@@ -552,6 +556,18 @@ class Page extends Model
         }
 
         return $fn();
+    }
+
+    /**
+     * Returns the localized URL of this page.
+     */
+    public function getLocalizedUrlAttribute()
+    {
+        if (Features::instance()->multisite) {
+            return URL::to($this->site?->base_url . $this->url);
+        }
+
+        return URL::to($this->url);
     }
 
     /**

@@ -154,7 +154,8 @@
             const detail = {id: id}
             const contextBorder = currentTarget.closest('[data-box-partial-contexts]')
 
-            if (contextBorder) {
+            // Do not limit the partial context if a Box is added before the current Box.
+            if (eventName !== 'boxes.box.add_before' && contextBorder) {
                 detail['partial_contexts'] = contextBorder.dataset.boxPartialContexts.split('||')
             }
 

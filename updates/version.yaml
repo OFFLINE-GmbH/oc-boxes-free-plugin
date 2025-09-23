@@ -555,3 +555,6 @@
     - "Always use current site Page when resolving page attributes"
 3.6.98:
     - "Optimized Menu queries"
+3.6.99:
+    - "Fixed URL generation in SEO partial"
+    - "Fixed context restrictions when adding a 'Box before'"

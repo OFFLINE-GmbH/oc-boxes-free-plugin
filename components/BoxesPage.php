@@ -24,6 +24,8 @@ class BoxesPage extends ComponentBase
 
     public string $modelType;
 
+    public bool $multisiteEnabled = false;
+
     public function componentDetails()
     {
         return [
@@ -74,6 +76,7 @@ class BoxesPage extends ComponentBase
     protected function setData()
     {
         $this->modelType = $this->property('modelType', Page::class);
+        $this->multisiteEnabled = Features::instance()->multisite;
 
         $model = new ($this->modelType);
 
