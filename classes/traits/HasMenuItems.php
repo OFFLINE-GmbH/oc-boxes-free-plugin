@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Support\Facades\URL;
 use October\Rain\Database\Scopes\MultisiteScope;
 use October\Rain\Support\Facades\Site;
+use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
 use System\Classes\SiteManager;
@@ -93,11 +94,15 @@ trait HasMenuItems
         $pageUrl = rtrim($pageUrl, '/');
         $currentUrl = rtrim($currentUrl, '/');
 
-        $alternateLocaleUrls = $page
-            ->multisite_pages
-            ?->filter(fn ($page) => $page->site_id !== null)
-            ?->mapWithKeys(fn ($page) => [$getSite($page)->locale => URL::to($getSite($page)->base_url . $page->url)])
-            ?->toArray() ?? [];
+        $alternateLocaleUrls = [];
+
+        if (Features::instance()->multisite) {
+            $alternateLocaleUrls = $page
+                ->multisite_pages
+                ?->filter(fn ($page) => $page->site_id !== null)
+                ?->mapWithKeys(fn ($page) => [$getSite($page)->locale => URL::to($getSite($page)->base_url . $page->url)])
+                ?->toArray() ?? [];
+        }
 
         $menuItem = [
             'url' => $pageUrl,

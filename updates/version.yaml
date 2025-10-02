@@ -558,3 +558,5 @@
 3.6.99:
     - "Fixed URL generation in SEO partial"
     - "Fixed context restrictions when adding a 'Box before'"
+3.6.100:
+    - "Fixed handling of alternate locale URLs in free version"
