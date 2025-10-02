@@ -13,8 +13,8 @@ class SiteSearch extends ResultsProvider
             $result = $this->newResult();
 
             $result->relevance = str_contains($page->name, $this->query) ? 55 : 50;
-            $result->title = $page->name;
-            $result->text = $page->meta_description;
+            $result->title = $page->name ?? '';
+            $result->text = $page->meta_description ?? '';
             $result->url = $page->absolute_url;
             $result->thumb = $page->images?->first();
             $result->model = $page;

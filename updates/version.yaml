@@ -562,3 +562,5 @@
     - "Fixed handling of alternate locale URLs in free version"
 3.6.101:
     - "Fixed handling of alternate locale URLs in free version"
+3.6.102:
+    - "Fixed site search integration"
