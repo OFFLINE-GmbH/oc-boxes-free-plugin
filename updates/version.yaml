@@ -560,3 +560,5 @@
     - "Fixed context restrictions when adding a 'Box before'"
 3.6.100:
     - "Fixed handling of alternate locale URLs in free version"
+3.6.101:
+    - "Fixed handling of alternate locale URLs in free version"

@@ -136,17 +136,23 @@ trait HasMenuItems
         ) {
             $branch = [];
 
-            $children->load('multisite_pages');
+            if (Features::instance()->multisite) {
+                $children->load('multisite_pages');
+            }
 
             foreach ($children as $child) {
                 $sitePrefix = $getSite($child)?->base_url ?? '';
                 $pageUrl = URL::to($sitePrefix . $child->url);
 
-                $alternateLocaleUrls = $child
-                    ->multisite_pages
-                    ?->filter(fn ($page) => $page->site_id !== null)
-                    ?->mapWithKeys(fn ($page) => [$getSite($page)->locale => URL::to($getSite($page)->base_url . $page->url)])
-                    ?->toArray() ?? [];
+                $alternateLocaleUrls = [];
+
+                if (Features::instance()->multisite) {
+                    $alternateLocaleUrls = $child
+                        ->multisite_pages
+                        ?->filter(fn ($page) => $page->site_id !== null)
+                        ?->mapWithKeys(fn ($page) => [$getSite($page)->locale => URL::to($getSite($page)->base_url . $page->url)])
+                        ?->toArray() ?? [];
+                }
 
                 $item = [
                     'url' => $pageUrl,
