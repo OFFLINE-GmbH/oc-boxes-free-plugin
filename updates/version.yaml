@@ -564,3 +564,5 @@
     - "Fixed handling of alternate locale URLs in free version"
 3.6.102:
     - "Fixed site search integration"
+3.6.103:
+    - "Allow overriding partial configs from child theme"

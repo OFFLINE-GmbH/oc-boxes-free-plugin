@@ -112,8 +112,10 @@ class PartialReader
             if ($this->byHandle->has($config->handle)) {
                 $currentTheme = self::getSiteThemeFromContext();
 
+                $throwBecauseDuplicate = true;
+
                 // If this is a child theme, it is possible that the parent theme has the same partial.
-                // In this case, simply ignore it.
+                // In this case, override it.
                 if ($currentTheme && $currentTheme->hasParentTheme()) {
                     // Only consider partials from themes here.
                     if (!str_starts_with($partialPath->getPath(), themes_path())) {
@@ -124,14 +126,19 @@ class PartialReader
                     if (!str_starts_with($partialPath->getPath(), $currentTheme->getPath())) {
                         continue;
                     }
+
+                    // Do not throw the exception.
+                    $throwBecauseDuplicate = false;
                 }
 
-                throw new LogicException(
-                    sprintf(
-                        '[OFFLINE.Boxes] Duplicate partial handle "%s" detected. Make sure to use each handle only once.',
-                        $config->handle
-                    )
-                );
+                if ($throwBecauseDuplicate) {
+                    throw new LogicException(
+                        sprintf(
+                            '[OFFLINE.Boxes] Duplicate partial handle "%s" detected. Make sure to use each handle only once.',
+                            $config->handle
+                        )
+                    );
+                }
             }
 
             $this->byHandle->put($config->handle, new Partial($config));
@@ -259,13 +266,12 @@ class PartialReader
      */
     protected function handleThemePartialsDir(Theme $theme)
     {
-        $this->themePartialsDir = [
-            sprintf('%s/partials', $theme->getPath()),
-        ];
-
+        // Always process the parent theme first so we can override existing partials from the child theme.
         if ($parentTheme = $theme->getParentTheme()) {
             $this->themePartialsDir[] = sprintf('%s/partials', $parentTheme->getPath());
         }
+
+        $this->themePartialsDir[] = sprintf('%s/partials', $theme->getPath());
     }
 
     /**
