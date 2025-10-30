@@ -566,3 +566,5 @@
     - "Fixed site search integration"
 3.6.103:
     - "Allow overriding partial configs from child theme"
+3.6.104:
+    - "Fixed validation of Box references in Templates"

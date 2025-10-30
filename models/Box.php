@@ -178,7 +178,9 @@ class Box extends Model
         });
 
         $this->bindEvent('model.beforeValidate', function () {
-            $this->setRulesFromPartial();
+            if (!str_starts_with($this->partial, 'Boxes\Internal\Reference')) {
+                $this->setRulesFromPartial();
+            }
         });
 
         $this->bindEvent('model.beforeSave', function () {
