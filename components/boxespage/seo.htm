@@ -14,7 +14,9 @@
     {% endif %}
 
     {% if page.og_image %}
-        <meta property="og:image" content="{{ page.og_image.thumb(1200, 900) }}"/>
+        <meta property="og:image" content="{{ page.og_image.thumb(1200, 900) }}" />
+    {% else %}
+        <meta property="og:image" content="{{ this.theme.getPreviewImageUrl() }}" />
     {% endif %}
 
     {% if page.og_type %}
