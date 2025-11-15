@@ -2,8 +2,8 @@
 
 namespace OFFLINE\Boxes\Classes\Partial;
 
+use Backend\Facades\Backend;
 use Exception;
-use Illuminate\Support\Facades\URL;
 use October\Rain\Parse\Yaml;
 use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
 use RuntimeException;
@@ -51,6 +51,8 @@ class PartialConfig
     public string $path = '';
 
     public string $icon = '';
+
+    public string $preview = '';
 
     public ?int $order = null;
 
@@ -279,7 +281,12 @@ class PartialConfig
     protected function setDefaults()
     {
         if (!$this->icon) {
-            $this->icon = URL::to('/plugins/offline/boxes/assets/img/boxes/generic.svg');
+            // Use the preview if available. Otherwise, use a fallback icon.
+            if ($this->preview) {
+                $this->icon = $this->preview;
+            } else {
+                $this->icon = '/plugins/offline/boxes/assets/img/boxes/generic.svg';
+            }
         }
 
         if (!$this->section) {
@@ -289,6 +296,42 @@ class PartialConfig
         if (!$this->specialCategory && !str_starts_with($this->path, themes_path())) {
             $this->specialCategory = self::EXTERNAL_PARTIAL;
         }
+
+        // Convert paths.
+        $this->icon = $this->processPath($this->icon);
+        $this->preview = $this->processPath($this->preview);
+    }
+
+    /**
+     * Convert relative paths to absolute paths. It follows these rules:
+     * 1. Absolute paths are left unchanged.
+     * 2. Relative paths are first resolved against the partials' directory, then against the theme directory.
+     */
+    private function processPath(?string $path): string
+    {
+        if (!$path) {
+            return $path;
+        }
+
+        if (str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        $theme = ThemeResolver::instance()->getThemeCode();
+        $paths = [
+            dirname($this->path),
+            themes_path($theme),
+        ];
+
+        foreach ($paths as $dir) {
+            $absolute = $dir . '/' . $path;
+
+            if (file_exists($absolute)) {
+                return Backend::url('offline/boxes/editorcontroller/preview?path=') . urlencode(str_replace(base_path(), '', $absolute));
+            }
+        }
+
+        return $path;
     }
 
     private function applyYaml($path, array $yaml): self
@@ -304,6 +347,7 @@ class PartialConfig
 
         $yaml['path'] = $path;
         $yaml['icon'] ??= '';
+        $yaml['preview'] ??= '';
         $yaml['placeholderPreview'] ??= true;
         $yaml['section'] = isset($yaml['section']) ? trans($yaml['section']) : '';
         $yaml['name'] = trans($yaml['name'] ?? $yaml['handle']);

@@ -570,3 +570,5 @@
     - "Fixed validation of Box references in Templates"
 3.6.105:
     - "Better handling of null values added to menu item generation"
+3.7.0:
+    - "Added preview image support to Partial selector (see https://docs.boxes.offline.ch/concepts/box-configs.html#preview-images-and-icon)"

@@ -52,4 +52,25 @@ class EditorController extends Controller
 
         $this->vars['widget'] = $widget;
     }
+
+    public function preview()
+    {
+        $this->layout = '';
+
+        $path = get('path');
+
+        if (!$path) {
+            return response('File not found', 404);
+        }
+
+        $path = base_path($path);
+
+        if (!\System\Facades\System::checkBaseDir($path)) {
+            return response('File inclusion not allowed', 403);
+        }
+
+        return response()->file($path, [
+            'Cache-Control' => 'no-cache, must-revalidate',
+        ]);
+    }
 }
