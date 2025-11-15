@@ -8,6 +8,7 @@ use October\Rain\Parse\Yaml;
 use OFFLINE\Boxes\Classes\CMS\ThemeResolver;
 use RuntimeException;
 use SplFileInfo;
+use System\Helpers\System;
 
 /**
  * The PartialConfig that is defined in a YAML file.
@@ -52,7 +53,11 @@ class PartialConfig
 
     public string $icon = '';
 
+    public string $iconRealPath = '';
+
     public string $preview = '';
+
+    public string $previewRealPath = '';
 
     public ?int $order = null;
 
@@ -280,15 +285,6 @@ class PartialConfig
 
     protected function setDefaults()
     {
-        if (!$this->icon) {
-            // Use the preview if available. Otherwise, use a fallback icon.
-            if ($this->preview) {
-                $this->icon = $this->preview;
-            } else {
-                $this->icon = '/plugins/offline/boxes/assets/img/boxes/generic.svg';
-            }
-        }
-
         if (!$this->section) {
             $this->section = trans('offline.boxes::lang.section_common');
         }
@@ -298,8 +294,28 @@ class PartialConfig
         }
 
         // Convert paths.
-        $this->icon = $this->processPath($this->icon);
-        $this->preview = $this->processPath($this->preview);
+        $this->iconRealPath = $this->processPath($this->icon);
+
+        if ($this->iconRealPath) {
+            $this->icon = $this->imagePreviewPath('icon');
+        }
+
+        $this->previewRealPath = $this->processPath($this->preview);
+
+        if ($this->previewRealPath) {
+            $this->preview = $this->imagePreviewPath('preview');
+        }
+
+        if (!$this->icon) {
+            // Use the preview if available. Otherwise, use a fallback icon.
+            if ($this->preview) {
+                $this->icon = $this->preview;
+                $this->iconRealPath = $this->previewRealPath;
+            } else {
+                $this->icon = '/plugins/offline/boxes/assets/img/boxes/generic.svg';
+                $this->iconRealPath = '/plugins/offline/boxes/assets/img/boxes/generic.svg';
+            }
+        }
     }
 
     /**
@@ -310,11 +326,11 @@ class PartialConfig
     private function processPath(?string $path): string
     {
         if (!$path) {
-            return $path;
+            return '';
         }
 
         if (str_starts_with($path, '/')) {
-            return $path;
+            return base_path($path);
         }
 
         $theme = ThemeResolver::instance()->getThemeCode();
@@ -326,12 +342,17 @@ class PartialConfig
         foreach ($paths as $dir) {
             $absolute = $dir . '/' . $path;
 
-            if (file_exists($absolute)) {
-                return Backend::url('offline/boxes/editorcontroller/preview?path=') . urlencode(str_replace(base_path(), '', $absolute));
+            if (file_exists($absolute) && \System\Facades\System::checkBaseDir($absolute)) {
+                return $absolute;
             }
         }
 
-        return $path;
+        return '';
+    }
+
+    private function imagePreviewPath(string $context)
+    {
+        return Backend::url(sprintf('offline/boxes/editorcontroller/preview?handle=%s&context=%s', urlencode($this->handle), $context));
     }
 
     private function applyYaml($path, array $yaml): self

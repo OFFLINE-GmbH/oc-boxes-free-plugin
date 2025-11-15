@@ -7,6 +7,7 @@ use Backend\Classes\Controller;
 use Backend\Traits\WidgetMaker;
 use BackendMenu;
 use OFFLINE\Boxes\Classes\Features;
+use OFFLINE\Boxes\Classes\Partial\PartialReader;
 use OFFLINE\Boxes\FormWidgets\BoxesEditor;
 use System\Traits\ConfigMaker;
 use System\Traits\ViewMaker;
@@ -57,20 +58,28 @@ class EditorController extends Controller
     {
         $this->layout = '';
 
-        $path = get('path');
+        $handle = get('handle');
+        $context = get('context');
 
-        if (!$path) {
+        if (!$handle || !$context) {
             return response('File not found', 404);
         }
 
-        $path = base_path($path);
+        $partial = PartialReader::instance()->findByHandle($handle);
+
+        $path = match ($context) {
+            'preview' => $partial->config->previewRealPath,
+            'icon' => $partial->config->iconRealPath,
+        };
+
+        if (!file_exists($path)) {
+            return response('File not found', 404);
+        }
 
         if (!\System\Facades\System::checkBaseDir($path)) {
             return response('File inclusion not allowed', 403);
         }
 
-        return response()->file($path, [
-            'Cache-Control' => 'no-cache, must-revalidate',
-        ]);
+        return response()->file($path);
     }
 }
