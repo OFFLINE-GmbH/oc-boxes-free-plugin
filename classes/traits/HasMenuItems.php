@@ -12,6 +12,7 @@ use OFFLINE\Boxes\Classes\Features;
 use OFFLINE\Boxes\Models\Page;
 use RainLab\Translate\Classes\Translator;
 use System\Classes\SiteManager;
+use System\Models\SiteDefinition;
 
 trait HasMenuItems
 {
@@ -26,7 +27,7 @@ trait HasMenuItems
         $sites = SiteManager::instance()->listSites()->keyBy('id');
 
         // To prevent loading related site infos, we use a cached Site lookup.
-        $getSite = fn ($page) => $sites[$page->site_id] ?? null;
+        $getSite = fn ($page) => $sites[$page->site_id] ?? new SiteDefinition();
 
         $iterator = self::iterateChildMenuItems($currentUrl, $item->nesting, $getSite);
 
