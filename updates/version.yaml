@@ -574,3 +574,5 @@
     - "Added preview image support to Partial selector (see https://docs.boxes.offline.ch/concepts/box-configs.html#preview-images-and-icon)"
 3.7.1:
     - "Added preview image support to Partial selector (see https://docs.boxes.offline.ch/concepts/box-configs.html#preview-images-and-icon)"
+3.7.2:
+    - "Fixed handling of the saved state in the CMS editor"

@@ -73,7 +73,7 @@ Vue.component('offline-boxes-editor-extension', {
         documentSaved: function documentSaved(data) {
             this.documentData.name = data.metadata.name
 
-            this.lastSavedDocumentData = $.oc.vueUtils.getCleanObject(data.document);
+            this.lastSavedDocumentData = $.oc.vueUtils.getCleanObject(data.document.trim());
         },
 
         documentLoaded: function documentLoaded(data) {
