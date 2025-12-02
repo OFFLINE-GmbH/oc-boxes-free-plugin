@@ -578,3 +578,5 @@
     - "Fixed handling of the saved state in the CMS editor"
 3.7.3:
     - "Include hidden pages in page finder"
+3.7.4:
+    - "Include hidden pages in page finder"

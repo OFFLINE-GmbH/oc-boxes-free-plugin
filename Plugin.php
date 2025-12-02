@@ -400,6 +400,6 @@ class Plugin extends PluginBase
         Event::listen('cms.pageLookup.getTypeInfo', $getTypeInfo);
 
         Event::listen('pages.menuitem.resolveItem', $resolveItem(false));
-        Event::listen('cms.pageLookup.resolveItem', $resolveItem(true));
+        Event::listen('cms.pageLookup.resolveItem', $resolveItem(app()->runningInBackend()));
     }
 }
