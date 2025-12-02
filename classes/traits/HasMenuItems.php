@@ -21,8 +21,9 @@ trait HasMenuItems
      *
      * @param mixed $item
      * @param mixed $currentUrl
+     * @param mixed $includeHidden
      */
-    public static function resolveMenuItem($item, $currentUrl)
+    public static function resolveMenuItem($item, $currentUrl, $includeHidden = false)
     {
         $sites = SiteManager::instance()->listSites()->keyBy('id');
 
@@ -35,8 +36,11 @@ trait HasMenuItems
             $query = self::query()
                 ->current()
                 ->where('url', '<>', '')
-                ->where('is_hidden', false)
-                ->where('is_hidden_in_navigation', false);
+                ->when(!$includeHidden, function ($q) {
+                    $q
+                        ->where('is_hidden', false)
+                        ->where('is_hidden_in_navigation', false);
+                });
 
             if ($item->nesting) {
                 $allPages = $query->get()->toNested(false);
@@ -55,8 +59,11 @@ trait HasMenuItems
         $query = static fn () => Page::current(-1)
             ->withoutGlobalScope(MultisiteScope::class)
             ->where(fn ($q) => $q->where('id', (int)$item->reference)->orWhere('slug', $item->reference))
-            ->where('is_hidden', false)
-            ->where('is_hidden_in_navigation', false)
+            ->when(!$includeHidden, function ($q) {
+                $q
+                    ->where('is_hidden', false)
+                    ->where('is_hidden_in_navigation', false);
+            })
             ->first();
 
         $page = new Page();

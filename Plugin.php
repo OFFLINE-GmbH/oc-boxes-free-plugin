@@ -383,12 +383,14 @@ class Plugin extends PluginBase
             return [];
         };
 
-        $resolveItem = function ($type, $item, $url) {
-            if ($type === Page::MENU_TYPE_PAGES || $type === Page::MENU_TYPE_ALL_PAGES) {
-                return Page::resolveMenuItem($item, $url);
-            }
+        $resolveItem = function ($includeHidden) {
+            return function ($type, $item, $url) use ($includeHidden) {
+                if ($type === Page::MENU_TYPE_PAGES || $type === Page::MENU_TYPE_ALL_PAGES) {
+                    return Page::resolveMenuItem($item, $url, $includeHidden);
+                }
 
-            return null;
+                return null;
+            };
         };
 
         Event::listen('pages.menuitem.listTypes', $listTypes);
@@ -397,7 +399,7 @@ class Plugin extends PluginBase
         Event::listen('pages.menuitem.getTypeInfo', $getTypeInfo);
         Event::listen('cms.pageLookup.getTypeInfo', $getTypeInfo);
 
-        Event::listen('pages.menuitem.resolveItem', $resolveItem);
-        Event::listen('cms.pageLookup.resolveItem', $resolveItem);
+        Event::listen('pages.menuitem.resolveItem', $resolveItem(false));
+        Event::listen('cms.pageLookup.resolveItem', $resolveItem(true));
     }
 }
