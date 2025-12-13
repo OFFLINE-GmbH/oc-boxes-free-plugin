@@ -443,8 +443,12 @@ class Page extends Model
      *
      * @param array{attribute?: string} $args
      */
-    public static function getAttributeWhereSlug(string $slug, array $args = []): string
+    public static function getAttributeWhereSlug(?string $slug, array $args = []): string
     {
+        if (!$slug) {
+            return '';
+        }
+
         $routePrefix = '';
 
         if (starts_with($slug, 'october://') && parse_url($slug, PHP_URL_USER) === self::MENU_TYPE_PAGES) {

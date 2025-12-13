@@ -580,3 +580,5 @@
     - "Include hidden pages in page finder"
 3.7.4:
     - "Include hidden pages in page finder"
+3.7.5:
+    - "Fixed handling of RainLab.Translate attributes when using custom models"

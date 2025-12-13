@@ -101,8 +101,10 @@ class Controller
 
         // Content models need to use the site context from the preview URL.
         // There is no other way for them to find out to what model (on what site) they belong to otherwise.
-        if ($page instanceof Content && get('_site_id')) {
-            Site::setActiveSiteId(get('_site_id'));
+        $siteID = intval(get('_site_id'));
+
+        if ($page instanceof Content && $siteID) {
+            Site::setActiveSiteId($siteID);
         } else {
             // Make sure the active Site is always the site the page belongs to.
             // This is required if the backend is viewed on a hostname that

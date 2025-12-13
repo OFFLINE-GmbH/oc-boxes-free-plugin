@@ -403,6 +403,15 @@ class Box extends Model
         $data = $this->getDecodedData();
 
         if (array_key_exists($key, $data)) {
+            // For translatable attributes, check for translation first
+            if ($this->isTranslatableDataAttribute($key)) {
+                $translated = $this->getTranslatedDataAttribute($key);
+
+                if ($translated !== null) {
+                    return $translated;
+                }
+            }
+
             return $data[$key];
         }
 
@@ -423,6 +432,8 @@ class Box extends Model
         $locallyStored = $this->extractLocalRelations();
         $externallyStored = $this->extractExternalRelations();
         $repeaterItems = $this->extractRepeaterItemRelations();
+        $isDefaultLocale = $this->isDefaultLocale();
+        $removedTranslatedKeys = [];
 
         $values = collect($values)
             // Remove attachments
@@ -440,6 +451,19 @@ class Box extends Model
 
                 return !$isRepeaterItem;
             })
+            // Handle translatable attributes. Do not store data in the non-default locale.
+            ->filter(function ($value, $key) use ($isDefaultLocale, &$removedTranslatedKeys) {
+                if (!$isDefaultLocale && $this->isTranslatableDataAttribute($key)) {
+                    if ($this->methodExists('setAttributeTranslated')) {
+                        $this->setAttributeTranslated($key, $value);
+                        $removedTranslatedKeys[] = $key;
+                    }
+
+                    return false;
+                }
+
+                return true;
+            })
             // Convert all locally stored relation names to a proper foreign key name.
             ->mapWithKeys(function ($value, $key) use ($locallyStored) {
                 if (in_array($key, $locallyStored, true)) {
@@ -449,6 +473,15 @@ class Box extends Model
 
                 return [$key => $value];
             });
+
+        // If this is not the default locale, merge in existing data from the default locale.
+        if (!$isDefaultLocale) {
+            $baseData = $this->getDecodedData();
+
+            foreach ($removedTranslatedKeys as $key) {
+                $values->put($key, $baseData[$key] ?? null);
+            }
+        }
 
         return $values->toArray();
     }
@@ -680,6 +713,43 @@ class Box extends Model
         } else {
             $this->translatableReady = true;
         }
+    }
+
+    /**
+     * Check if the requested attribute is translatable.
+     */
+    protected function isTranslatableDataAttribute(string $key): bool
+    {
+        return in_array($key, $this->translatable, true);
+    }
+
+    /**
+     * Returns the translated value for the given attribute.
+     * @param null|mixed $locale
+     */
+    protected function getTranslatedDataAttribute(string $key, $locale = null)
+    {
+        if (!$this->methodExists('getAttributeTranslated') || $this->isDefaultLocale()) {
+            return null;
+        }
+
+        $translator = Translator::instance();
+        $locale = $locale ?? $translator->getLocale();
+
+        $translated = $this->getAttributeTranslated($key, $locale);
+
+        return !$translated ? null : $translated;
+    }
+
+    protected function isDefaultLocale(): bool
+    {
+        if (!class_exists(Translator::class)) {
+            return true;
+        }
+
+        $translator = Translator::instance();
+
+        return $translator->getLocale() === $translator->getDefaultLocale();
     }
 
     /**
