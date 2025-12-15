@@ -455,7 +455,10 @@ class Page extends Model
             $slug = trim(parse_url($slug, PHP_URL_PATH), '/');
         }
 
-        $pages = self::withoutGlobalScope(MultisiteScope::class)->where('slug', $slug)->get();
+        $pages = self::withoutGlobalScope(MultisiteScope::class)
+            ->with('site')
+            ->where('slug', $slug)
+            ->get();
 
         if ($pages->count() === 0) {
             return '';
@@ -474,6 +477,12 @@ class Page extends Model
             $page = $pages->firstWhere('site_id', $currentSite->id);
         }
 
+        // If we don't have a page on the current site, try to find it on a site with the same locale.
+        if (!$page) {
+            $page = $pages->firstWhere(fn (Page $page) => $page->site->locale === $currentSite->locale);
+        }
+
+        // If there was still no hit, just use the first available page.
         if (!$page) {
             $page = $pages->first();
         }

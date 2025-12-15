@@ -582,3 +582,5 @@
     - "Include hidden pages in page finder"
 3.7.5:
     - "Fixed handling of RainLab.Translate attributes when using custom models"
+3.7.6:
+    - "Fixed resolving of Page attributes when using Site groups"
