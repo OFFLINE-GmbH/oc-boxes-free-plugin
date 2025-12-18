@@ -455,8 +455,12 @@ class Page extends Model
             $slug = trim(parse_url($slug, PHP_URL_PATH), '/');
         }
 
+        $useMultisite = Features::instance()->multisite;
+
         $pages = self::withoutGlobalScope(MultisiteScope::class)
-            ->with('site')
+            ->when($useMultisite, function ($q) {
+                $q->with('site');
+            })
             ->where('slug', $slug)
             ->get();
 
@@ -464,34 +468,38 @@ class Page extends Model
             return '';
         }
 
-        $currentSite = Site::getSiteFromContext();
-
-        if ($currentSite->is_prefixed) {
-            $routePrefix = $currentSite->route_prefix;
-        }
-
         $page = null;
 
-        if ($pages->count() > 1) {
-            // Prefer the current site if multiple pages are found.
-            $page = $pages->firstWhere('site_id', $currentSite->id);
-        }
+        if ($useMultisite) {
+            $currentSite = Site::getSiteFromContext();
 
-        // If we don't have a page on the current site, try to find it on a site with the same locale.
-        if (!$page) {
-            $page = $pages->firstWhere(fn (Page $page) => $page->site->locale === $currentSite->locale);
-        }
+            if ($currentSite->is_prefixed) {
+                $routePrefix = $currentSite->route_prefix;
+            }
 
-        // If there was still no hit, just use the first available page.
-        if (!$page) {
+            if ($pages->count() > 1) {
+                // Prefer the current site if multiple pages are found.
+                $page = $pages->firstWhere('site_id', $currentSite->id);
+            }
+
+            // If we don't have a page on the current site, try to find it on a site with the same locale.
+            if (!$page) {
+                $page = $pages->firstWhere(fn (Page $page) => $page->site->locale === $currentSite->locale);
+            }
+
+            // If there was still no hit, just use the first available page.
+            if (!$page) {
+                $page = $pages->first();
+            }
+
+            // If the current site is not the primary site, try to find the related page for the current site.
+            // This allows a user to always use a page slug from the primary site, and the `boxesPage` filter
+            // will return the "translated" data automatically.
+            if (!$currentSite->is_primary && $page->site_id !== $currentSite->id && $page->current_site_page) {
+                $page = $page->current_site_page;
+            }
+        } else {
             $page = $pages->first();
-        }
-
-        // If the current site is not the primary site, try to find the related page for the current site.
-        // This allows a user to always use a page slug from the primary site, and the `boxesPage` filter
-        // will return the "translated" data automatically.
-        if (!$currentSite->is_primary && $page->site_id !== $currentSite->id && $page->current_site_page) {
-            $page = $page->current_site_page;
         }
 
         if (!$page) {

@@ -584,3 +584,5 @@
     - "Fixed handling of RainLab.Translate attributes when using custom models"
 3.7.6:
     - "Fixed resolving of Page attributes when using Site groups"
+3.7.7:
+    - "Fixed multisite handling in free version"
