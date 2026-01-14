@@ -586,3 +586,5 @@
     - "Fixed resolving of Page attributes when using Site groups"
 3.7.7:
     - "Fixed multisite handling in free version"
+3.8.0:
+    - "October 4.1 compatibility"

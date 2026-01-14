@@ -107,37 +107,6 @@
         addBeforeAction.classList.toggle('oc-boxes-toolbar__action--disabled', cannotAddBefore)
     }
 
-    // ocRequest sends a request using October's AJAX Framework API.
-    function ocRequest(handler, payload = {}) {
-        const token = document.querySelector('.oc-boxes-editor[data-csrf]').dataset.csrf;
-        return new Promise((resolve, reject) => {
-            fetch(location.href + '/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                    'X-OCTOBER-REQUEST-HANDLER': handler,
-                    'X-OCTOBER-REQUEST-PARTIALS': '',
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-Token': token,
-                },
-                body: new URLSearchParams(payload),
-            })
-                .then(response => response.json())
-                .then(json => resolve(json))
-                .catch(e => reject(e))
-        })
-    }
-
-    // Apply returned partial updates from a ocRequest.
-    function applyPartialUpdates(result) {
-        for (let selector in result) {
-            const target = document.querySelector(selector)
-            if (target) {
-                target.innerHTML = result[selector]
-            }
-        }
-    }
-
     // returns a click event handler that triggers an iframe event.
     function iFrameEventHandler(eventName) {
         return e => {
@@ -166,6 +135,14 @@
     }
 
     function setup() {
+
+        // Load the Ajax framework if it is not available.
+        if (typeof oc === 'undefined') {
+            const script = document.createElement('script')
+            script.src = '/modules/system/assets/js/framework-bundle.js'
+            document.head.appendChild(script)
+            console.info('[OFFLINE.Boxes] Including ajax framework since the theme does not provide it.')
+        }
 
         document.documentElement.classList.add('oc-boxes-edit-mode')
 
@@ -278,10 +255,8 @@
 
             if (e.detail.preview) {
                 preview.innerHTML = `<div class="oc-boxes-box-placeholder__loading">${spinner}</div>`;
-                ocRequest('onRenderPlaceholder', {partial: e.detail.partial}).then(result => {
-                    applyPartialUpdates(result)
-                }).catch(e => {
-                    console.error('failed to fetch preview data', e)
+                oc.ajax('onRenderPlaceholder', { data: { partial: e.detail.partial } }).catch(e => {
+                    console.error('[OFFLINE.Boxes] failed to fetch preview data', e)
                     preview.innerHTML = ``;
                 })
             } else {
@@ -312,9 +287,8 @@
         })
 
         window.document.addEventListener('boxes.refresh', e => {
-            ocRequest('onRefreshBoxesPreview')
-                .then((result) => {
-                    applyPartialUpdates(result)
+            oc.ajax('onRefreshBoxesPreview')
+                .then(() => {
                     // Trigger ajax partials.
                     editor.querySelectorAll('[data-ajax-partial]').forEach(el => {
                         if (el.children.length > 0) {
@@ -324,7 +298,7 @@
                     window.document.dispatchEvent(new CustomEvent('offline.boxes.editorRefreshed'))
                     resetFocus()
                 }).catch(e => {
-                    console.error('failed to fetch preview data', e)
+                    console.error('[OFFLINE.Boxes] failed to fetch preview data', e)
                 })
         })
 
