@@ -109,12 +109,13 @@ class Partial
                 }
 
                 if ($type === 'repeater') {
-                    $carry[$name][] = $processFields(data_get($field, 'form.fields', []));
+                    // Do not generate example data for repeater fields. This breaks SQL whereIn queries in newer Laravel versions.
+                    // $carry[$name][] = $processFields(data_get($field, 'form.fields', []));
 
                     continue;
                 }
 
-                if (!$example && $type === 'fileupload') {
+                if ($example !== false && $example !== '' && $type === 'fileupload') {
                     $carry[$name] = $exampleImage;
 
                     continue;
