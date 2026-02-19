@@ -590,3 +590,5 @@
     - "October 4.1 compatibility"
 3.8.1:
     - "October 4.1 compatibility"
+3.8.2:
+    - "Fixed editor focus handling"

@@ -288,7 +288,7 @@
 
         window.document.addEventListener('boxes.refresh', e => {
             oc.ajax('onRefreshBoxesPreview')
-                .then(() => {
+                .done(() => {
                     // Trigger ajax partials.
                     editor.querySelectorAll('[data-ajax-partial]').forEach(el => {
                         if (el.children.length > 0) {
@@ -297,7 +297,7 @@
                     })
                     window.document.dispatchEvent(new CustomEvent('offline.boxes.editorRefreshed'))
                     resetFocus()
-                }).catch(e => {
+                }).fail(e => {
                     console.error('[OFFLINE.Boxes] failed to fetch preview data', e)
                 })
         })
