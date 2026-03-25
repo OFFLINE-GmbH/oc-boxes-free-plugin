@@ -48,6 +48,8 @@ class EditorExtension extends ExtensionBase
     {
         return [
             '/plugins/offline/boxes/assets/editorextension/offline.boxes.editor.extension.js',
+            '/plugins/offline/boxes/assets/editorextension/offline.boxes.editor.extension.documentcontroller.boxes.js',
+            '/plugins/offline/boxes/assets/editorextension/offline.boxes.editor.extension.documentcomponent.base.js',
         ];
     }
 

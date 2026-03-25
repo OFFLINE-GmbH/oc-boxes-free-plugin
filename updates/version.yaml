@@ -594,5 +594,5 @@
     - "Fixed editor focus handling"
 3.8.3:
     - "Preparation release for October 4.2"
-4.0.0:
-    - "October 4.2 compatible release"
+3.8.4:
+    - "Fixed editor focus handling"

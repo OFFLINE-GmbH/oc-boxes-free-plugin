@@ -1,4 +1,4 @@
-<backend-document
+<backend-component-document
     :header-collapsed="documentHeaderCollapsed"
     :full-screen="documentFullScreen"
     :loading="initializing"
@@ -8,33 +8,33 @@
     container-css-class="fill-container"
 >
     <template v-slot:header>
-        <backend-document-header
+        <backend-component-document-header
             title-property="fileName"
             ref="documentHeader"
             :data="documentData"
             :disabled="processing"
-        ></backend-document-header>
+        ></backend-component-document-header>
     </template>
 
     <template v-slot:toolbar>
-        <backend-document-toolbar
+        <backend-component-document-toolbar
             :elements="toolbarElements"
             @command="onToolbarCommand"
             :disabled="processing"
-        ></backend-document-toolbar>
+        ></backend-component-document-toolbar>
     </template>
 
     <template v-slot:content>
         <div class="flex-layout-column fill-container">
             <div class="flex-layout-item stretch editor-panel relative">
-                <backend-monacoeditor
+                <backend-component-monacoeditor
                     ref="editor"
                     container-css-class="fill-container"
                     :model-definitions="codeEditorModelDefinitions"
                     :glyph-margin="true"
                 >
-                </backend-monacoeditor>
+                </backend-component-monacoeditor>
             </div>
         </div>
     </template>
-</backend-document>
+</backend-component-document>

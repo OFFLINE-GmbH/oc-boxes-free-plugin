@@ -10,11 +10,6 @@ use Backend\Classes\VueComponentBase;
 class EditorExtension extends VueComponentBase
 {
     /**
-     * @var string componentName is the Vue component tag name.
-     */
-    protected $componentName = 'offline-boxes-editor-extension';
-
-    /**
      * @var array require
      */
     protected $require = [
