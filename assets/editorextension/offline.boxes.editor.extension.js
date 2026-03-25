@@ -1,15 +1,16 @@
-oc.Modules.register('editor.extension.offline.boxes.main', function() {
-    'use strict';
+import { ExtensionBase } from '/modules/editor/assets/js/editor.extension.base.js';
+import { DocumentControllerBoxes } from './offline.boxes.editor.extension.documentcontroller.boxes.js';
 
-    const ExtensionBase = oc.Modules.import('editor.extension.base');
-
-    class BoxesEditorExtension extends ExtensionBase {
-        listDocumentControllerClasses() {
-            return [
-                oc.Modules.import('editor.extension.offline.boxes.documentcontroller.boxes'),
-            ];
-        }
+class BoxesEditorExtension extends ExtensionBase {
+    listDocumentControllerClasses() {
+        return [
+            DocumentControllerBoxes,
+        ];
     }
+}
 
-    return BoxesEditorExtension;
-});
+// Register with the editor extension registry
+oc.editorExtensions = oc.editorExtensions || {};
+oc.editorExtensions['offline.boxes'] = BoxesEditorExtension;
+
+export { BoxesEditorExtension };

@@ -1,8 +1,9 @@
-Vue.component('offline-boxes-editor-extension', {
-    extends: oc.Modules.import('offline.boxes.editor.extension.documentcomponent.base'),
-    template: '#offline_boxes_vuecomponents_editorextension',
+import { BoxesDocumentComponentBase } from '../../../../assets/editorextension/offline.boxes.editor.extension.documentcomponent.base.js';
+import EditorModelDefinition from '/modules/backend/vuecomponents/monacoeditor/assets/js/modeldefinition.js';
+
+export default {
+    extends: BoxesDocumentComponentBase,
     data: function () {
-        const EditorModelDefinition = oc.Modules.import('backend.vuecomponents.monacoeditor.modeldefinition');
         const defMarkup = new EditorModelDefinition(
             'twig',
             this.trans('cms::lang.page.editor_markup'),
@@ -88,4 +89,4 @@ Vue.component('offline-boxes-editor-extension', {
             this.defConfig.setHolderObject(this.documentData);
         }
     },
-});
+};
