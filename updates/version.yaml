@@ -596,5 +596,5 @@
     - "Preparation release for October 4.2"
 4.0.0:
     - "October 4.2 compatible release"
-4.0.1:
+4.0.2:
     - "Fixed editor focus handling"
