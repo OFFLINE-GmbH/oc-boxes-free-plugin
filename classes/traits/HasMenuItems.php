@@ -56,25 +56,37 @@ trait HasMenuItems
 
         $site = Site::getSiteFromContext();
 
-        $query = static fn () => Page::current(-1)
-            ->withoutGlobalScope(MultisiteScope::class)
-            ->where(fn ($q) => $q->where('id', (int)$item->reference)->orWhere('slug', $item->reference))
-            ->when(!$includeHidden, function ($q) {
-                $q
-                    ->where('is_hidden', false)
-                    ->where('is_hidden_in_navigation', false);
-            })
-            ->first();
+        $fetchPage = static function () use ($includeHidden, $item) {
+            $baseQuery = Page::current(-1)
+                ->withoutGlobalScope(MultisiteScope::class)
+                ->when(!$includeHidden, function ($q) {
+                    $q
+                        ->where('is_hidden', false)
+                        ->where('is_hidden_in_navigation', false);
+                });
+
+            // First, try to fetch by the slug. If there is a hit, we use it.
+            // We cannot combine this with the id query below since references might be numeric strings
+            // that could match an ID of a random page.
+            $page = $baseQuery->where('slug', $item->reference)->first();
+
+            if ($page) {
+                return $page;
+            }
+
+            // Legacy implementations use IDs as references. If the slug did not return any errors, try to fetch the page by ID.
+            return $baseQuery->where('id', (int)$item->reference)->first();
+        };
 
         $page = new Page();
 
         // Cache the resolved menu item (if no user is logged in).
         if (BackendAuth::getUser()) {
-            $page = $query();
+            $page = $fetchPage();
         } else {
             $data = Cache::rememberForever(
                 self::menuItemCacheKey($item->reference, $site->id),
-                fn () => $query()?->toArray()
+                fn () => $fetchPage()?->toArray()
             );
 
             if ($data) {

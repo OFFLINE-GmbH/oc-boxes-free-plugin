@@ -600,3 +600,5 @@
     - "Fixed editor focus handling"
 4.0.3:
     - "Fixed handling of unsaved changes"
+4.0.4:
+    - "Fixed reference/id handling in menu resolver"
