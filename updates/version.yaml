@@ -598,3 +598,5 @@
     - "October 4.2 compatible release"
 4.0.2:
     - "Fixed editor focus handling"
+4.0.3:
+    - "Fixed handling of unsaved changes"
