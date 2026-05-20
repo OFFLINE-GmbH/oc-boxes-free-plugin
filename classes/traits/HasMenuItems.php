@@ -109,6 +109,10 @@ trait HasMenuItems
             }
         }
 
+        if ($page->is_hidden || $page->is_hidden_in_navigation) {
+            return;
+        }
+
         $pageUrl = URL::to($site->base_url . $page->url);
 
         $pageUrl = rtrim($pageUrl, '/');
@@ -174,12 +178,15 @@ trait HasMenuItems
                         ?->toArray() ?? [];
                 }
 
+                if ($child->is_hidden || $child->is_hidden_in_navigation) {
+                    continue;
+                }
+
                 $item = [
                     'url' => $pageUrl,
                     'title' => $child->name,
                     'code' => $child->slug,
                     'isActive' => $pageUrl === $currentUrl,
-                    'viewBag' => ['isHidden' => $child->is_hidden || $child->is_hidden_in_navigation],
                     'alternate_locale_urls' => $alternateLocaleUrls,
                 ];
 

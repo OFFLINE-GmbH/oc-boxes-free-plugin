@@ -602,3 +602,5 @@
     - "Fixed handling of unsaved changes"
 4.0.4:
     - "Fixed reference/id handling in menu resolver"
+4.0.5:
+    - "Fixed handling of hidden Pages in a multi-site context"
