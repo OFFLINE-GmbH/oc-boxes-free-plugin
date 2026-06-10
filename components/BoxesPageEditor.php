@@ -62,7 +62,9 @@ class BoxesPageEditor extends BoxesPage
         }
 
         $box = new Box();
-        $box->forceFill($partial->getExampleData());
+        $box->forceFill([
+            'data' => $partial->getExampleData(),
+        ]);
 
         return [
             '.oc-boxes-box-placeholder__preview' => $partial->render(

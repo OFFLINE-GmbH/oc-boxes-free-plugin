@@ -604,3 +604,5 @@
     - "Fixed reference/id handling in menu resolver"
 4.0.5:
     - "Fixed handling of hidden Pages in a multi-site context"
+4.0.6:
+    - "Fixed preview data generation for repeater fields"
