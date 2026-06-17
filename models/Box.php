@@ -582,6 +582,7 @@ class Box extends Model
         $clone = $this->replicateWithRelations();
         $clone->is_enabled = false;
         $clone->unique_id = '';
+        $clone->origin_box_id = null;
         $clone->useNestedTreeStructure = true;
         $clone->save();
 
