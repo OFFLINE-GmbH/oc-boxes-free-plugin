@@ -610,3 +610,5 @@
     - "Reset origin_box_id when duplicating a Box model"
 4.0.8:
     - "October 4 compatibility"
+4.0.9:
+    - "Fixed multisite migration"

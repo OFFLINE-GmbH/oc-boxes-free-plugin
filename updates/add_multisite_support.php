@@ -22,7 +22,9 @@ class AddMultisiteSupport extends Migration
             });
         }
 
-        Page::whereNull('site_id')->update(['site_id' => Site::getPrimarySite()->id]);
+        if (Site::getPrimarySite()) {
+            Page::whereNull('site_id')->update(['site_id' => Site::getPrimarySite()->id]);
+        }
     }
 
     public function down()
