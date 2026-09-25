@@ -612,3 +612,5 @@
     - "October 4 compatibility"
 4.0.9:
     - "Fixed multisite migration"
+4.0.10:
+    - "Fixed handling of Reference Boxes"

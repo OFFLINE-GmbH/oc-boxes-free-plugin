@@ -113,12 +113,11 @@
             e.preventDefault()
             e.stopPropagation()
 
-            let id = currentTarget.dataset.box
+            // Resolve the reference through the closest scaffold, so nested
+            // content inside a referenced box also resolves to the reference.
+            const reference = currentTarget.closest('[data-box-reference]')
 
-            // If the box is a reference, use that instead.
-            if (currentTarget.dataset.boxReference) {
-                id = currentTarget.dataset.boxReference
-            }
+            let id = reference ? reference.dataset.boxReference : currentTarget.dataset.box
 
             const detail = {id: id}
             const contextBorder = currentTarget.closest('[data-box-partial-contexts]')
@@ -184,7 +183,7 @@
                 resetFocus()
             }
 
-            const box = e.target.closest('[data-box]')
+            const box = e.target.closest('.oc-box[data-box]')
             if (!box) {
                 return
             }
@@ -239,7 +238,7 @@
         })
 
         window.document.addEventListener('boxes.box.focus', e => {
-            const element = document.querySelector(`[data-box="${e.detail}"]`)
+            const element = document.querySelector(`.oc-box[data-box="${e.detail}"]`)
             if (element) {
                 focusBox(element)
                 element.scrollIntoView({behavior: 'smooth', block: 'center'})
@@ -265,7 +264,7 @@
 
             const scrollOptions = {behavior: 'smooth', block: 'center'}
             if (e.detail.add_before) {
-                const targetBox = document.querySelector(`[data-box="${e.detail.add_before}"]`)
+                const targetBox = document.querySelector(`.oc-box[data-box="${e.detail.add_before}"]`)
                 if (targetBox) {
                     targetBox.insertAdjacentElement('beforebegin', placeholder)
                     placeholder.scrollIntoView(scrollOptions)

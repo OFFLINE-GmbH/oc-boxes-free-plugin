@@ -199,6 +199,9 @@ class BoxesEditor extends FormWidgetBase
         $box = Box::findOrFail(post('Box.id'));
         $relativeTo = Box::findOrFail(post('relativeTo'));
 
+        $this->assertBoxBelongsToCurrentHolder($box);
+        $this->assertBoxBelongsToCurrentHolder($relativeTo);
+
         if ($box->id === $relativeTo->id) {
             throw new Exception('Cannot sort a box relative to itself.');
         }
@@ -250,6 +253,8 @@ class BoxesEditor extends FormWidgetBase
     {
         $box = Box::findOrFail(post('Box.id'));
 
+        $this->assertBoxBelongsToCurrentHolder($box);
+
         if (post('direction') === 'up') {
             $box->moveLeft();
         } else {
@@ -283,6 +288,9 @@ class BoxesEditor extends FormWidgetBase
     public function onDeleteBox()
     {
         $box = Box::with('children')->findOrFail(post('Box.id'));
+
+        $this->assertBoxBelongsToCurrentHolder($box);
+
         $box->delete();
 
         Flash::success(trans('offline.boxes::lang.flashes.deleted_successfully'));
@@ -652,6 +660,23 @@ class BoxesEditor extends FormWidgetBase
     protected function getHolderType(): string
     {
         return $this->isFullMode() ? Page::class : Content::class;
+    }
+
+    /**
+     * Ensure a Box belongs to the holder currently open in the editor.
+     *
+     * Position actions (delete, move, sort) must never affect a Box on
+     * another page, even if the frontend sends a wrong Box id.
+     *
+     * @throws Exception
+     */
+    protected function assertBoxBelongsToCurrentHolder(Box $box): void
+    {
+        $holderId = (int) post('Page.id', post('Box.holder_id'));
+
+        if ($box->holder_type !== $this->getHolderType() || (int) $box->holder_id !== $holderId) {
+            throw new Exception('The box does not belong to the current page.');
+        }
     }
 
     /**
