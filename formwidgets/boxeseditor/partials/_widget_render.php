@@ -14,11 +14,12 @@
             <?php if ($this->isFullMode() && $this->hasFeature('revisions')): ?>
                 <button
                     type="submit"
-                    class="btn btn-default oc-icon-save"
+                    class="btn btn-default oc-icon-save btn--hide-loader"
                     data-request="<?= e($handler); ?>"
                     data-request-success="window.document.dispatchEvent(new CustomEvent('boxes.handler.success', { detail: { handler: '<?= e($handler); ?>', response: data } }))"
                     data-hotkey="ctrl+s, cmd+s"
                     data-tooltip-text=" (Ctrl/Cmd+S)"
+                    data-attach-loading
                     data-disposable
                 >
                     <?= e(trans('offline.boxes::lang.save_draft')); ?>
@@ -27,12 +28,13 @@
                 <button
                     id="boxes-btn-publish"
                     type="button"
-                    class="btn btn-primary btn-icon oc-icon-rocket"
+                    class="btn btn-primary btn-icon oc-icon-rocket btn--hide-loader"
                     data-request="<?= e($handler); ?>"
                     data-request-success="window.document.dispatchEvent(new CustomEvent('boxes.handler.success', { detail: { handler: 'onPreparePublish', response: data } }))"
                     data-request-data="publish: true"
                     data-hotkey="ctrl+p, cmd+p"
                     data-tooltip-text="<?= e(trans('offline.boxes::lang.publish')); ?> (Ctrl/Cmd+P)"
+                    data-attach-loading
                     data-disposable
                 >
                 </button>
@@ -41,11 +43,12 @@
 
                 <button
                     type="submit"
-                    class="btn btn-default oc-icon-save"
+                    class="btn btn-default oc-icon-save btn--hide-loader"
                     data-request="<?= e($handler); ?>"
                     data-request-success="window.document.dispatchEvent(new CustomEvent('boxes.handler.success', { detail: { handler: '<?= e($handler); ?>', response: data } }))"
                     data-hotkey="ctrl+s, cmd+s"
                     data-tooltip-text=" (Ctrl/Cmd+S)"
+                    data-attach-loading
                     data-disposable
                 >
                     <?= e(trans('offline.boxes::lang.save')); ?>

@@ -614,3 +614,5 @@
     - "Fixed multisite migration"
 4.0.10:
     - "Fixed handling of Reference Boxes"
+4.0.11:
+    - "Fixed page publishing"

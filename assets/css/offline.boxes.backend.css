@@ -15,3 +15,7 @@
     bottom: 4px;
     backdrop-filter: blur(4px);
 }
+
+.btn--hide-loader::after {
+    display: none !important;
+}
