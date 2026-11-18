@@ -616,3 +616,5 @@
     - "Fixed handling of Reference Boxes"
 4.0.11:
     - "Fixed page publishing"
+4.0.12:
+    - "Respect site URL for preview links"

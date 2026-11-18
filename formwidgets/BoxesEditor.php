@@ -503,13 +503,14 @@ class BoxesEditor extends FormWidgetBase
         ])->toArray();
 
         $site = Site::getSiteFromContext();
+        $siteHost = $site->is_custom_url ? (rtrim($site->app_url, '/') ?: '/') : '/';
 
         return [
             'pages' => $pages->values(),
             'partials' => PartialReader::instance()->listPartials([])->keyBy('handle'),
             'i18n' => trans('offline.boxes::lang'),
             'previewUrl' => url()->to(Controller::PREVIEW_URL . $previewType),
-            'baseUrl' => url()->to('/'),
+            'baseUrl' => url()->to("{$siteHost}"),
             'mode' => $this->mode,
             'initialPageId' => $pageModel->id,
             'initialBoxId' => get('boxes_box'),
